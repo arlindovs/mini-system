@@ -1,0 +1,45 @@
+<!-- FILEPATH: /D:/Angular/mini-system/src/app/modules/login/login.component.html -->
+
+<!-- Tela de login -->
+<div class="login-container" *ngIf="loginCard">
+  <h2>Login</h2>
+  <form class="login-form">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Entrar</button>
+  </form>
+  <div class="create-account">
+    <p>Não tem uma conta?</p>
+    <button class="btn btn-link" (click)="loginCard = !loginCard">Criar conta</button>
+  </div>
+</div>
+
+<!-- Tela de criação de novo usuário -->
+<div class="create-account-container" *ngIf="!loginCard">
+  <h2>Criar conta</h2>
+  <form class="login-form">
+    <div class="form-group">
+      <label for="name">Nome</label>
+      <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Confirmar</button>
+  </form>
+  <div class="login">
+    <p>Já tem uma conta?</p>
+    <button class="btn btn-link" (click)="loginCard = !loginCard">Fazer login</button>
+  </div>
+</div>
