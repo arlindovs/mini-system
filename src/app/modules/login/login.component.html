@@ -3,14 +3,12 @@
 <!-- Tela de login -->
 <div class="login-container" *ngIf="loginCard">
   <h2>Login</h2>
-  <form class="login-form">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()">
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" class="form-control" required>
+      <input type="text" pInputText placeholder="Nome" formControlName="nome" />
     </div>
     <div class="form-group">
-      <label for="password">Senha</label>
-      <input type="password" id="password" name="password" class="form-control" required>
+      <input type="password" pInputText placeholder="Senha" formControlName = "senha" />
     </div>
     <button type="submit" class="btn btn-primary">Entrar</button>
   </form>
@@ -23,20 +21,17 @@
 <!-- Tela de criação de novo usuário -->
 <div class="create-account-container" *ngIf="!loginCard">
   <h2>Criar conta</h2>
-  <form class="login-form">
+  <form class="login-form" [formGroup]="signupForm" (ngSubmit)="onSubmitSignupForm()">
     <div class="form-group">
-      <label for="name">Nome</label>
-      <input type="text" id="name" name="name" class="form-control" required>
+      <input type="text" pInputText placeholder="Nome" formControlName = "nome" />
     </div>
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" class="form-control" required>
+      <input type="email" pInputText placeholder="Email" />
     </div>
     <div class="form-group">
-      <label for="password">Senha</label>
-      <input type="password" id="password" name="password" class="form-control" required>
+      <input type="password" pInputText placeholder="Senha" formControlName = "senha" />
     </div>
-    <button type="submit" class="btn btn-primary">Confirmar</button>
+    <button pButton pRipple type="submit" label="Criar Conta" [disabled]="!this.signupForm.valid"></button>
   </form>
   <div class="login">
     <p>Já tem uma conta?</p>
