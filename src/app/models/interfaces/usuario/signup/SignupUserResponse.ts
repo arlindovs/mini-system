@@ -1,6 +1,7 @@
 export interface SignupUserResponse{
   guid: string;
-  nome: string;
-  senha: string;
+  name: string;
+  email: string;
+  password: string;
   token: string;
 }

@@ -1,6 +1,6 @@
 export interface AuthResponse {
   guid: string;
-  nome: string;
-  senha: string;
+  name: string;
+  password: string;
   token: string;
 }

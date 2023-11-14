@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest';
@@ -13,60 +13,65 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 export class LoginComponent implements OnInit {
   loginCard = true;
 
-  loginForm = this.formBuilder.group({
-    nome: ['', Validators.required],
-    senha: ['', Validators.required],
-  });
+  public loginForm: FormGroup;
+  public signupForm: FormGroup;
 
-  signupForm = this.formBuilder.group({
-    nome: ['', Validators.required],
-    email: ['', Validators.required, Validators.email],
-    senha: ['', Validators.required],
-  });
+  @Output() public closeModalEventEmitter: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
-    private usuarioService: UsuarioService,
-    private cookieService: CookieService
-  ) {}
+    private usuarioService: UsuarioService
+  ) {
+    this.loginForm = this.formBuilder.group({
+      name: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+    });
+
+    this.signupForm = this.formBuilder.group({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+    });
+    }
 
   ngOnInit(): void {}
 
-  onSubmitLoginForm(): void {
+
+
+  public loginUser() {
     if (this.loginForm.value && this.loginForm.valid) {
-      this.usuarioService.authUser(this.loginForm.value as AuthRequest).subscribe({
-        next: (response) => {
-          if (response) {
-            this.cookieService.set('token', response?.token);
-            alert('Usuário autenticado com sucesso!');
-            this.loginForm.reset();
-          }
-        },
-        error: (err) => {
-          alert(`Erro ao autenticar usuário: ${err.error.message}`);
-          console.log('Erro ao autenticar usuário: ', err);
-        },
-      });
+      this.usuarioService
+        .loginUser(this.loginForm.value.name, this.loginForm.value.password)
+        .subscribe((resp: any) => {
+          alert('Usuário logado com sucesso!');
+          this.signupForm.reset();
+          this.loginCard = true;
+        }, (error: any) => {
+          alert(`Erro ao logar usuário: ${error.message}`);
+          console.log('Erro ao logar usuário: ', error);
+        });
     }
   }
 
-  onSubmitSignupForm(): void {
-    if (this.signupForm.value && this.signupForm.valid) {
-      this.usuarioService
-        .signupUser(this.signupForm.value as SignupUserRequest)
-        .subscribe({
-          next: (response) => {
-            if (response) {
-              alert('Usuário cadastrado com sucesso!');
+
+  public createNewUser(){
+    if(this.signupForm.value && this.signupForm.valid){
+      this.usuarioService.signupUser(this.signupForm.value).subscribe((resp: any) => {
+        alert('Usuário cadastrado com sucesso!');
               this.signupForm.reset();
               this.loginCard = true;
-            }
-          },
-          error: (err) => {
-            alert(`Erro ao cadastrar usuário: ${err.error.message}`);
-            console.log('Erro ao cadastrar usuário: ', err);
-          },
-        });
+      }, (error: any) => {
+        alert(`Erro ao cadastrar usuário: ${error.message}`);
+            console.log('Erro ao cadastrar usuário: ', error);
+      }
+      );
     }
   }
 }
