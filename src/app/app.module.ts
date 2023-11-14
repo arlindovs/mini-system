@@ -28,8 +28,6 @@ import { CookieService } from 'ngx-cookie-service';
 
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'pt-BR' }],
 
-  providers: [CookieService],
-
   bootstrap: [AppComponent]
 })
 export class AppModule { }
