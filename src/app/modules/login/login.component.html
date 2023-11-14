@@ -3,6 +3,7 @@
 <!-- Tela de login -->
 <div class="login-container" *ngIf="loginCard">
   <h2>Login</h2>
+<<<<<<< Updated upstream
   <form class="login-form">
     <div class="form-group">
       <label for="email">Email</label>
@@ -11,8 +12,17 @@
     <div class="form-group">
       <label for="password">Senha</label>
       <input type="password" id="password" name="password" class="form-control" required>
+=======
+  <form class="login-form" [formGroup]="loginForm">
+    <div class="form-group">
+      <input type="text" pInputText placeholder="Nome" formControlName = "name"/>
     </div>
-    <button type="submit" class="btn btn-primary">Entrar</button>
+    <div class="form-group">
+      <input type="password" pInputText placeholder="Senha" formControlName = "password"/>
+>>>>>>> Stashed changes
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!this.loginForm.valid"
+    (click)="loginUser()">Entrar</button>
   </form>
   <div class="create-account">
     <p>Não tem uma conta?</p>
@@ -23,6 +33,7 @@
 <!-- Tela de criação de novo usuário -->
 <div class="create-account-container" *ngIf="!loginCard">
   <h2>Criar conta</h2>
+<<<<<<< Updated upstream
   <form class="login-form">
     <div class="form-group">
       <label for="name">Nome</label>
@@ -37,6 +48,20 @@
       <input type="password" id="password" name="password" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-primary">Confirmar</button>
+=======
+  <form class="login-form" [formGroup]="signupForm">
+    <div class="form-group">
+      <input type="text" pInputText placeholder="Nome" formControlName = "name" />
+    </div>
+    <div class="form-group">
+      <input type="email" pInputText placeholder="Email" formControlName = "email" />
+    </div>
+    <div class="form-group">
+      <input type="password" pInputText placeholder="Senha" formControlName = "password" />
+    </div>
+    <button pButton pRipple type="submit" label="Criar Conta" [disabled]="!this.signupForm.valid"
+    (click)="createNewUser()"></button>
+>>>>>>> Stashed changes
   </form>
   <div class="login">
     <p>Já tem uma conta?</p>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +18,11 @@ import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.c
     AppRoutingModule,
     PrimengModule,
   ],
+<<<<<<< Updated upstream
   providers: [],
+=======
+  providers: [CookieService, { provide: LOCALE_ID, useValue: 'pt-BR' }],
+>>>>>>> Stashed changes
   bootstrap: [AppComponent]
 })
 export class AppModule { }
