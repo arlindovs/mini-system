@@ -14,7 +14,6 @@ export class UsuarioService {
   private API_URL = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
-
   signupUser(usuario: SignupUserRequest) : Observable<string> {
     return this.http.post<string>(`${this.API_URL}usuarios`, usuario);
   }

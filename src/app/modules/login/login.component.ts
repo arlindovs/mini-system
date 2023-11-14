@@ -1,36 +1,23 @@
-<<<<<<< Updated upstream
-import { Component, OnInit } from '@angular/core';
-=======
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest';
 import { SignupUserRequest } from 'src/app/models/interfaces/usuario/signup/SignupUserRequest';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginCard = true;
 
-<<<<<<< Updated upstream
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-=======
   public loginForm: FormGroup;
   public signupForm: FormGroup;
 
   @Output() public closeModalEventEmitter: EventEmitter<boolean> =
     new EventEmitter<boolean>();
-name: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,7 +74,4 @@ name: any;
       );
     }
   }
-
-
->>>>>>> Stashed changes
 }
