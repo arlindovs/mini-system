@@ -10,12 +10,14 @@ import { LoginComponent } from './modules/login/login.component';
 import { PrimengModule } from './primeng.module';
 import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
 import { CookieService } from 'ngx-cookie-service';
+import { FooterComponent } from './modules/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PageNotFoundComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
