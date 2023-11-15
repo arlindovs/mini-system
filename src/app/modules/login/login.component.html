@@ -3,15 +3,14 @@
 <!-- Tela de login -->
 <div class="login-container" *ngIf="loginCard">
   <h2>Login</h2>
-  <form class="login-form" [formGroup]="loginForm">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="userLogin()">
     <div class="form-group">
-      <input type="text" pInputText placeholder="Nome" formControlName = "name"/>
+      <input type="text" [(ngModel)]="usuarioLogin.name" pInputText placeholder="Nome" formControlName = "name"/>
     </div>
     <div class="form-group">
-      <input type="password" pInputText placeholder="Senha" formControlName = "password"/>
+      <input type="password" [(ngModel)]="usuarioLogin.password" pInputText placeholder="Senha" formControlName = "password"/>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!this.loginForm.valid"
-    (click)="loginUser()">Entrar</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!this.loginForm.valid">Entrar</button>
   </form>
   <div class="create-account">
     <p>Não tem uma conta?</p>

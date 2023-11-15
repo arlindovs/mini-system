@@ -19,8 +19,15 @@ export class UsuarioService {
   }
 
 
-    loginUser(name: string, password: string): Observable<AuthRequest> {
-      return this.http.get<AuthRequest>(`${this.API_URL}usuarios?name=${name}&password=${password}`)
+    // loginUser(name: string, password: string): Observable<AuthRequest> {
+    //   return this.http.get<AuthRequest>(`${this.API_URL}usuarios?name=${name}&password=${password}`)
+    // }
+
+    loginUser(usuario: AuthRequest): Observable<object> {
+      console.log(usuario);
+      return this.http.post(`${this.API_URL}usuarios/login`, usuario);
     }
+
+
   }
 

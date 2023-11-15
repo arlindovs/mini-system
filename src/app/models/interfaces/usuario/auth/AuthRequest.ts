@@ -1,4 +1,4 @@
-export interface AuthRequest {
-  name: string;
-  password: string;
+export class AuthRequest {
+  name!: string;
+  password!: string;
 }

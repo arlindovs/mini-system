@@ -13,6 +13,8 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 export class LoginComponent implements OnInit {
   loginCard = true;
 
+  usuarioLogin: AuthRequest = new AuthRequest();
+
   public loginForm: FormGroup;
   public signupForm: FormGroup;
 
@@ -45,19 +47,14 @@ export class LoginComponent implements OnInit {
 
 
 
-  public loginUser() {
-    if (this.loginForm.value && this.loginForm.valid) {
-      this.usuarioService
-        .loginUser(this.loginForm.value.name, this.loginForm.value.password)
-        .subscribe((resp: any) => {
-          alert('Usuário logado com sucesso!');
-          this.signupForm.reset();
-          this.loginCard = true;
-        }, (error: any) => {
-          alert(`Erro ao logar usuário: ${error.message}`);
-          console.log('Erro ao logar usuário: ', error);
-        });
-    }
+  userLogin() {
+    console.log(this.usuarioLogin);
+    this.usuarioService.loginUser(this.usuarioLogin).subscribe(data=>{
+      alert('Usuário logado com sucesso!');
+      this.loginForm.reset();
+      this.loginCard = true;
+      console.log(data);
+    },error=>alert('Erro ao logar usuário!'));
   }
 
 
