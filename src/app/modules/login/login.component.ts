@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.minLength(6),
       ]),
+      role: new FormControl('', [Validators.required]),
     });
     }
 

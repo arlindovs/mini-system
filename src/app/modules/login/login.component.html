@@ -31,6 +31,9 @@
     <div class="form-group">
       <input type="password" pInputText placeholder="Senha" formControlName = "password" />
     </div>
+    <div class="form-group">
+      <input type="text" pInputText placeholder="Perfil" formControlName = "role" />
+    </div>
     <button pButton pRipple type="submit" label="Criar Conta" [disabled]="!this.signupForm.valid"
     (click)="createNewUser()"></button>
   </form>

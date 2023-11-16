@@ -3,5 +3,6 @@ export class SignupUserRequest {
   public email!: string;
   public password!: string;
   public guid!: string;
+  public role!: string;
 
 }
