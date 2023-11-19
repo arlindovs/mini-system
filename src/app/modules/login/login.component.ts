@@ -5,6 +5,7 @@ import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest'
 import { SignupUserRequest } from 'src/app/models/interfaces/usuario/signup/SignupUserRequest';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,8 +16,11 @@ export class LoginComponent implements OnInit {
 
   usuarioLogin: AuthRequest = new AuthRequest();
 
+  roles: string[] = ['ADMIN', 'USER'];
+
   public loginForm: FormGroup;
   public signupForm: FormGroup;
+  public selectRole: FormGroup;
 
   @Output() public closeModalEventEmitter: EventEmitter<boolean> =
     new EventEmitter<boolean>();
@@ -25,6 +29,10 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService
   ) {
+    this.selectRole = this.formBuilder.group({
+      name: new FormControl(''),
+    });
+
     this.loginForm = this.formBuilder.group({
       name: new FormControl('', [Validators.required]),
       password: new FormControl('', [
@@ -44,7 +52,8 @@ export class LoginComponent implements OnInit {
     });
     }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
 
 
