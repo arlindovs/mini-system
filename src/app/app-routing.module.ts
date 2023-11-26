@@ -11,6 +11,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
+  {
+    path: 'registration-user',
+    loadChildren: () =>
+      import('./modules/registration/user/registration-user.module').then(
+        (m) => m.RegistrationUserModule
+      ),
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 

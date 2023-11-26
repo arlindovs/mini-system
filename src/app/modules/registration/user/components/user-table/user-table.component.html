@@ -1,0 +1,115 @@
+<div class="grid">
+  <div class="col-12">
+    <p-card
+      styleClass="shadow-3 m-5 text-indigo-800"
+      header="Cadastro de Usuarios"
+
+    >
+    <div class="flex justify-content-end">
+      <p-button
+        styleClass="p-button-info"
+        icon="pi pi-plus"
+        label="Adicionar"
+        pTooltip="Adicionar novo Usuario"
+        tooltipPosition="top"
+        (onClick)="handleUserEnvent(addUserAction)"
+      ></p-button>
+    </div>
+      <p-table
+        #productsTable
+        [rows]="10"
+        [paginator]="true"
+        [responsive]="true"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Nome
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="false"
+                    [showOperator]="false"
+                    [showAddButton]="false"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="login">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Login
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="login"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="login"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="false"
+                    [showOperator]="false"
+                    [showAddButton]="false"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="member.name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Funcionario
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="member.name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="member.name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="false"
+                    [showOperator]="false"
+                    [showAddButton]="false"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="groupMember.name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Grupo de Usuario
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="groupMember.name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="groupMember.name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="false"
+                    [showOperator]="false"
+                    [showAddButton]="false"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</div>
