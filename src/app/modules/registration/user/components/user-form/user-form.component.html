@@ -1,31 +1,33 @@
 <!-- FORMULARIO DE NOVO PRODUTO -->
 <div>
   <form [formGroup]="userForm" (ngSubmit)="handleSubmitUserAction()">
-    <div class="card flex flex-column md:flex-column gap-3">
-      <p-dropdown
-      styleClass="w-full"
-      formControlName="member_id"
-      optionLabel="name"
-      optionValue="id"
-      placeholder="Selecione um Funcionario"
-      ></p-dropdown>
-      <p-dropdown
-      styleClass="w-full"
-      formControlName="groupMember_id"
-      optionLabel="name"
-      optionValue="id"
-      placeholder="Selecione um Grupo de Usuario"
-      ></p-dropdown>
-      <input pInputText placeholder="Nome" formControlName="name" />
-      <input pInputText placeholder="Login" formControlName="login" />
-      <input type="password" pInputText placeholder="Senha" formControlName="password" />
+    <div class="card flex flex-column md:flex-column gap-4">
+      <div></div>
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="member_id" styleClass="w-full"
+          formControlName="member_id" optionLabel="name" optionValue="id"></p-dropdown>
+        <label for="float-label">Funcionario</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="groupMember_id" styleClass="w-full"
+          formControlName="groupMember_id" optionLabel="name" optionValue="id"></p-dropdown>
+        <label for="float-label">Grupo de Usuario</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="name" />
+        <label for="float-label">Nome</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="login" />
+        <label for="float-label">Login</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input type="password" pInputText formControlName="password" />
+        <label for="float-label">Senha</label>
+      </span>
 
       <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">
-        <p-button
-        [disabled]="!userForm.valid"
-        type="submit"
-        label="Concluir"
-        ></p-button>
+        <p-button [disabled]="!userForm.valid" type="submit" label="Concluir"></p-button>
       </div>
     </div>
   </form>
