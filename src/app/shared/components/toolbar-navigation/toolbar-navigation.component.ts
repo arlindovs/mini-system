@@ -28,7 +28,7 @@ export class ToolbarNavigationComponent implements OnInit {
           },
           {
             label: 'Integrante',
-            routerLink: ['/registration/member'],
+            routerLink: ['/registration-member'],
           },
           {
             label: 'Produto',

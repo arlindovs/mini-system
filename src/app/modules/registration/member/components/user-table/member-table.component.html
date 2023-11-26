@@ -23,15 +23,15 @@
       >
 
       <ng-template pTemplate="caption">
-        <div class="flex">Cadastro de Usuarios</div>
+        <div class="flex">Cadastro de Integrantes</div>
 
         <div class="flex">
 
           <div class="mr-5">
           <span class="p-buttonset">
-            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Usuario" (click)="handleUserEnvent(addUserAction)"></button>
-            <button pButton pRipple icon="pi pi-check" pTooltip="Editar Usuario" (click)="handleUserEnvent(addUserAction)"></button>
-            <button pButton pRipple icon="pi pi-trash" pTooltip="Remover Usuario"></button>
+            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Integrante" (click)="handleMemberEnvent(addMemberAction)"></button>
+            <button pButton pRipple icon="pi pi-check" pTooltip="Editar Integrante" (click)="handleMemberEnvent(addMemberAction)"></button>
+            <button pButton pRipple icon="pi pi-trash" pTooltip="Remover Integrante"></button>
           </span>
           </div>
 
@@ -81,16 +81,16 @@
               </div>
             </th>
 
-            <th pResizableColumn pSortableColumn="login">
+            <th pResizableColumn pSortableColumn="secondName">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
-                  Login
+                  Segundo Nome
                 </div>
                 <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="login"></p-sortIcon>
+                  <p-sortIcon field="secondName"></p-sortIcon>
                   <p-columnFilter
                     type="text"
-                    field="login"
+                    field="secondName"
                     display="menu"
                     matchMode="contains"
                     [showMatchModes]="true"
@@ -101,16 +101,16 @@
               </div>
             </th>
 
-            <th pResizableColumn pSortableColumn="member.name">
+            <th pResizableColumn pSortableColumn="email">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
-                  Funcionario
+                  E-mail
                 </div>
                 <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="member.name"></p-sortIcon>
+                  <p-sortIcon field="email"></p-sortIcon>
                   <p-columnFilter
                     type="text"
-                    field="member.name"
+                    field="email"
                     display="menu"
                     matchMode="contains"
                     [showMatchModes]="true"
@@ -121,16 +121,16 @@
               </div>
             </th>
 
-            <th pResizableColumn pSortableColumn="groupUser.name">
+            <th pResizableColumn pSortableColumn="groupMember.name">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
-                  Grupo de Usuario
+                  Grupo de Integrante
                 </div>
                 <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="groupUser.name"></p-sortIcon>
+                  <p-sortIcon field="groupMember.name"></p-sortIcon>
                   <p-columnFilter
                     type="text"
-                    field="groupUser.name"
+                    field="groupMember.name"
                     display="menu"
                     matchMode="contains"
                     [showMatchModes]="true"
@@ -140,6 +140,27 @@
                 </div>
               </div>
             </th>
+
+            <th pResizableColumn pSortableColumn="addressMember.name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Endereço
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="addressMember.name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="addressMember.name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
           </tr>
         </ng-template>
       </p-table>

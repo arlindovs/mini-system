@@ -18,6 +18,13 @@ const routes: Routes = [
         (m) => m.RegistrationUserModule
       ),
   },
+  {
+    path: 'registration-member',
+    loadChildren: () =>
+      import('./modules/registration/member/registration-member.module').then(
+        (m) => m.RegistrationMemberModule
+      ),
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 
