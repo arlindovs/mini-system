@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { UserEvent } from 'src/app/models/enums/categories/UserEvent';
+import { UserEvent } from 'src/app/models/enums/users/UserEvent';
 import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
 
 @Component({
