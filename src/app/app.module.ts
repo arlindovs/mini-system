@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './modules/login/login.component';
-import { PrimengModule } from './primeng.module';
+import { PrimengModule } from './libraries/primeng.module';
 import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './modules/footer/footer.component';
