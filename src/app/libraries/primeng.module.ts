@@ -15,6 +15,10 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 
 @NgModule({
@@ -37,6 +41,10 @@ import { TooltipModule } from 'primeng/tooltip';
     DropdownModule,
     ConfirmDialogModule,
     TooltipModule,
+    ToggleButtonModule,
+    MenuModule,
+    MenubarModule,
+    TieredMenuModule,
   ],
   exports: [
     CardModule,
@@ -56,6 +64,10 @@ import { TooltipModule } from 'primeng/tooltip';
     DropdownModule,
     ConfirmDialogModule,
     TooltipModule,
+    ToggleButtonModule,
+    MenuModule,
+    MenubarModule,
+    TieredMenuModule,
   ]
 })
 export class PrimengModule { }

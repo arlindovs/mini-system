@@ -31,12 +31,16 @@
     <div class="form-group">
       <input type="password" pInputText placeholder="Senha" formControlName = "password" />
     </div>
-
+    
     <div class="form-group">
-      <input type="text" pInputText placeholder="Perfil" formControlName = "role" />
-    </div>
-
-    <p-dropdown [options]="roles" [(ngModel)]="selectRole" placeholder="Selecione uma Regra"></p-dropdown>
+    <p-dropdown
+    [options]="roles"
+    [(ngModel)]="selectRole"
+    styleClass="w-full"
+    placeholder="Selecione uma regra"
+    formControlName="role"
+  ></p-dropdown>
+</div>
 
 
     <button pButton pRipple type="submit" label="Criar Conta" [disabled]="!this.signupForm.valid"

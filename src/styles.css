@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+.exact_route {
+  button {
+    background-color: #6372c3 !important;
+  }
+
+  :host ::ng-deep .p-dropdown {
+    width: 50%;
+  }
+}
+
+.full-width {
+  width: 100%;
+}

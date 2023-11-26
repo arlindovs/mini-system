@@ -1,7 +1,7 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule }   from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,7 @@ import { PrimengModule } from './libraries/primeng.module';
 import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './modules/footer/footer.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -20,17 +21,21 @@ import { FooterComponent } from './modules/footer/footer.component';
     FooterComponent,
   ],
   imports: [
+    PrimengModule,
     BrowserModule,
     AppRoutingModule,
-    PrimengModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
   ],
 
-  providers: [CookieService, { provide: LOCALE_ID, useValue: 'pt-BR' }],
+  providers: [
+    CookieService,
+    MessageService,
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+  ],
 
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
