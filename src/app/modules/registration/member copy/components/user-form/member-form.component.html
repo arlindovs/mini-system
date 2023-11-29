@@ -1,0 +1,39 @@
+<!-- FORMULARIO DE NOVO PRODUTO -->
+<div>
+  <form [formGroup]="memberForm" (ngSubmit)="handleSubmitMemberAction()">
+    <div class="card flex flex-column md:flex-column gap-4">
+      <div></div>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="name" />
+        <label for="float-label">Nome</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="secondName" />
+        <label for="float-label">Segundo Nome</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input type="email" pInputText formControlName="secondName" />
+        <label for="float-label">E-mail</label>
+      </span>
+      <span class="p-float-label">
+        <p-inputMask class="flex flex-column" mask="(99)99999-9999" id="ssn_input" formControlName="phone"></p-inputMask>
+        <label htmlFor="ssn_input">Telefone</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input type="date" pInputText formControlName="dateOfBirth" />
+        <label for="float-label">Data Nascimento</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="groupMember_id" styleClass="w-full"
+          formControlName="groupMember_id" optionLabel="name" optionValue="id"></p-dropdown>
+        <label for="float-label">Grupo de Integrante</label>
+      </span>
+
+      <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">
+        <p-button [disabled]="!memberForm.valid" type="submit" label="Concluir"></p-button>
+      </div>
+    </div>
+  </form>
+</div>

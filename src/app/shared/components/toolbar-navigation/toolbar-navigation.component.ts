@@ -87,6 +87,11 @@ export class ToolbarNavigationComponent implements OnInit {
               },
             ],
           },
+          {
+            label: 'Estoque',
+            icon: 'pi pi-fw pi-box',
+            routerLink: ['/billing/stock']
+          }
         ],
       },
       {
