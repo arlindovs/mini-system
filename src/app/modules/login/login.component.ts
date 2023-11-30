@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest';
 import { SignupUserRequest } from 'src/app/models/interfaces/usuario/signup/SignupUserRequest';
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private router: Router,
   ) {
     this.selectRole = this.formBuilder.group({
       name: new FormControl(''),
@@ -63,6 +65,7 @@ export class LoginComponent implements OnInit {
       alert('Usuário logado com sucesso!');
       this.loginForm.reset();
       this.loginCard = true;
+      this.router.navigate(['/home']);
       console.log(data);
     },error=>alert('Erro ao logar usuário!'));
   }
