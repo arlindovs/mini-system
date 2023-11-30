@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { MemberAddressEvent } from 'src/app/models/enums/members/MemberAddressEvent';
 import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
 import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMemberAction';
+import { EditMemberAddressAction } from 'src/app/models/interfaces/member/event/EditMemberAddressAction';
 
 @Component({
   selector: 'app-member-form',
@@ -12,9 +14,13 @@ import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMem
 export class MemberFormComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
 
+  @Output() public memberAddressEvent = new EventEmitter<EditMemberAddressAction>();
+
   public addMemberAction = MemberEvent.ADD_MEMBER_ACTION;
 
   public editMemberAction = MemberEvent.EDIT_MEMBER_ACTION;
+
+  public addMemberAddressAction = MemberAddressEvent.ADD_MEMBER_ADDRESS_ACTION;
 
   public memberAction!: { event: EditMemberAction };
 
@@ -48,6 +54,12 @@ export class MemberFormComponent implements OnInit, OnDestroy {
   }
 
   handleSubmitEditMember(): void {
+  }
+
+  handleMemberAddressEvent(action: string, id?: string, addressName?: string): void {
+    if (action && action !== '') {
+      this.memberAddressEvent.emit({ action, id, addressName });
+    }
   }
 
   ngOnDestroy(): void {

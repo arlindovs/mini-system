@@ -1,6 +1,5 @@
-<!-- FORMULARIO DE NOVO PRODUTO -->
 <div>
-  <form [formGroup]="memberForm" (ngSubmit)="handleSubmitMemberAction()">
+  <form [formGroup]="memberAddressForm" (ngSubmit)="handleSubmitMemberAddressAction()">
     <div class="card flex flex-column md:flex-column gap-4">
       <div></div>
 
@@ -32,7 +31,7 @@
       </span>
 
       <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">
-        <p-button [disabled]="!memberForm.valid" type="submit" label="Concluir"></p-button>
+        <p-button [disabled]="!memberAddressForm.valid" type="submit" label="Concluir"></p-button>
       </div>
     </div>
   </form>
