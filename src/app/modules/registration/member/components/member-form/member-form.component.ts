@@ -16,6 +16,8 @@ export class MemberFormComponent implements OnInit, OnDestroy {
 
   @Output() public memberAddressEvent = new EventEmitter<EditMemberAddressAction>();
 
+  @Output() cancelEvent = new EventEmitter<void>();
+
   public addMemberAction = MemberEvent.ADD_MEMBER_ACTION;
 
   public editMemberAction = MemberEvent.EDIT_MEMBER_ACTION;

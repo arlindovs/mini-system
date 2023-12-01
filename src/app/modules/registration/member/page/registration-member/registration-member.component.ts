@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Input } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/member/event/EventAction';
 import { MemberFormComponent } from '../../components/member-form/member-form.component';
 import { EventAddressAction } from 'src/app/models/interfaces/member/event/EventAddressAction';
 import { MemberAddressFormComponent } from '../../components/member-address-form/member-address-form.component';
+import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
 
 @Component({
   selector: 'app-registration-member',
@@ -13,6 +14,9 @@ import { MemberAddressFormComponent } from '../../components/member-address-form
 })
 export class RegistrationMemberComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
+
+  showForm = false;
+  eventData!: EventAction;
 
   private ref!: DynamicDialogRef;
 
@@ -24,16 +28,8 @@ export class RegistrationMemberComponent implements OnInit, OnDestroy {
 
   handleMemberAction(event: EventAction): void {
     if (event) {
-      this.ref = this.dialogService.open(MemberFormComponent, {
-        header: event?.action,
-        width: '70%',
-        contentStyle:{ overflow: 'auto'},
-        baseZIndex: 10000,
-        maximizable: true,
-        data: {
-          event: event,
-        },
-      });
+      this.showForm = true;
+      this.eventData = event;
       this.ref.onClose.pipe(takeUntil(this.destroy$));
     }
   }
@@ -42,9 +38,9 @@ export class RegistrationMemberComponent implements OnInit, OnDestroy {
     if (event) {
       this.ref = this.dialogService.open(MemberAddressFormComponent, {
         header: event?.action,
-        width: '50%',
+        width: '70%',
         contentStyle:{ overflow: 'auto'},
-        baseZIndex: 10001,
+        baseZIndex: 10000,
         maximizable: true,
         data: {
           event: event,

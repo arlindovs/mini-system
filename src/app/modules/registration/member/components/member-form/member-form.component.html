@@ -197,8 +197,11 @@
     </p-table>
 
       <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">
-        <p-button [disabled]="!memberForm.valid" type="submit" label="Concluir"></p-button>
+        <p-button class="mr-2" [disabled]="!memberForm.valid" type="submit" label="Concluir"></p-button>
+        <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelEvent.emit()" ></p-button>
       </div>
+
+
     </div>
 
   </form>
