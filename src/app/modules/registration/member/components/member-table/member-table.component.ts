@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { MemberAddressEvent } from 'src/app/models/enums/members/MemberAddressEvent';
 import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
 import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMemberAction';
-import { OpenMemberFormAction } from 'src/app/models/interfaces/member/event/OpenMemberFormAction';
+
 
 
 @Component({
@@ -14,13 +14,9 @@ import { OpenMemberFormAction } from 'src/app/models/interfaces/member/event/Ope
 export class MemberTableComponent {
   @Output() public memberEvent = new EventEmitter<EditMemberAction>();
 
-  @Output() public memberOpenFormEvent = new EventEmitter<OpenMemberFormAction>();
-  @Output() public memberOpenTableEvent = new EventEmitter<OpenMemberFormAction>();
 
   public addMemberAction = MemberEvent.ADD_MEMBER_ACTION;
 
-  public openMemberFormAction = true;
-  public openMemberTableAction = false;
 
   constructor() {}
 
@@ -41,14 +37,6 @@ export class MemberTableComponent {
     //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
     //     this.saveAsExcelFile(excelBuffer, 'products');
     // });
-  }
-
-  handleMemberFormEvent(openForm: boolean): void {
-    if (openForm) {
-      this.memberOpenFormEvent.emit({ openForm: openForm });
-    } else {
-      this.memberOpenTableEvent.emit({ openForm: openForm = false });
-    }
   }
 
   handleMemberEnvent(action: string, id?: string, memberName?: string): void {

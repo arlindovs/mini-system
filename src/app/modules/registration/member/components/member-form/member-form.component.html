@@ -4,6 +4,12 @@
       <div></div>
 
       <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [options]="tipoIntegrante" [(ngModel)]="selectTipoIntegrante" filterBy="groupMember_id" styleClass="w-full"
+          formControlName="tipoIntegrante"></p-dropdown>
+        <label for="float-label">Tipo Integrante</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
         <input pInputText formControlName="name" />
         <label for="float-label">Nome</label>
       </span>
@@ -12,7 +18,7 @@
         <label for="float-label">Segundo Nome</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <input type="email" pInputText formControlName="secondName" />
+        <input type="email" pInputText formControlName="email" />
         <label for="float-label">E-mail</label>
       </span>
       <span class="p-float-label">
