@@ -9,7 +9,7 @@ import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMem
 @Component({
   selector: 'app-member-table',
   templateUrl: './member-table.component.html',
-  styleUrls: [],
+  styleUrls: ['../../../../../../styles.css'],
 })
 export class MemberTableComponent {
   @Output() public memberEvent = new EventEmitter<EditMemberAction>();

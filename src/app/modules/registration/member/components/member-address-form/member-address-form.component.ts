@@ -7,7 +7,7 @@ import { EditMemberAddressAction } from 'src/app/models/interfaces/member/event/
 @Component({
   selector: 'app-member-address-form',
   templateUrl: './member-address-form.component.html',
-  styleUrls: []
+  styleUrls: ['../../../../../../styles.css']
 })
 export class MemberAddressFormComponent  implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();

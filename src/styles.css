@@ -52,3 +52,15 @@ a{
 a:hover{
   font-size: 18px;
 }
+
+body .p-table {
+  background-color: black;
+}
+
+body .form {
+  background-color: black;
+}
+
+body .p-form {
+  background-color: black;
+}
