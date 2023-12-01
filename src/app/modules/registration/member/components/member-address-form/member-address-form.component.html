@@ -4,30 +4,34 @@
       <div></div>
 
       <span class="p-float-label flex flex-column">
-        <input pInputText formControlName="name" />
-        <label for="float-label">Nome</label>
+        <input pInputText formControlName="zipCode" />
+        <label for="float-label">Cep</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <input pInputText formControlName="secondName" />
-        <label for="float-label">Segundo Nome</label>
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="county_id" styleClass="w-full"
+          formControlName="county_id" optionLabel="name" optionValue="id"></p-dropdown>
+        <label for="float-label">Municipio</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <input type="email" pInputText formControlName="secondName" />
-        <label for="float-label">E-mail</label>
-      </span>
-      <span class="p-float-label">
-        <p-inputMask class="flex flex-column" mask="(99)99999-9999" id="ssn_input" formControlName="phone"></p-inputMask>
-        <label htmlFor="ssn_input">Telefone</label>
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="streetType_id" styleClass="w-full"
+          formControlName="streetType_id" optionLabel="name" optionValue="id"></p-dropdown>
+        <label for="float-label">Tipo Logradouro</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <input type="date" pInputText formControlName="dateOfBirth" />
-        <label for="float-label">Data Nascimento</label>
+        <input pInputText formControlName="street" />
+        <label for="float-label">Logradouro</label>
       </span>
-
       <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [filter]="true" filterBy="groupMember_id" styleClass="w-full"
-          formControlName="groupMember_id" optionLabel="name" optionValue="id"></p-dropdown>
-        <label for="float-label">Grupo de Integrante</label>
+        <input type="email" pInputText formControlName="number" />
+        <label for="float-label">Numero</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input type="email" pInputText formControlName="complement" />
+        <label for="float-label">Complemento</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input type="taxt" pInputText formControlName="district" />
+        <label for="float-label">Bairro</label>
       </span>
 
       <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">

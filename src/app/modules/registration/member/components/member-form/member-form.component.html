@@ -1,7 +1,16 @@
 <div>
   <form [formGroup]="memberForm" (ngSubmit)="handleSubmitMemberAction()">
     <div class="card flex flex-column md:flex-column gap-4">
-      <div></div>
+      <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
+        <p-button class="mr-2" [disabled]="!memberForm.valid" type="submit" label="Confirmar"></p-button>
+        <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelEvent.emit()" ></p-button>
+      </div>
+
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [options]="tipoIntegrante" [(ngModel)]="selectTipoIntegrante" filterBy="groupMember_id" styleClass="w-full"
+          formControlName="tipoIntegrante"></p-dropdown>
+        <label for="float-label">Tipo Integrante</label>
+      </span>
 
       <span class="p-float-label flex flex-column">
         <input pInputText formControlName="name" />
@@ -12,7 +21,7 @@
         <label for="float-label">Segundo Nome</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <input type="email" pInputText formControlName="secondName" />
+        <input type="email" pInputText formControlName="email" />
         <label for="float-label">E-mail</label>
       </span>
       <span class="p-float-label">
@@ -196,9 +205,9 @@
 
     </p-table>
 
-      <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">
-        <p-button [disabled]="!memberForm.valid" type="submit" label="Concluir"></p-button>
-      </div>
+
+
+
     </div>
 
   </form>

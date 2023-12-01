@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MemberAddressEvent } from 'src/app/models/enums/members/MemberAddressEvent';
 import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
+import { TipoIntegrante } from 'src/app/models/enums/members/TipoIntegrante';
 import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMemberAction';
 import { EditMemberAddressAction } from 'src/app/models/interfaces/member/event/EditMemberAddressAction';
 
@@ -16,6 +17,8 @@ export class MemberFormComponent implements OnInit, OnDestroy {
 
   @Output() public memberAddressEvent = new EventEmitter<EditMemberAddressAction>();
 
+  @Output() cancelEvent = new EventEmitter<void>();
+
   public addMemberAction = MemberEvent.ADD_MEMBER_ACTION;
 
   public editMemberAction = MemberEvent.EDIT_MEMBER_ACTION;
@@ -25,6 +28,7 @@ export class MemberFormComponent implements OnInit, OnDestroy {
   public memberAction!: { event: EditMemberAction };
 
   public memberForm = this.formBuilder.group({
+    tipoIntegrante: ['', Validators.required],
     name: ['', Validators.required],
     secondName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -34,9 +38,13 @@ export class MemberFormComponent implements OnInit, OnDestroy {
     address: ['', Validators.required],
   });
 
+  public selectTipoIntegrante!: FormGroup;
+
+  tipoIntegrante: string[] = TipoIntegrante;
+
   constructor(
     private formBuilder: FormBuilder,
-  ) {}
+  ) {  }
 
   ngOnInit(): void {}
 

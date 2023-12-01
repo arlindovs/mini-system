@@ -1,9 +1,15 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
-<div [style]="{'height': '88vh'}">
-<app-member-table
-(memberEvent)="handleMemberAction($event)"
->
-<app-member-form (memberAddressEvent)="handleMemberAddressAction($event)"/>
-</app-member-table>
+<div>
+  <div class="grid">
+    <div class="col-12">
+      <p-card
+        styleClass="shadow-3 m-1 text-indigo-800"
+      > Cadastro de Integrantes
+
+<app-member-table *ngIf="!showForm" (memberEvent)="handleMemberAction($event)" ></app-member-table>
+<app-member-form *ngIf="showForm" (memberAddressEvent)="handleMemberAddressAction($event)" (cancelEvent)="showForm = false"/>
+      </p-card>
+    </div>
+  </div>
 </div>
