@@ -8,5 +8,11 @@ import { Subject } from 'rxjs';
     styleUrls: [],
   })
   export class ProductFormComponent implements OnInit, OnDestroy{
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
     
   }
