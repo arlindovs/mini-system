@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MemberTableComponent } from './member-table.component';
+import { ProductTableComponent } from './product-table.component';
 
 
 
 describe('MemberTableComponent', () => {
-  let component: MemberTableComponent;
-  let fixture: ComponentFixture<MemberTableComponent>;
+  let component: ProductTableComponent;
+  let fixture: ComponentFixture<ProductTableComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MemberTableComponent]
+      declarations: [ProductTableComponent]
     });
-    fixture = TestBed.createComponent(MemberTableComponent);
+    fixture = TestBed.createComponent(ProductTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
