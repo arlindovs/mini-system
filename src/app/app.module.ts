@@ -12,15 +12,14 @@ import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.c
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './modules/footer/footer.component';
 import { MessageService } from 'primeng/api';
-import { ProductComponent } from './modules/registration/product/registration-product.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PageNotFoundComponent,
-    FooterComponent,
-    ProductComponent,
+    FooterComponent
   ],
   imports: [
     PrimengModule,
