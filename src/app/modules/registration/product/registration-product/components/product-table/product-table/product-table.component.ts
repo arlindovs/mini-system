@@ -1,15 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { ProductEvent } from 'src/app/models/enums/products/ProductEvent';
+import { EditProductAction } from 'src/app/models/interfaces/product/EditProductAction';
+
 
 @Component({
   selector: 'app-product-table',
   templateUrl: './product-table.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
-export class ProductTableComponent implements OnInit {
+export class ProductTableComponent {
+
+ @Output() public productEvent = new EventEmitter<EditProductAction>();
+
+  public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
+  
+  public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
+
+
 
   constructor() { }
 
-  ngOnInit() {
+  exportPdf() {
+    // import('jspdf').then((jsPDF) => {
+    //     import('jspdf-autotable').then((x) => {
+    //         const doc = new jsPDF.default('p', 'px', 'a4');
+    //         (doc as any).autoTable(this.exportColumns, this.products);
+    //         doc.save('products.pdf');
+    //     });
+    // });
+  }
+
+  exportExcel() {
+    // import('xlsx').then((xlsx) => {
+    //     const worksheet = xlsx.utils.json_to_sheet(this.products);
+    //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+    //     this.saveAsExcelFile(excelBuffer, 'products');
+    // });
+  }
+
+  handleProductEvent(action: string, id?: string, productName?: string){
+    if(action && action !== ''){
+      this.productEvent.emit({action, id, productName})}
   }
 
 }

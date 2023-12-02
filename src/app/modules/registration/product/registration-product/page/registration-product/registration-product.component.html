@@ -6,8 +6,9 @@
       <p-card
         styleClass="shadow-3 m-1 text-indigo-800"
       > Cadastro de Produtos
-
-<app-product-table *ngIf="!showForm" (productEvent)="handlerProductAction($event)" ></app-product-table>
+      <app-product-table>
+(productEvent)="handleProductAction($event)"
+      </app-product-table>
       </p-card>
     </div>
   </div>

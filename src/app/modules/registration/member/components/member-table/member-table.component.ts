@@ -23,8 +23,7 @@ export class MemberTableComponent {
   exportPdf() {
     // import('jspdf').then((jsPDF) => {
     //     import('jspdf-autotable').then((x) => {
-    //         const doc = new jsPDF.default('p', 'px', 'a4');
-    //         (doc as any).autoTable(this.exportColumns, this.products);
+    //         const doc = new jsPDF.default('p', 'px', 'olumns, this.products);
     //         doc.save('products.pdf');
     //     });
     // });
@@ -36,7 +35,8 @@ export class MemberTableComponent {
     //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
     //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
     //     this.saveAsExcelFile(excelBuffer, 'products');
-    // });
+    // });a4');
+    //         (doc as any).autoTable(this.exportC
   }
 
   handleMemberEnvent(action: string, id?: string, memberName?: string): void {

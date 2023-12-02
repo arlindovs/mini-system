@@ -1,3 +1,46 @@
-<p>
-  product-form works!
-</p>
+<div>
+  <form [formGroup]="productForm" (ngSubmit)="handleSubmitProductAction()">
+    <div class="card flex flex-column md:flex-column gap-4">
+      <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
+        <p-button class="mr-2" [disabled]="!productForm.valid" type="submit" label="Confirmar"></p-button>
+        <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelEvent.emit()" ></p-button>
+      </div>
+
+      <span disabled class="p-float-label flex flex-column">
+        <input type="date" pInputText formControlName="dateOfRegister" />
+        <label for="float-label">Data Cadastro</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="description" />
+        <label for="float-label">Descrição</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="perfilFiscal_id" styleClass="w-full"
+        formControlName="perfilFiscal_id" optionLabel="perfilFiscal" optionValue="id"></p-dropdown>
+      <label for="float-label">Perfil Fiscal</label>
+      </span>
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="grupoProduto_id" styleClass="w-full"
+        formControlName="grupoProduto_id" optionLabel="descricao" optionValue="id"></p-dropdown>
+      <label for="float-label">Grupo</label>
+      </span>
+      
+
+      <ng-template pTemplate="caption">
+        <div class="flex">Endereços</div>
+
+        <div class="flex">
+
+          <span class="p-input-icon-left ml-auto mr-2">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" placeholder="Pesquisar" />
+          </span>
+          <button pButton label="Limpar" class="p-button-outlined" icon="pi pi-filter-slash"></button>
+
+        </div>
+      </ng-template>
+    
+    </div>
+
+  </form>
+</div>
