@@ -13,7 +13,7 @@ export class ProductTableComponent {
  @Output() public productEvent = new EventEmitter<EditProductAction>();
 
   public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
-  
+
   public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
 
 
