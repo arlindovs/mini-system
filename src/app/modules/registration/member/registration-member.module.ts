@@ -8,8 +8,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { registrationMemberRoutes } from './registration-member.routing';
 import { MessageService } from 'primeng/api';
 import { CookieService } from 'ngx-cookie-service';
-import { MemberTableComponent } from './components/user-table/member-table.component';
-import { MemberFormComponent } from './components/user-form/member-form.component';
+import { MemberTableComponent } from './components/member-table/member-table.component';
+import { MemberFormComponent } from './components/member-form/member-form.component';
+import { MemberAddressFormComponent } from './components/member-address-form/member-address-form.component';
 
 
 
@@ -18,6 +19,7 @@ import { MemberFormComponent } from './components/user-form/member-form.componen
     RegistrationMemberComponent,
     MemberTableComponent,
     MemberFormComponent,
+    MemberAddressFormComponent,
   ],
   imports: [
     CommonModule,

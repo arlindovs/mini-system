@@ -1,8 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Input } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/member/event/EventAction';
-import { MemberFormComponent } from '../../components/user-form/member-form.component';
+import { MemberFormComponent } from '../../components/member-form/member-form.component';
+import { EventAddressAction } from 'src/app/models/interfaces/member/event/EventAddressAction';
+import { MemberAddressFormComponent } from '../../components/member-address-form/member-address-form.component';
+import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
 
 @Component({
   selector: 'app-registration-member',
@@ -11,6 +14,9 @@ import { MemberFormComponent } from '../../components/user-form/member-form.comp
 })
 export class RegistrationMemberComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
+
+  showForm = false;
+  eventData!: EventAction;
 
   private ref!: DynamicDialogRef;
 
@@ -22,7 +28,15 @@ export class RegistrationMemberComponent implements OnInit, OnDestroy {
 
   handleMemberAction(event: EventAction): void {
     if (event) {
-      this.ref = this.dialogService.open(MemberFormComponent, {
+      this.showForm = true;
+      this.eventData = event;
+      this.ref.onClose.pipe(takeUntil(this.destroy$));
+    }
+  }
+
+  handleMemberAddressAction(event: EventAddressAction): void {
+    if (event) {
+      this.ref = this.dialogService.open(MemberAddressFormComponent, {
         header: event?.action,
         width: '70%',
         contentStyle:{ overflow: 'auto'},

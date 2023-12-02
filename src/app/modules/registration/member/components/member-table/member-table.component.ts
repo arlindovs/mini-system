@@ -1,17 +1,24 @@
+import { EventAction } from 'src/app/models/interfaces/member/event/EventAction';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { MemberAddressEvent } from 'src/app/models/enums/members/MemberAddressEvent';
 import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
 import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMemberAction';
+
 
 
 @Component({
   selector: 'app-member-table',
   templateUrl: './member-table.component.html',
-  styleUrls: [],
+  styleUrls: ['../../../../../../styles.css'],
 })
 export class MemberTableComponent {
   @Output() public memberEvent = new EventEmitter<EditMemberAction>();
 
+
   public addMemberAction = MemberEvent.ADD_MEMBER_ACTION;
+
+
+  constructor() {}
 
   exportPdf() {
     // import('jspdf').then((jsPDF) => {
