@@ -1,7 +1,11 @@
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
+import { RegistrationProductComponent } from './registration-product/page/registration-product/registration-product.component';
 
-const routes: Routes = [
-  {  },
+export const registrationProductRoutes: Routes = [
+  { 
+    path: '',
+    component: RegistrationProductComponent
+   },
 ];
 
-export const RegistrationProductRoutes = RouterModule.forChild(routes);
+

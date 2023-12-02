@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Subject, takeUntil } from 'rxjs';
+import { EventAction } from 'src/app/models/interfaces/product/EventAction';
 
 @Component({
   selector: 'app-registration-product',
@@ -6,10 +9,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: []
 })
 export class RegistrationProductComponent implements OnInit {
+  private destroy$: Subject<void> = new Subject<void>();
 
-  constructor() { }
+  showForm = false;
+  eventData!:EventAction;
 
-  ngOnInit() {
+  private ref!: DynamicDialogRef;
+
+  constructor(
+    private dialogService: DialogService,
+  ){}
+
+
+  ngOnInit(): void{}
+
+  handlerProductAction(event: EventAction): void{
+    if(event){
+      this.showForm = true;
+      this.eventData = event;
+      this.ref.onClose.pipe(takeUntil(this.destroy$));
+    }
   }
 
 }
