@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserEvent } from 'src/app/models/enums/users/UserEvent';
 import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
+import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
 
 
 @Component({
@@ -9,9 +10,12 @@ import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAct
   styleUrls: [],
 })
 export class UserTableComponent {
+  @Input() public users: Array<GetAllUsersResponse> = [];
   @Output() public userEvent = new EventEmitter<EditUserAction>();
 
   public addUserAction = UserEvent.ADD_USER_ACTION;
+
+  public userSelected!: GetAllUsersResponse;
 
   exportPdf() {
     // import('jspdf').then((jsPDF) => {

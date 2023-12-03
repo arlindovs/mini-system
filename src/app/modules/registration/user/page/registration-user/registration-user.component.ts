@@ -1,8 +1,12 @@
+import { MessageService } from 'primeng/api';
+import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/user/event/EventAction';
 import { UserFormComponent } from '../../components/user-form/user-form.component';
+import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-user',
@@ -14,11 +18,42 @@ export class RegistrationUserComponent implements OnInit, OnDestroy {
 
   private ref!: DynamicDialogRef;
 
+  public usersDatas: Array<GetAllUsersResponse> = [];
+
   constructor(
     private dialogService: DialogService,
+    private usuarioService: UsuarioService,
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllUsers();
+  }
+
+  
+  getAllUsers(){
+    this.usuarioService
+    .getAllUsuarios()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        if (response.length > 0) {
+          this.usersDatas = response;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro ao carregar os usuários',
+          detail: error.message,
+          life: 3000,
+        });
+        this.router.navigate(['/home']);
+      },
+    })
+  }
 
   handleUserAction(event: EventAction): void {
     if (event) {
