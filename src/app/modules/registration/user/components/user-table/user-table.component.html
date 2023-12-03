@@ -7,6 +7,8 @@
     </div>
       <p-table
         #productsTable
+        [value]="users"
+        [(selection)]="userSelected"
         [rows]="10"
         [paginator]="true"
         [responsive]="true"
@@ -18,7 +20,7 @@
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50, 100]"
         [globalFilterFields]="['name', 'login', 'member.name', 'groupMember.name']"
-        dataKey="id"
+        dataKey="guid"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
       >
 
