@@ -36,7 +36,7 @@ export class UsuarioService {
 
     getAllUsuarios(): Observable<Array<GetAllUsersResponse>> {
       return this.http.get<Array<GetAllUsersResponse>>(
-        `${this.API_URL}usuarios`,
+        `${this.API_URL}usuarios/tabela`,
         this.httpOptions
       );
     }
