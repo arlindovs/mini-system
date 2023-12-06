@@ -6,40 +6,39 @@
         <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelEvent.emit()" ></p-button>
       </div>
 
-      <span disabled class="p-float-label flex flex-column">
-        <input type="date" pInputText formControlName="dateOfRegister" />
-        <label for="float-label">Data Cadastro</label>
-      </span>
       <span class="p-float-label flex flex-column">
         <input pInputText formControlName="description" />
         <label for="float-label">Descrição</label>
       </span>
       <span class="p-float-label flex flex-column">
         <p-dropdown [showClear]="true" [filter]="true" filterBy="perfilFiscal_id" styleClass="w-full"
-        formControlName="perfilFiscal_id" optionLabel="perfilFiscal" optionValue="id"></p-dropdown>
+        formControlName="perfilFiscal" optionLabel="perfilFiscal" optionValue="id"></p-dropdown>
       <label for="float-label">Perfil Fiscal</label>
       </span>
       <span class="p-float-label">
         <p-dropdown [showClear]="true" [filter]="true" filterBy="grupoProduto_id" styleClass="w-full"
-        formControlName="grupoProduto_id" optionLabel="descricao" optionValue="id"></p-dropdown>
+        formControlName="grupoProduto" optionLabel="grupoProduto" optionValue="id"></p-dropdown>
       <label for="float-label">Grupo</label>
       </span>
-      
 
-      <ng-template pTemplate="caption">
-        <div class="flex">Endereços</div>
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="unidadeVenda_id" styleClass="w-full"
+        formControlName="unidadeVenda" optionLabel="unidadeVenda" optionValue="id"></p-dropdown>
+      <label for="float-label">Unidade Venda</label>
+      </span>
 
-        <div class="flex">
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="unidadeCompra_id" styleClass="w-full"
+        formControlName="unidadeCompra" optionLabel="unidadeCompra" optionValue="id"></p-dropdown>
+      <label for="float-label">Unidade Compra</label>
+      </span>
 
-          <span class="p-input-icon-left ml-auto mr-2">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" placeholder="Pesquisar" />
-          </span>
-          <button pButton label="Limpar" class="p-button-outlined" icon="pi pi-filter-slash"></button>
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="marca_id" styleClass="w-full"
+        formControlName="marca" optionLabel="marca" optionValue="id"></p-dropdown>
+      <label for="float-label">Marca</label>
+      </span>
 
-        </div>
-      </ng-template>
-    
     </div>
 
   </form>
