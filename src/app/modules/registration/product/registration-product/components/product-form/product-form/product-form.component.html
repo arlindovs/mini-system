@@ -39,6 +39,12 @@
       <label for="float-label">Marca</label>
       </span>
 
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [options]="tipoProduto" styleClass="w-full"
+        formControlName="tipoProduto"  [(ngModel)]="selectionTipoProduto" placeholder="Selecione o tipo do produto" ></p-dropdown>
+      <label for="float-label">Tipo Produto</label>
+      </span>
+
     </div>
 
   </form>

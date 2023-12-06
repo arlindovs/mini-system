@@ -15,6 +15,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   @Output() public productCreateEvent = new EventEmitter<AddProductAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
+  public selectionTipoProduto !: FormGroup
+
   tipoProduto: string[] = TipoProduto;
 
   constructor(
