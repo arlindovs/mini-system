@@ -37,14 +37,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   public productAction!:{event:EventAction}
 
   public productForm = this.formBuilderProduct.group({
-    tipoIntegrante: ['', Validators.required],
-    name: ['', Validators.required],
-    secondName: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required, Validators.minLength(8)]],
-    dateOfBirth: ['', [Validators.required, Validators.minLength(8)]],
-    groupMember_id: ['', Validators.required],
-    address: ['', Validators.required],
+    description: ['', Validators.required],
+    perfilFiscal: ['', Validators.required],
+    grupoProduto: [''],
+    unidadeVenda: ['', Validators.required],
+    unidadeCompra: ['', Validators.required],
+    marca: [''],
+    tipoProduto: ['', Validators.required]
   });
   formBuilder: any;
 
