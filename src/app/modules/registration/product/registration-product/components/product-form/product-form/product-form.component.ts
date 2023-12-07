@@ -43,9 +43,25 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     unidadeVenda: ['', Validators.required],
     unidadeCompra: ['', Validators.required],
     marca: [''],
-    tipoProduto: ['', Validators.required]
+    tipoProduto: ['', Validators.required],
+    codBarras: [''],
+    caracteristicas: ['']
   });
   formBuilder: any;
+
+  selectedCaracteristicas: any[] = [];
+
+  caracteristicasProduto: any[] = [
+      { name: 'Permite alterar descrição?', key:'true'},
+      { name: 'Permite alterar valor unitário?', key:'Permite alterar valor unitário' },
+      { name: 'Permite desconto ou acréscimo?', key: 'Permite desconto ou acréscimo' },
+      { name: 'Controla estoque', key: 'Controla estoque' },
+      { name: 'Tipo Venda', key: 'Tipo Venda' },
+      { name: 'Tipo Compra', key: 'Tipo Compra' },
+      { name: 'Tipo Equipamento', key: 'Tipo Equipamento' },
+      { name: 'Tipo Patrimonio', key: 'Tipo Patrimonio' },
+      { name: 'Tipo Matéria-Prima', key: 'Tipo Matéria-Prima' }
+  ];
 
   handleSubmitProductAction(): void {
     if (this.productAction?.event?.action === this.addProductAction) {

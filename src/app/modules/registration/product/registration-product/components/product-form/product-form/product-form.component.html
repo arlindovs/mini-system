@@ -44,6 +44,20 @@
           formControlName="tipoProduto"></p-dropdown>
         <label for="float-label">Tipo Produto</label>
       </span>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="codigoBarras" />
+        <label for="float-label">Código de Barras</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <div class="flex flex-column gap-2">
+          <div *ngFor="let category of caracteristicasProduto" class="field-checkbox">
+              <p-checkbox name="caracteristicas" [value]="category" [(ngModel)]="selectedCaracteristicas" [inputId]="category.key" formControlName="caracteristicas"></p-checkbox>
+              <label [for]="category.key">{{ category.name }}</label>
+          </div>
+        </div>
+      </span>
     </div>
 
   </form>
