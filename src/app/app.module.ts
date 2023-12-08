@@ -13,12 +13,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './modules/footer/footer.component';
 import { MessageService } from 'primeng/api';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PageNotFoundComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     PrimengModule,

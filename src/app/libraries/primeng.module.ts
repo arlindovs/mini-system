@@ -19,6 +19,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     MenuModule,
     MenubarModule,
     TieredMenuModule,
+    CheckboxModule
   ],
   exports: [
     CardModule,
@@ -68,6 +70,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     MenuModule,
     MenubarModule,
     TieredMenuModule,
+    CheckboxModule
   ]
 })
 export class PrimengModule { }

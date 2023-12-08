@@ -1,0 +1,92 @@
+<div>
+  <form [formGroup]="productForm" (ngSubmit)="handleSubmitProductAction()">
+    <div class="card flex flex-column md:flex-column gap-4">
+      <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
+        <p-button class="mr-2" [disabled]="!productForm.valid" type="submit" label="Confirmar"></p-button>
+        <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelEvent.emit()" ></p-button>
+      </div>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="descricao" />
+        <label for="float-label">Descrição</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="perfilFiscal_id" styleClass="w-full"
+        formControlName="perfilFiscal" optionLabel="perfilFiscal" optionValue="id"></p-dropdown>
+      <label for="float-label">Perfil Fiscal</label>
+      </span>
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="grupoProduto_id" styleClass="w-full"
+        formControlName="grupoProduto" optionLabel="grupoProduto" optionValue="id"></p-dropdown>
+      <label for="float-label">Grupo</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="unidadeVenda_id" styleClass="w-full"
+        formControlName="unidadeVenda" optionLabel="unidadeVenda" optionValue="id"></p-dropdown>
+      <label for="float-label">Unidade Venda</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="unidadeCompra_id" styleClass="w-full"
+        formControlName="unidadeCompra" optionLabel="unidadeCompra" optionValue="id"></p-dropdown>
+      <label for="float-label">Unidade Compra</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="marca_id" styleClass="w-full"
+        formControlName="marca" optionLabel="marca" optionValue="id"></p-dropdown>
+      <label for="float-label">Marca</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [options]="tipoProduto" [(ngModel)]="selectionTipoProduto" filterBy="tipoProduto_id" styleClass="w-full"
+          formControlName="tipoProduto"></p-dropdown>
+        <label for="float-label">Tipo Produto</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="codigoBarras" />
+        <label for="float-label">Código de Barras</label>
+      </span>
+
+      <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="alterarDescricao" value="True" inputId="alterarDescricao" label="Permite alterar descrição"></p-checkbox>
+      </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="alterarValorUnitario" value="True" inputId="alterarValorUnitario" label="Pode alterar descrição"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="permiteDescontoAcrescimo" value="True" inputId="permiteDescontoAcrescimo" label="Permite desconto/acréscimo"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="controlaEstoque" value="True" inputId="controlaEstoque" label="Controla Estoque"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoVenda" value="True" inputId="tipoVenda" label="Tipo Venda"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoCompra" value="True" inputId="tipoCompra" label="Tipo Compra"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoEquipamento" value="True" inputId="tipoEquipamento" label="Tipo Equipamento"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoPatrimonio" value="True" inputId="tipoPatrimonio" label="Tipo Patrimonio"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoMateriaPrima" value="True" inputId="tipoMateriaPrima" label="Tipo Matéria-Prima"></p-checkbox>
+        </div>
+
+    </div>
+
+  </form>
+</div>

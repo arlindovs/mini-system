@@ -32,7 +32,7 @@ export class ToolbarNavigationComponent implements OnInit {
           },
           {
             label: 'Produto',
-            routerLink: ['/registration/product'],
+            routerLink: ['/registration-product'],
           },
           {
             label: 'Unidade de Medida',
@@ -87,6 +87,11 @@ export class ToolbarNavigationComponent implements OnInit {
               },
             ],
           },
+          {
+            label: 'Estoque',
+            icon: 'pi pi-fw pi-box',
+            routerLink: ['/billing/stock']
+          }
         ],
       },
       {

@@ -1,0 +1,14 @@
+<app-toolbar-navigation></app-toolbar-navigation>
+
+<div>
+  <div class="grid">
+    <div class="col-12">
+      <p-card
+        styleClass="shadow-3 m-1 text-indigo-800"
+      > Cadastro de Produtos
+      <app-product-table *ngIf="!showForm" (productEvent)="handlerProductAction($event)"></app-product-table>
+      <app-product-form *ngIf="showForm" (cancelEvent)="showForm = false"></app-product-form>
+    </p-card>
+    </div>
+  </div>
+</div>

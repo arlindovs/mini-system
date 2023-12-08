@@ -25,6 +25,10 @@ const routes: Routes = [
         (m) => m.RegistrationMemberModule
       ),
   },
+  {
+    path:'registration-product',
+    loadChildren:() => import('./modules/registration/product/registration-product.module').then((m) => m.RegistrationProductModule),
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 

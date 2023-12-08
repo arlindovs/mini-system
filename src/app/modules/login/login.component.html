@@ -14,7 +14,7 @@
   </form>
   <div class="create-account">
     <p>Não tem uma conta?</p>
-    <button class="btn btn-link" (click)="loginCard = !loginCard">Criar conta</button>
+    <button pButton class="btn btn-link" size="small" (click)="loginCard = !loginCard">Criar conta</button>
   </div>
 </div>
 
@@ -39,16 +39,15 @@
     styleClass="w-full"
     placeholder="Selecione uma regra"
     formControlName="role"
-  ></p-dropdown>
-</div>
-
-
+    ></p-dropdown>
+    </div>
+    
     <button pButton pRipple type="submit" label="Criar Conta" [disabled]="!this.signupForm.valid"
     (click)="createNewUser()"></button>
   </form>
   <div class="login">
     <p>Já tem uma conta?</p>
-    <button class="btn btn-link" (click)="loginCard = !loginCard">Fazer login</button>
+    <button pButton class="btn btn-link" size="small" (click)="loginCard = !loginCard">Fazer login</button>
   </div>
 </div>
 
