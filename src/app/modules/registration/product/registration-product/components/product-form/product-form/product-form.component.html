@@ -7,7 +7,7 @@
       </div>
 
       <span class="p-float-label flex flex-column">
-        <input pInputText formControlName="description" />
+        <input pInputText formControlName="descricao" />
         <label for="float-label">Descrição</label>
       </span>
       <span class="p-float-label flex flex-column">
@@ -50,14 +50,42 @@
         <label for="float-label">Código de Barras</label>
       </span>
 
-      <span class="p-float-label flex flex-column">
-        <div class="flex flex-column gap-2">
-          <div *ngFor="let category of caracteristicasProduto" class="field-checkbox">
-              <p-checkbox name="caracteristicas" [value]="category" [(ngModel)]="selectedCaracteristicas" [inputId]="category.key" formControlName="caracteristicas"></p-checkbox>
-              <label [for]="category.key">{{ category.name }}</label>
-          </div>
+      <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="alterarDescricao" value="True" inputId="alterarDescricao" label="Permite alterar descrição"></p-checkbox>
+      </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="alterarValorUnitario" value="True" inputId="alterarValorUnitario" label="Pode alterar descrição"></p-checkbox>
         </div>
-      </span>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="permiteDescontoAcrescimo" value="True" inputId="permiteDescontoAcrescimo" label="Permite desconto/acréscimo"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="controlaEstoque" value="True" inputId="controlaEstoque" label="Controla Estoque"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoVenda" value="True" inputId="tipoVenda" label="Tipo Venda"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoCompra" value="True" inputId="tipoCompra" label="Tipo Compra"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoEquipamento" value="True" inputId="tipoEquipamento" label="Tipo Equipamento"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoPatrimonio" value="True" inputId="tipoPatrimonio" label="Tipo Patrimonio"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="tipoMateriaPrima" value="True" inputId="tipoMateriaPrima" label="Tipo Matéria-Prima"></p-checkbox>
+        </div>
+
     </div>
 
   </form>
