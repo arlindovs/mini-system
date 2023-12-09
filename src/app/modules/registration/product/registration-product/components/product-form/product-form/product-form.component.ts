@@ -33,11 +33,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
   public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
   public disableProductAction = ProductEvent.DISABLE_PRODUCT_ACTION
+  public removeProductAction = ProductEvent.REMOVE_PRODUCT_ACTION
 
   public productAction!:{event:EventAction}
 
   public productForm = this.formBuilderProduct.group({
-    description: ['', Validators.required],
+    descricao: ['', Validators.required],
     perfilFiscal: ['', Validators.required],
     grupoProduto: [''],
     unidadeVenda: ['', Validators.required],
@@ -45,23 +46,17 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     marca: [''],
     tipoProduto: ['', Validators.required],
     codBarras: [''],
-    caracteristicas: ['']
+    alterarDescricao: [''],
+    alterarValorUnitario: [''],
+    permiteDescontoAcrescimo:[''],
+    controlaEstoque:[''],
+    tipoVenda:[''],
+    tipoCompra:[''],
+    tipoEquipamento:[''],
+    tipoPatrimonio:[''],
+    tipoMateriaPrima:['']
   });
   formBuilder: any;
-
-  selectedCaracteristicas: any[] = [];
-
-  caracteristicasProduto: any[] = [
-      { name: 'Permite alterar descrição?', key:'true'},
-      { name: 'Permite alterar valor unitário?', key:'Permite alterar valor unitário' },
-      { name: 'Permite desconto ou acréscimo?', key: 'Permite desconto ou acréscimo' },
-      { name: 'Controla estoque', key: 'Controla estoque' },
-      { name: 'Tipo Venda', key: 'Tipo Venda' },
-      { name: 'Tipo Compra', key: 'Tipo Compra' },
-      { name: 'Tipo Equipamento', key: 'Tipo Equipamento' },
-      { name: 'Tipo Patrimonio', key: 'Tipo Patrimonio' },
-      { name: 'Tipo Matéria-Prima', key: 'Tipo Matéria-Prima' }
-  ];
 
   handleSubmitProductAction(): void {
     if (this.productAction?.event?.action === this.addProductAction) {
@@ -70,6 +65,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.handleSubmitEditProduct();
     }else if(this.productAction?.event?.action === this.disableProductAction){
       this.handleSubmitDisableProuct()
+    } else if(this.productAction?.event?.action === this.removeProductAction){
+
     }
     return;
   }
@@ -86,6 +83,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   }
 
- 
+  handleSubmitRemoveProduct(): void{
+
+  }
 
 }
