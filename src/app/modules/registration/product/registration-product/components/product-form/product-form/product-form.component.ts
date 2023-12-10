@@ -22,13 +22,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilderProduct: FormBuilder,
   ) {  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  ngOnInit(): void {;
   }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+  ngOnDestroy(): void {;
   }
 
+  valorVenda: number = 0;
 
   public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
   public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
@@ -38,23 +37,24 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   public productAction!:{event:EventAction}
 
   public productForm = this.formBuilderProduct.group({
-    descricao: ['', Validators.required],
-    perfilFiscal: ['', Validators.required],
-    grupoProduto: [''],
-    unidadeVenda: ['', Validators.required],
-    unidadeCompra: ['', Validators.required],
-    marca: [''],
-    tipoProduto: ['', Validators.required],
-    codBarras: [''],
-    alterarDescricao: [''],
-    alterarValorUnitario: [''],
-    permiteDescontoAcrescimo:[''],
-    controlaEstoque:[''],
-    tipoVenda:[''],
-    tipoCompra:[''],
-    tipoEquipamento:[''],
-    tipoPatrimonio:[''],
-    tipoMateriaPrima:['']
+    description: ['', Validators.required],
+    fiscalProfile: ['', Validators.required],
+    productGroup: [''],
+    saleUnit: ['', Validators.required],
+    purchasingUnit: ['', Validators.required],
+    brand: [''],
+    productType: ['', Validators.required],
+    barCode: [''],
+    allowChangeDescription: [false],
+    allowChangeUnitValue: [false],
+    allowDiscountIncrease:[false],
+    controlStock:[false],
+    saleType:[false],
+    purchasingType:[false],
+    equipmentType:[false],
+    heritageType:[false],
+    rawMaterialType:[false],
+    salePrice:[]
   });
   formBuilder: any;
 
