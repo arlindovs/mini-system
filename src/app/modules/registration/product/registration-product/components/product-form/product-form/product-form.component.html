@@ -40,7 +40,7 @@
       </span>
 
       <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [options]="tipoProduto" [(ngModel)]="selectionTipoProduto" filterBy="productType_id" styleClass="w-full"
+        <p-dropdown [showClear]="true" [options]="productType" [(ngModel)]="selectionProductType" filterBy="productType_id" styleClass="w-full"
           formControlName="productType"></p-dropdown>
         <label for="float-label">Tipo Produto</label>
       </span>
@@ -89,9 +89,24 @@
         <div class="card flex flex-wrap gap-3 p-fluid">
           <div class="flex-auto">
               <label class="block font-bold mb-2" for="currency-br">Valor Venda</label>
-              <p-inputNumber formControlName="salePrice" [(ngModel)]="valorVenda" inputId="currency-br" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>
+              <p-inputNumber formControlName="salePrice" [(ngModel)]="salesPrice" inputId="currency-br" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>
           </div>
         </div>
+
+        <div class="card flex flex-wrap gap-3 p-fluid">
+          <div class="flex-auto">
+              <label class="block font-bold mb-2" for="currency-br">Quantidade</label>
+              <p-inputNumber formControlName="quantityProduct" [(ngModel)]="quantityProduct" inputId="quantityProduct" mode="decimal"> </p-inputNumber>
+          </div>
+        </div>
+
+        <span class="p-float-label flex flex-column">
+          <input pInputText pKeyFilter = "int" formControlName="convertUnitMeasure" />
+          <label for="float-label">Unidade Medida Conversão</label>
+          <p>Exemplo: Unidade compra = caixa, porém na caixa vem 10 unidades, caso venda a unidade, no campo acima você pode colocar a quantidade 10.<br>
+          1 Caixa faz a entrada de 10 unidades para serem vendidas. </p>
+        </span>
+
     </div>
 
   </form>

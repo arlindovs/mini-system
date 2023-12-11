@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductEvent } from 'src/app/models/enums/products/ProductEvent';
-import { TipoProduto } from 'src/app/models/enums/products/TipoProduto';
+import { TypeProduct } from 'src/app/models/enums/products/TipoProduto';
 import { AddProductAction } from 'src/app/models/interfaces/product/AddProductAction';
 import { EventAction } from 'src/app/models/interfaces/product/EventAction';
 
@@ -15,19 +15,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   @Output() public productCreateEvent = new EventEmitter<AddProductAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
-  public selectionTipoProduto !: FormGroup
+  public selectionProductType !: FormGroup
 
-  tipoProduto: string[] = TipoProduto;
+  productType: string[] = ProductType;
 
   constructor(
     private formBuilderProduct: FormBuilder,
   ) {  }
-  ngOnInit(): void {;
+  ngOnInit(): void {
   }
-  ngOnDestroy(): void {;
+  ngOnDestroy(): void {
   }
 
-  valorVenda: number = 0;
+  salesPrice: number = 0;
 
   public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
   public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
@@ -54,7 +54,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     equipmentType:[false],
     heritageType:[false],
     rawMaterialType:[false],
-    salePrice:[]
+    salePrice:[],
+    quantityProduct:[],
+    convertUnitMeasure:[]
   });
   formBuilder: any;
 
