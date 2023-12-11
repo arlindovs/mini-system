@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductEvent } from 'src/app/models/enums/products/ProductEvent';
-import { TypeProduct } from 'src/app/models/enums/products/TipoProduto';
+import { TypeProduct } from 'src/app/models/enums/products/TypeProduct';
 import { AddProductAction } from 'src/app/models/interfaces/product/AddProductAction';
 import { EventAction } from 'src/app/models/interfaces/product/EventAction';
 
@@ -17,7 +17,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   public selectionProductType !: FormGroup
 
-  productType: string[] = ProductType;
+  productType: string[] = TypeProduct;
 
   constructor(
     private formBuilderProduct: FormBuilder,
@@ -28,6 +28,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   salesPrice: number = 0;
+  quantityProduct: number = 0;
 
   public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
   public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
