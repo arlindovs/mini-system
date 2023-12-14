@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { UnitMeasureEvent } from 'src/app/models/enums/unitMeasure/UnitMeasureEvent';
 import { AddUnitMeasureAction } from 'src/app/models/interfaces/unitMeasure/AddUnitMeasureAction';
 import { EventAction } from 'src/app/models/interfaces/unitMeasure/EventAction';
@@ -25,7 +25,8 @@ export class UnitMeasureFormComponent implements OnInit, OnDestroy {
   public unitMeasureAction!: {event:EventAction}
 
   public unitMeasureForm = this.formBuilderUnitMeasure.group({
-    
+    description:['', Validators.required],
+    abbreviation:['', Validators.required]
     });
 
 formBuilder:any;
