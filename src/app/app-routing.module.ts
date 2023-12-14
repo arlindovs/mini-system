@@ -29,6 +29,10 @@ const routes: Routes = [
     path:'registration-product',
     loadChildren:() => import('./modules/registration/product/registration-product.module').then((m) => m.RegistrationProductModule),
   },
+  {
+    path:'registration-unitMeasure',
+    loadChildren:() => import('./modules/registration/unitMeasure/registration-unitMeasure.module').then((m) => m.RegistrationUnitMeasureModule)
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 

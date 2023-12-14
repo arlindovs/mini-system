@@ -69,7 +69,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }else if(this.productAction?.event?.action === this.disableProductAction){
       this.handleSubmitDisableProuct()
     } else if(this.productAction?.event?.action === this.removeProductAction){
-
+this.handleSubmitDisableProuct()
     }
     return;
   }
