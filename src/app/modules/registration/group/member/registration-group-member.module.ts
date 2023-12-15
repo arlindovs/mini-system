@@ -9,13 +9,14 @@ import { CookieService } from 'ngx-cookie-service';
 import { RegistrationGroupMemberComponent } from './page/registration-group-member/registration-group-member.component';
 import { GroupMemberFormComponent } from './component/registration-group-member-form/group-member-form/group-member-form.component';
 import { GroupMemberTableComponent } from './component/registration-group-member-table/group-member-table/group-member-table.component';
+import { registrationGroupMemberRoutes } from './registration-group-member.routing';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
+    RouterModule.forChild(registrationGroupMemberRoutes),
     PrimengModule,
     SharedModule
   ],
