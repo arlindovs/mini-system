@@ -34,7 +34,7 @@ const routes: Routes = [
     loadChildren:() => import('./modules/registration/unitMeasure/registration-unitMeasure.module').then((m) => m.RegistrationUnitMeasureModule)
   },
   {
-    path:'registration-group-member',
+    path:'registration/group/member',
     loadChildren:() => import('./modules/registration/group/member/registration-group-member.module').then((m) => m.RegistrationGroupMemberModule)
   },
   { path: '**', component: PageNotFoundComponent },

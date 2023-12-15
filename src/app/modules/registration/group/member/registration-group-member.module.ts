@@ -25,9 +25,6 @@ import { registrationGroupMemberRoutes } from './registration-group-member.routi
     GroupMemberFormComponent,
     GroupMemberTableComponent
   ],
-  providers:[
-    MessageService,
-    CookieService
-  ]
+  providers:[MessageService,CookieService]
 })
 export class RegistrationGroupMemberModule { }
