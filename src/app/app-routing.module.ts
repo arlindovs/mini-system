@@ -33,6 +33,9 @@ const routes: Routes = [
     path:'registration-unitMeasure',
     loadChildren:() => import('./modules/registration/unitMeasure/registration-unitMeasure.module').then((m) => m.RegistrationUnitMeasureModule)
   },
+  {
+    path:'registration-group-member'
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 
