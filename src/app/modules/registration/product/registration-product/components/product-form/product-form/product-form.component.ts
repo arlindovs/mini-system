@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductEvent } from 'src/app/models/enums/products/ProductEvent';
-import { TipoProduto } from 'src/app/models/enums/products/TipoProduto';
+import { TypeProduct } from 'src/app/models/enums/products/TypeProduct';
 import { AddProductAction } from 'src/app/models/interfaces/product/AddProductAction';
 import { EventAction } from 'src/app/models/interfaces/product/EventAction';
 
@@ -15,53 +15,51 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   @Output() public productCreateEvent = new EventEmitter<AddProductAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
-  public selectionTipoProduto !: FormGroup
+  public selectionProductType !: FormGroup
 
-  tipoProduto: string[] = TipoProduto;
+  productType: string[] = TypeProduct;
 
   constructor(
     private formBuilderProduct: FormBuilder,
   ) {  }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
   }
 
+  salesPrice: number = 0;
+  quantityProduct: number = 0;
 
   public addProductAction = ProductEvent.ADD_PRODUCT_ACTION
   public editProductAction = ProductEvent.EDIT_PRODUCT_ACTION
   public disableProductAction = ProductEvent.DISABLE_PRODUCT_ACTION
+  public removeProductAction = ProductEvent.REMOVE_PRODUCT_ACTION
 
   public productAction!:{event:EventAction}
 
   public productForm = this.formBuilderProduct.group({
     description: ['', Validators.required],
-    perfilFiscal: ['', Validators.required],
-    grupoProduto: [''],
-    unidadeVenda: ['', Validators.required],
-    unidadeCompra: ['', Validators.required],
-    marca: [''],
-    tipoProduto: ['', Validators.required],
-    codBarras: [''],
-    caracteristicas: ['']
+    fiscalProfile: ['', Validators.required],
+    productGroup: [''],
+    saleUnit: ['', Validators.required],
+    purchasingUnit: ['', Validators.required],
+    brand: [''],
+    productType: ['', Validators.required],
+    barCode: [''],
+    allowChangeDescription: [false],
+    allowChangeUnitValue: [false],
+    allowDiscountIncrease:[false],
+    controlStock:[false],
+    saleType:[false],
+    purchasingType:[false],
+    equipmentType:[false],
+    heritageType:[false],
+    rawMaterialType:[false],
+    salePrice:[],
+    quantityProduct:[],
+    convertUnitMeasure:[]
   });
   formBuilder: any;
-
-  selectedCaracteristicas: any[] = [];
-
-  caracteristicasProduto: any[] = [
-      { name: 'Permite alterar descrição?', key:'true'},
-      { name: 'Permite alterar valor unitário?', key:'Permite alterar valor unitário' },
-      { name: 'Permite desconto ou acréscimo?', key: 'Permite desconto ou acréscimo' },
-      { name: 'Controla estoque', key: 'Controla estoque' },
-      { name: 'Tipo Venda', key: 'Tipo Venda' },
-      { name: 'Tipo Compra', key: 'Tipo Compra' },
-      { name: 'Tipo Equipamento', key: 'Tipo Equipamento' },
-      { name: 'Tipo Patrimonio', key: 'Tipo Patrimonio' },
-      { name: 'Tipo Matéria-Prima', key: 'Tipo Matéria-Prima' }
-  ];
 
   handleSubmitProductAction(): void {
     if (this.productAction?.event?.action === this.addProductAction) {
@@ -70,6 +68,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.handleSubmitEditProduct();
     }else if(this.productAction?.event?.action === this.disableProductAction){
       this.handleSubmitDisableProuct()
+    } else if(this.productAction?.event?.action === this.removeProductAction){
+this.handleSubmitDisableProuct()
     }
     return;
   }
@@ -86,6 +86,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   }
 
- 
+  handleSubmitRemoveProduct(): void{
+
+  }
 
 }

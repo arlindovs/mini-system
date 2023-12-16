@@ -29,6 +29,18 @@ const routes: Routes = [
     path:'registration-product',
     loadChildren:() => import('./modules/registration/product/registration-product.module').then((m) => m.RegistrationProductModule),
   },
+  {
+    path:'registration-unitMeasure',
+    loadChildren:() => import('./modules/registration/unitMeasure/registration-unitMeasure.module').then((m) => m.RegistrationUnitMeasureModule)
+  },
+  {
+    path:'registration/group/member',
+    loadChildren:() => import('./modules/registration/group/member/registration-group-member.module').then((m) => m.RegistrationGroupMemberModule)
+  },
+  {
+    path:'registration/group/product',
+    loadChildren:() => import ('./modules/registration/group/product/registration-group-product.module').then((m) => m.RegistrationGroupProductModule)
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 

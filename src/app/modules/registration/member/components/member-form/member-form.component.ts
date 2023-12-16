@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MemberAddressEvent } from 'src/app/models/enums/members/MemberAddressEvent';
 import { MemberEvent } from 'src/app/models/enums/members/MemberEvent';
-import { TipoIntegrante } from 'src/app/models/enums/members/TipoIntegrante';
+import { IntegralType } from 'src/app/models/enums/members/IntegralType';
 import { EditMemberAction } from 'src/app/models/interfaces/member/event/EditMemberAction';
 import { EditMemberAddressAction } from 'src/app/models/interfaces/member/event/EditMemberAddressAction';
 
@@ -40,7 +40,7 @@ export class MemberFormComponent implements OnInit, OnDestroy {
 
   public selectTipoIntegrante!: FormGroup;
 
-  tipoIntegrante: string[] = TipoIntegrante;
+  integralType: string[] = IntegralType;
 
   constructor(
     private formBuilder: FormBuilder,
