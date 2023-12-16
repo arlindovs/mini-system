@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserEvent } from 'src/app/models/enums/users/UserEvent';
-import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
+import { EditUserAction } from 'src/app/models/interfaces/user/EditUserAction';
 import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
 
 
@@ -10,12 +10,13 @@ import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/
   styleUrls: [],
 })
 export class UsuarioTabelaComponent {
-  @Input() public users: Array<GetAllUsersResponse> = [];
-  @Output() public userEvent = new EventEmitter<EditUserAction>();
+  @Output() public usuarioEvent = new EventEmitter<EditUserAction>();
+  
 
   public addUserAction = UserEvent.ADD_USER_ACTION;
+  public editUserAction = UserEvent.EDIT_USER_ACTION
 
-  public userSelected!: GetAllUsersResponse;
+
 
   exportPdf() {
     // import('jspdf').then((jsPDF) => {
@@ -38,7 +39,7 @@ export class UsuarioTabelaComponent {
 
   handleUserEnvent(action: string, id?: string, userName?: string): void {
     if (action && action !== '') {
-      this.userEvent.emit({ action, id, userName });
+      this.usuarioEvent.emit({ action, id, userName });
     }
   }
 }

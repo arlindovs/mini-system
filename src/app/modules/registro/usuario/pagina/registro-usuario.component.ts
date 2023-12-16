@@ -1,12 +1,9 @@
 import { MessageService } from 'primeng/api';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { EventAction } from 'src/app/models/interfaces/user/event/EventAction';
-import { UserFormComponent } from '../../components/usuario-formulario/usuario-formulario.component';
-import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
-import { Router } from '@angular/router';
+import { EventAction } from 'src/app/models/interfaces/user/EventAction';
 
 @Component({
   selector: 'app-registro-usuario',
@@ -18,58 +15,26 @@ export class RegistroUsuarioComponent implements OnInit, OnDestroy {
 
   private ref!: DynamicDialogRef;
 
-  public usersDatas: Array<GetAllUsersResponse> = [];
+  showForm = false;
+  eventData!:EventAction;
+
 
   constructor(
     private dialogService: DialogService,
-    private usuarioService: UsuarioService,
-    private messageService: MessageService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getAllUsers();
   }
 
+
+  handlerUsuarioAction(event: EventAction): void {
+   if(event){
+    this.showForm = true;
+    this.eventData = event;
+    this.ref.onClose.pipe(takeUntil(this.destroy$))
+   }
+  }
   
-  getAllUsers(){
-    this.usuarioService
-    .getAllUsuarios()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response) => {
-        if (response.length > 0) {
-          this.usersDatas = response;
-        }
-      },
-      error: (error) => {
-        console.log(error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro ao carregar os usuários',
-          detail: error.message,
-          life: 3000,
-        });
-        this.router.navigate(['/home']);
-      },
-    })
-  }
-
-  handleUserAction(event: EventAction): void {
-    if (event) {
-      this.ref = this.dialogService.open(UserFormComponent, {
-        header: event?.action,
-        width: '70%',
-        contentStyle:{ overflow: 'auto'},
-        baseZIndex: 10000,
-        maximizable: true,
-        data: {
-          event: event,
-        },
-      });
-      this.ref.onClose.pipe(takeUntil(this.destroy$));
-    }
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

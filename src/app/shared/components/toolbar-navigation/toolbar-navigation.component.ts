@@ -24,34 +24,34 @@ export class ToolbarNavigationComponent implements OnInit {
         items: [
           {
             label: 'Usuário',
-            routerLink: ['/registration-user'],
+            routerLink: ['/registro-usuario'],
           },
           {
             label: 'Integrante',
-            routerLink: ['/registration-member'],
+            routerLink: ['/registro-integrante'],
           },
           {
             label: 'Produto',
-            routerLink: ['/registration-product'],
+            routerLink: ['/registro-produto'],
           },
           {
             label: 'Unidade de Medida',
-            routerLink: ['/registration-unitMeasure'],
+            routerLink: ['/registro-unidadeMedida'],
           },
           {
             label: 'Grupo',
             items: [
               {
                 label: 'Intgrante',
-                routerLink: ['/registration/group/member'],
+                routerLink: ['/registro/grupo/integrante'],
               },
               {
                 label: 'Produto',
-                routerLink: ['/registration/group/product'],
+                routerLink: ['/registro/grupo/produto'],
               },
               {
                 label: 'Usuário',
-                routerLink: ['/registration/group/user'],
+                routerLink: ['/registro/grupo/usuario'],
               },
             ],
           },

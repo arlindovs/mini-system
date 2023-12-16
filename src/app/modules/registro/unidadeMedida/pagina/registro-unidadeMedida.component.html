@@ -1,0 +1,14 @@
+<app-toolbar-navigation></app-toolbar-navigation>
+
+<div>
+  <div class="grid">
+    <div class="col-12">
+      <p-card
+        styleClass="shadow-3 m-1 text-indigo-800"
+      > Cadastro de Unidade de Medida
+      <app-unidadeMedida-tabela *ngIf="!showForm" (unitMeasureEvent)="handlerUnitMeasureAction($event)"></app-unidadeMedida-tabela>
+      <app-unidadeMedida-formulario *ngIf="showForm" (cancelEvent)="showForm = false"></app-unidadeMedida-formulario>
+    </p-card>
+    </div>
+  </div>
+</div>

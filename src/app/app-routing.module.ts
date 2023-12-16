@@ -12,34 +12,34 @@ const routes: Routes = [
       import('./modules/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'registration-user',
+    path: 'registro-usuario',
     loadChildren: () =>
-      import('./modules/registration/user/registration-user.module').then(
-        (m) => m.RegistrationUserModule
+      import('./modules/registro/usuario/registro-usuario.module').then(
+        (m) => m.RegistroUsuarioModule
       ),
   },
   {
-    path: 'registration-member',
+    path: 'registro-integrante',
     loadChildren: () =>
-      import('./modules/registration/member/registration-member.module').then(
-        (m) => m.RegistrationMemberModule
+      import('./modules/registro/integrante/registro-integrante.module').then(
+        (m) => m.RegistroIntegranteModule
       ),
   },
   {
-    path:'registration-product',
-    loadChildren:() => import('./modules/registration/product/registration-product.module').then((m) => m.RegistrationProductModule),
+    path:'registro-produto',
+    loadChildren:() => import('./modules/registro/produto/registro-produto.module').then((m) => m.RegistroProdutoModule),
   },
   {
-    path:'registration-unitMeasure',
-    loadChildren:() => import('./modules/registration/unitMeasure/registration-unitMeasure.module').then((m) => m.RegistrationUnitMeasureModule)
+    path:'registro-unidadeMedida',
+    loadChildren:() => import('./modules/registro/unidadeMedida/registro-unidadeMedida.module').then((m) => m.RegistroUnidadeMedidaModule)
   },
   {
     path:'registration/group/member',
-    loadChildren:() => import('./modules/registration/group/member/registration-group-member.module').then((m) => m.RegistrationGroupMemberModule)
+    loadChildren:() => import('./modules/registro/grupo/integrante/registro-grupo-integrante.module').then((m) => m.RegistroGrupoIntegranteModule)
   },
   {
     path:'registration/group/product',
-    loadChildren:() => import ('./modules/registration/group/product/registration-group-product.module').then((m) => m.RegistrationGroupProductModule)
+    loadChildren:() => import ('./modules/registro/grupo/produto/registro-grupo-produto.module').then((m) => m.RegistroGrupoProdutoModule)
   },
   { path: '**', component: PageNotFoundComponent },
 ];

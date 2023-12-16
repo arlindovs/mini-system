@@ -4,30 +4,30 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimengModule } from 'src/app/libraries/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { registroUsuarioRotas } from './registro-usuario.routing';
 import { MessageService } from 'primeng/api';
 import { CookieService } from 'ngx-cookie-service';
-import { UsuarioFormularioComponent } from './components/usuario-formulario/usuario-formulario.component';
-import { RegistroUsuarioComponent } from './pagina/registro-usuario.component';
-import { UsuarioTabelaComponent } from './components/usuario-tabela/usuario-tabela.component';
+import { registroProdutoRotas } from './registro-produto.routing';
+import { RegistroProdutoComponent } from './pagina/registro-produto.component';
+import { ProdutoTabelaComponent } from './components/produto-tabela/produto-tabela.component';
+import { ProdutoFormularioComponent } from './components/produto-formulario/produto-formulario.component';
 
 
 
 
 @NgModule({
   declarations: [
-    RegistroUsuarioComponent,
-    UsuarioTabelaComponent,
-    UsuarioFormularioComponent
+    RegistroProdutoComponent,
+    ProdutoTabelaComponent,
+    ProdutoFormularioComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(registroUsuarioRotas),
+    RouterModule.forChild(registroProdutoRotas),
     PrimengModule,
     SharedModule
   ],
-  providers: [MessageService,CookieService],
+  providers: [MessageService, CookieService],
 })
-export class RegistroUsuarioModule  { }
+export class RegistroProdutoModule  { }

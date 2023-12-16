@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { UserEvent } from 'src/app/models/enums/users/UserEvent';
-import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
+import { AddIntegranteAction } from 'src/app/models/interfaces/member/event/AddIntegranteAction';
+import { EditUserAction } from 'src/app/models/interfaces/user/EditUserAction';
+import { EventAction } from 'src/app/models/interfaces/user/EventAction';
 
 @Component({
   selector: 'app-usuario-formulario',
@@ -10,25 +12,28 @@ import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAct
   styleUrls: [],
 })
 export class UsuarioFormularioComponent implements OnInit, OnDestroy {
+  @Output() public productCreateEvent = new EventEmitter<AddIntegranteAction>();
+  @Output() cancelEvent = new EventEmitter<void>();
+
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   public addUserAction = UserEvent.ADD_USER_ACTION;
 
   public editUserAction = UserEvent.EDIT_USER_ACTION;
 
-  public userAction!: { event: EditUserAction };
-
-  public userForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    login: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(3)]],
-    member_id: ['', Validators.required],
-    groupMenber_id: ['', Validators.required],
-  });
+  public userAction!: { event:EventAction };
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilderUsuario: FormBuilder,
   ) {}
+
+  public userForm = this.formBuilderUsuario.group({
+    funcionario_id: ['', [Validators.required, Validators.minLength(3)]],
+    grupoUsuario_id: ['', Validators.required],
+    login: ['', [Validators.required, Validators.minLength(3)]],
+    senha: ['', Validators.required]
+  });
+  formBuilder: any;
 
   ngOnInit(): void {}
 
