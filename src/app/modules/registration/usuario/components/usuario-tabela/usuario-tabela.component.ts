@@ -5,11 +5,11 @@ import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/
 
 
 @Component({
-  selector: 'app-user-table',
-  templateUrl: './user-table.component.html',
+  selector: 'app-usuario-tabela',
+  templateUrl: './usuario-tabela.component.html',
   styleUrls: [],
 })
-export class UserTableComponent {
+export class UsuarioTabelaComponent {
   @Input() public users: Array<GetAllUsersResponse> = [];
   @Output() public userEvent = new EventEmitter<EditUserAction>();
 

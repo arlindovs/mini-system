@@ -4,25 +4,21 @@
     <div class="card flex flex-column md:flex-column gap-4">
       <div></div>
       <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [filter]="true" filterBy="member_id" styleClass="w-full"
-          formControlName="member_id" optionLabel="name" optionValue="id"></p-dropdown>
-        <label for="float-label">Funcionario</label>
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="usuario_id" styleClass="w-full"
+          formControlName="funcionario_id" optionLabel="Funcionario" optionValue="id"></p-dropdown>
+        <label for="float-label">Funcionário</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [filter]="true" filterBy="groupMember_id" styleClass="w-full"
-          formControlName="groupMember_id" optionLabel="name" optionValue="id"></p-dropdown>
-        <label for="float-label">Grupo de Usuario</label>
-      </span>
-      <span class="p-float-label flex flex-column">
-        <input pInputText formControlName="name" />
-        <label for="float-label">Nome</label>
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="grupoUsuario_id" styleClass="w-full"
+          formControlName="grupoUsuario_id" optionLabel="grupoUsuario" optionValue="id"></p-dropdown>
+        <label for="float-label">Grupo de Usuário</label>
       </span>
       <span class="p-float-label flex flex-column">
         <input pInputText formControlName="login" />
         <label for="float-label">Login</label>
       </span>
       <span class="p-float-label flex flex-column">
-        <input type="password" pInputText formControlName="password" />
+        <input type="password" pInputText formControlName="senha" />
         <label for="float-label">Senha</label>
       </span>
 

@@ -1,32 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegistrationUserComponent } from './page/registration-user/registration-user.component';
+import { RegistroUsuarioComponent} from './page/registro-usuario/registro-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimengModule } from 'src/app/libraries/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { registrationUserRoutes } from './registration-user.routing';
+import { registroUsuarioRotas } from './registro-usuario.routing';
 import { MessageService } from 'primeng/api';
 import { CookieService } from 'ngx-cookie-service';
-import { UserTableComponent } from './components/user-table/user-table.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
+import { UsuarioTabelaComponent } from './components/user-table/usuario-tabela.component';
+import { UsuarioFormularioComponent } from './components/usuario-formulario/usuario-formulario.component';
+
 
 
 
 @NgModule({
   declarations: [
-    RegistrationUserComponent,
-    UserTableComponent,
-    UserFormComponent
+    RegistroUsuarioComponent,
+    UsuarioTabelaComponent,
+    UsuarioFormularioComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(registrationUserRoutes),
+    RouterModule.forChild(registroUsuarioRotas),
     PrimengModule,
     SharedModule
   ],
   providers: [MessageService,CookieService],
 })
-export class RegistrationUserModule  { }
+export class RegistroUsuarioModule  { }

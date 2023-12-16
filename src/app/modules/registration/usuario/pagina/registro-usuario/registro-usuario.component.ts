@@ -4,16 +4,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/user/event/EventAction';
-import { UserFormComponent } from '../../components/user-form/user-form.component';
+import { UserFormComponent } from '../../components/usuario-formulario/usuario-formulario.component';
 import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-registration-user',
-  templateUrl: './registration-user.component.html',
+  selector: 'app-registro-usuario',
+  templateUrl: './registro-usuario.component.html',
   styleUrls: []
 })
-export class RegistrationUserComponent implements OnInit, OnDestroy {
+export class RegistroUsuarioComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   private ref!: DynamicDialogRef;

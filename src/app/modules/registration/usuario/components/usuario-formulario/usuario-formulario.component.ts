@@ -5,11 +5,11 @@ import { UserEvent } from 'src/app/models/enums/users/UserEvent';
 import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
 
 @Component({
-  selector: 'app-user-form',
-  templateUrl: './user-form.component.html',
+  selector: 'app-usuario-formulario',
+  templateUrl: './usuario-formulario.component.html',
   styleUrls: [],
 })
-export class UserFormComponent implements OnInit, OnDestroy {
+export class UsuarioFormularioComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   public addUserAction = UserEvent.ADD_USER_ACTION;
