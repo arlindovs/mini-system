@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
+    private cookieService: CookieService,
     private router: Router,
   ) {
     this.selectRole = this.formBuilder.group({
@@ -70,6 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     )
     .subscribe(data=>{
+      // this.cookieService.set('token', response?.token);
       this.loginForm.reset();
       this.loginCard = true;
       this.router.navigate(['/home']);
