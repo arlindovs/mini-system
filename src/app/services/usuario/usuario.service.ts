@@ -31,7 +31,7 @@ export class UsuarioService {
 
     loginUser(usuario: AuthRequest): Observable<object> {
       console.log(usuario);
-      return this.http.post(`${this.API_URL}usuarios/login`, usuario);
+      return this.http.post(`${this.API_URL}autenticar`, usuario);
     }
 
     getAllUsuarios(): Observable<Array<GetAllUsersResponse>> {

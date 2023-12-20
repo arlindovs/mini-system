@@ -1,54 +1,17 @@
 <!-- FILEPATH: /D:/Angular/mini-system/src/app/modules/login/login.component.html -->
 
 <!-- Tela de login -->
-<div class="login-container" *ngIf="loginCard">
+<div class="login-container">
   <h2>Login</h2>
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="userLogin()">
     <div class="form-group">
-      <input type="text" [(ngModel)]="usuarioLogin.name" pInputText placeholder="Nome" formControlName = "name"/>
+      <input type="text" [(ngModel)]="usuarioLogin.login" pInputText placeholder="Nome" formControlName = "login"/>
     </div>
     <div class="form-group">
       <input type="password" [(ngModel)]="usuarioLogin.password" pInputText placeholder="Senha" formControlName = "password"/>
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!this.loginForm.valid">Entrar</button>
   </form>
-  <div class="create-account">
-    <p>Não tem uma conta?</p>
-    <button pButton class="btn btn-link" size="small" (click)="loginCard = !loginCard">Criar conta</button>
-  </div>
-</div>
-
-<!-- Tela de criação de novo usuário -->
-<div class="create-account-container" *ngIf="!loginCard">
-  <h2>Criar conta</h2>
-  <form class="login-form" [formGroup]="signupForm">
-    <div class="form-group">
-      <input type="text" pInputText placeholder="Nome" formControlName = "name" />
-    </div>
-    <div class="form-group">
-      <input type="email" pInputText placeholder="Email" formControlName = "email" />
-    </div>
-    <div class="form-group">
-      <input type="password" pInputText placeholder="Senha" formControlName = "password" />
-    </div>
-
-    <div class="form-group">
-    <p-dropdown
-    [options]="roles"
-    [(ngModel)]="selectRole"
-    styleClass="w-full"
-    placeholder="Selecione uma regra"
-    formControlName="role"
-    ></p-dropdown>
-    </div>
-    
-    <button pButton pRipple type="submit" label="Criar Conta" [disabled]="!this.signupForm.valid"
-    (click)="createNewUser()"></button>
-  </form>
-  <div class="login">
-    <p>Já tem uma conta?</p>
-    <button pButton class="btn btn-link" size="small" (click)="loginCard = !loginCard">Fazer login</button>
-  </div>
 </div>
 
 <app-footer></app-footer>
