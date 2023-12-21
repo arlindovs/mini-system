@@ -96,21 +96,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   });
   }
 
-
-  public createNewUser(){
-    if(this.signupForm.value && this.signupForm.valid){
-      this.usuarioService.signupUser(this.signupForm.value).subscribe((resp: any) => {
-        alert('Usuário cadastrado com sucesso!');
-              this.signupForm.reset();
-              this.loginCard = true;
-      }, (error: any) => {
-        alert(`Erro ao cadastrar usuário: ${error.message}`);
-            console.log('Erro ao cadastrar usuário: ', error);
-      }
-      );
-    }
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

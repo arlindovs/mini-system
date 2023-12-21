@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/user/event/EventAction';
 import { UserFormComponent } from '../../components/user-form/user-form.component';
-import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
+import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuarios';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,7 +18,7 @@ export class RegistrationUserComponent implements OnInit, OnDestroy {
 
   private ref!: DynamicDialogRef;
 
-  public usersDatas: Array<GetAllUsersResponse> = [];
+  public usersDatas: Array<ListaTodosUsuarios> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -31,14 +31,14 @@ export class RegistrationUserComponent implements OnInit, OnDestroy {
     this.getAllUsers();
   }
 
-  
+
   getAllUsers(){
     this.usuarioService
     .getAllUsuarios()
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (response) => {
-        if (response.length > 0) {
+        if (response) {
           this.usersDatas = response;
         }
       },
@@ -67,7 +67,7 @@ export class RegistrationUserComponent implements OnInit, OnDestroy {
           event: event,
         },
       });
-      this.ref.onClose.pipe(takeUntil(this.destroy$));
+      // this.ref.onClose.pipe(takeUntil(this.destroy$));
     }
   }
 
