@@ -70,10 +70,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$)
     )
-    .subscribe(data=>{
-      // this.cookieService.set('token', response?.token);
+    .subscribe({
+      next: (response) => {
+        if (response) {
+      this.cookieService.set('token', response?.token);
       this.loginForm.reset();
-      this.loginCard = true;
       this.router.navigate(['/home']);
       this.messageService.add({
         severity: 'success',
@@ -81,19 +82,18 @@ export class LoginComponent implements OnInit, OnDestroy {
         detail: `Bem vindo de volta!`,
         life: 2000,
       });
-      console.log(data);
-    },error=>
-    {
-      console.log(error);
+      console.log(response);
+    }
+  },error: (err) => {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
-        detail: `${error.error.message}`,
+        detail: `Erro ao fazer login: ${err.message}`,
         life: 2000,
       });
-      console.log(error);
+      console.log(err);
     }
-    );
+  });
   }
 
 

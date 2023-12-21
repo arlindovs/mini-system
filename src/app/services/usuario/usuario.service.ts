@@ -26,9 +26,9 @@ export class UsuarioService {
     return this.http.post<string>(`${this.API_URL}usuarios`, usuario);
   }
 
-  loginUser(usuario: AuthRequest): Observable<object> {
+  loginUser(usuario: AuthRequest): Observable<AuthResponse> {
     console.log(usuario);
-    return this.http.post(`${this.API_URL}autenticar`, usuario);
+    return this.http.post<AuthResponse>(`${this.API_URL}autenticar`, usuario);
   }
 
   isLoggedIn() {

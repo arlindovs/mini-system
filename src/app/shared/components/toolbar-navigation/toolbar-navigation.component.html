@@ -10,7 +10,7 @@
 
   <div class="p-toolbar-group-end">
     <p-button class="mr-5" label="Vender" icon="pi pi-cart-plus" styleClass="p-button-success" [routerLink]="['']"  ></p-button>
-    <p-button icon="pi pi-sign-out" styleClass="p-button-danger" [routerLink]="['/login']"  ></p-button>
+    <p-button icon="pi pi-sign-out" styleClass="p-button-danger" (onClick)="handleLogout()" ></p-button>
   </div>
 
 </p-toolbar>

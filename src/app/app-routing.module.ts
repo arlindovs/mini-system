@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
 import { LoginComponent } from './modules/login/login.component';
+import { AuthGuardService } from './guards/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -10,6 +11,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
+      canActivate: [AuthGuardService],
   },
   {
     path: 'registration-user',
@@ -17,6 +19,7 @@ const routes: Routes = [
       import('./modules/registration/user/registration-user.module').then(
         (m) => m.RegistrationUserModule
       ),
+      canActivate: [AuthGuardService],
   },
   {
     path: 'registration-member',
@@ -24,23 +27,41 @@ const routes: Routes = [
       import('./modules/registration/member/registration-member.module').then(
         (m) => m.RegistrationMemberModule
       ),
+      canActivate: [AuthGuardService],
   },
   {
-    path:'registration-product',
-    loadChildren:() => import('./modules/registration/product/registration-product.module').then((m) => m.RegistrationProductModule),
+    path: 'registration-product',
+    loadChildren: () =>
+      import('./modules/registration/product/registration-product.module').then(
+        (m) => m.RegistrationProductModule
+      ),
+      canActivate: [AuthGuardService],
   },
   {
-    path:'registration-unitMeasure',
-    loadChildren:() => import('./modules/registration/unitMeasure/registration-unitMeasure.module').then((m) => m.RegistrationUnitMeasureModule)
+    path: 'registration-unitMeasure',
+    loadChildren: () =>
+      import(
+        './modules/registration/unitMeasure/registration-unitMeasure.module'
+      ).then((m) => m.RegistrationUnitMeasureModule),
+      canActivate: [AuthGuardService],
   },
   {
-    path:'registration/group/member',
-    loadChildren:() => import('./modules/registration/group/member/registration-group-member.module').then((m) => m.RegistrationGroupMemberModule)
+    path: 'registration/group/member',
+    loadChildren: () =>
+      import(
+        './modules/registration/group/member/registration-group-member.module'
+      ).then((m) => m.RegistrationGroupMemberModule),
+      canActivate: [AuthGuardService],
   },
   {
-    path:'registration/group/product',
-    loadChildren:() => import ('./modules/registration/group/product/registration-group-product.module').then((m) => m.RegistrationGroupProductModule)
+    path: 'registration/group/product',
+    loadChildren: () =>
+      import(
+        './modules/registration/group/product/registration-group-product.module'
+      ).then((m) => m.RegistrationGroupProductModule),
+      canActivate: [AuthGuardService],
   },
+  
   { path: '**', component: PageNotFoundComponent },
 ];
 
