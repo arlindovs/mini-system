@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserEvent } from 'src/app/models/enums/users/UserEvent';
 import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
 import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuarios';
+import { Table } from 'primeng/table';
 
 
 @Component({
@@ -27,6 +28,10 @@ export class UserTableComponent {
   //     }
   //   );
   // }
+
+  clear(table: Table) {
+    table.clear();
+}
 
   exportPdf() {
     // import('jspdf').then((jsPDF) => {
