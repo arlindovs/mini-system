@@ -19,7 +19,7 @@
         [rowHover]="true"
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50, 100]"
-        [globalFilterFields]="['CODIGO', 'login']"
+        [globalFilterFields]="['CODIGO', 'login', 'status', 'empresa', 'usuarioGrupo', 'funcionario']"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
       >
@@ -63,7 +63,7 @@
             <th style="width: 3rem">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pResizableColumn pSortableColumn="codigo">
+            <th pResizableColumn pSortableColumn="CODIGO">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
                   Codigo
@@ -73,6 +73,46 @@
                   <p-columnFilter
                     type="text"
                     field="CODIGO"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="status">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Status
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="status"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="status"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="empresa">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Empresa
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="empresa"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="empresa"
                     display="menu"
                     matchMode="contains"
                     [showMatchModes]="true"
@@ -103,6 +143,46 @@
               </div>
             </th>
 
+            <th pResizableColumn pSortableColumn="usuarioGrupo">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Grupo
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="usuarioGrupo"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="usuarioGrupo"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="funcionario">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Funcionario
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="funcionario"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="funcionario"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
           </tr>
         </ng-template>
 
@@ -112,7 +192,11 @@
               <p-tableCheckbox [value]="user"></p-tableCheckbox>
             </td>
             <td>{{ user.CODIGO }}</td>
+            <td>{{ user.status }}</td>
+            <td>{{ user.empresa }}</td>
             <td>{{ user.login }}</td>
+            <td>{{ user.usuarioGrupo.descricao }}</td>
+            <td>{{ user.funcionario.nome }}</td>
           </tr>
         </ng-template>
 
