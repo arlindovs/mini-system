@@ -4,8 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest';
-import { SignupUserRequest } from 'src/app/models/interfaces/usuario/signup/SignupUserRequest';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 import { Subject, takeUntil } from 'rxjs';
 
 

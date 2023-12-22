@@ -61,7 +61,15 @@ const routes: Routes = [
       ).then((m) => m.RegistrationGroupProductModule),
       canActivate: [AuthGuardService],
   },
-  
+  {
+    path: 'registration/group/user',
+    loadChildren: () =>
+      import(
+        './modules/registration/group/user/registration-group-user.module'
+      ).then((m) => m.RegistrationGroupUserModule),
+      canActivate: [AuthGuardService],
+  },
+
   { path: '**', component: PageNotFoundComponent },
 ];
 

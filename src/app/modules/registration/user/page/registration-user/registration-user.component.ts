@@ -1,11 +1,11 @@
 import { MessageService } from 'primeng/api';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/user/event/EventAction';
 import { UserFormComponent } from '../../components/user-form/user-form.component';
-import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuarios';
+import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuariosResponse';
 import { Router } from '@angular/router';
 
 @Component({
@@ -67,7 +67,7 @@ export class RegistrationUserComponent implements OnInit, OnDestroy {
           event: event,
         },
       });
-      // this.ref.onClose.pipe(takeUntil(this.destroy$));
+      this.ref.onClose.pipe(takeUntil(this.destroy$));
     }
   }
 
