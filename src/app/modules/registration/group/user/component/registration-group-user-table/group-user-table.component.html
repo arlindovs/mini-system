@@ -6,7 +6,7 @@
         #productsTable
         [value]="userGroup"
         [(selection)]="userGroupSelected"
-        [rows]="10"
+        [rows]="5"
         [paginator]="true"
         [responsive]="true"
         [resizableColumns]="true"
@@ -15,7 +15,7 @@
         [tableStyle]="{ 'min-width': '50rem' }"
         [rowHover]="true"
         [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50, 100]"
+        [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
         [globalFilterFields]="['CODIGO', 'descricao', 'status', 'empresa', 'perfil']"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"

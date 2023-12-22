@@ -6,7 +6,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { UserGroupEvent } from 'src/app/models/enums/group/user/UserGroupEvent';
 import { AddUserGroupAction } from 'src/app/models/interfaces/group/user/AddUserGroupAction';
 import { EditUserGroupAction } from 'src/app/models/interfaces/group/user/EditUserGroupAction';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { CriarGrupoUsuarioRequest } from 'src/app/models/interfaces/group/user/request/CriarGrupoUsuarioRequest';
 
 @Component({
   selector: 'app-group-user-form',
@@ -19,7 +20,7 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
   @Output() public userGroupCreateEvent = new EventEmitter<AddUserGroupAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
-  public selectionUserGroupType !: FormBuilder
+  // public selectionUserGroupType !: FormBuilder
 
   usuarioPerfilEnum: {label: string, value: string}[] = [
     {label: 'Administrador', value: 'ADMIN'},
@@ -43,17 +44,12 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
   public userGroupForm = this.formBuilderUserGroup.group({
     descricao:['', Validators.required],
     perfil:['', Validators.required],
-    // status: [{value: '', disabled: true}],
+    status: [{value: '', disabled: true}],
     empresa:[{value: 1, disabled: true}],
-    // versao:[{value: '', disabled: true}],
+    versao:[{value: '', disabled: true}],
     });
 
   ngOnInit() {
-    this.setGroupUser(
-      this.userGroupAction?.event?.userGroupName as string,
-      this.userGroupAction?.event?.userGroupPerfil as string,
-      this.userGroupAction?.event?.userGroupEmpresa as number
-      );
   }
 
 
@@ -72,11 +68,7 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
 
   handleSubmitAddUserGroupAction(): void {
     if (this.userGroupForm?.valid) {
-      const requestCreateUserGroup: {
-        descricao: string;
-        perfil: string;
-        empresa: number;
-      } = {
+      const requestCreateUserGroup: CriarGrupoUsuarioRequest = {
         descricao: this.userGroupForm.value.descricao as string,
         perfil: this.userGroupForm.value.perfil as string,
         empresa: this.userGroupForm.getRawValue().empresa as number,
@@ -84,37 +76,55 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
 
       this.usuarioGrupoService
         .addGrupoUsuario(requestCreateUserGroup)
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
             if(response) {
-              console.log('Sucesso!');
-              this.userGroupForm.reset();
-              console.log('Formulário resetado');
+              console.log('Sucesso ao cadastrar grupo de usuário:', response);
               this.messageService.add({
                 severity: 'success',
                 summary: 'Sucesso',
                 detail: 'Grupo de usuário criado com sucesso!',
                 life: 3000,
               });
+
+              // Emitir evento de sucesso
+              this.userGroupCreateEvent.emit({
+                action: this.addUserGroupAction,
+                // Você pode adicionar outros dados que deseja enviar com o evento
+              });
+
+              // Limpar campos do formulário
+              this.userGroupForm.reset();
+
+              // Emitir evento para cancelar o formulário e voltar para a tabela
+              this.cancelEvent.emit();
             }
           },
           error: (error) => {
-            console.log(error);
+            console.error('Erro ao cadastrar grupo de usuário:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Erro ao criar grupo de usuário!',
               life: 3000,
             });
+
+            // Emitir evento de cancelamento em caso de erro
+            this.cancelEvent.emit();
           },
         });
       } else {
+        console.warn('Formulário inválido. Preencha todos os campos.');
         this.messageService.add({
           severity: 'warn',
           summary: 'Atenção',
           detail: 'Preencha todos os campos!',
           life: 3000,
         });
+
+        // Emitir evento de cancelamento em caso de formulário inválido
+        this.cancelEvent.emit();
       }
     }
 
@@ -124,16 +134,6 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
 
   handleSubmitDisableUserGroupAction(){}
 
-
-  setGroupUser(userDescricao: string, userPerfil: string, userEmpresa: number): void {
-    if(userDescricao){
-      this.userGroupForm.setValue({
-        descricao: userDescricao,
-        perfil: userPerfil,
-        empresa: userEmpresa,
-      });
-    }
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

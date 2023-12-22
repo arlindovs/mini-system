@@ -1,4 +1,4 @@
-export interface ListaGrupoUsuarios {
+export interface GrupoUsuarios {
   CODIGO: bigint;
   descricao: string;
   perfil: string;

@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/EventAction';
-import { ListaGrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/ListaGrupoUsuariosResponse';
+import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 
 @Component({
   selector: 'app-registration-group-user',
@@ -18,9 +18,7 @@ export class RegistrationGroupUserComponent implements OnInit, OnDestroy {
   showForm = false;
   eventData !:  EventAction;
 
-  private ref!: DynamicDialogRef;
-
-  public userGrupDatas: Array<ListaGrupoUsuarios> = [];
+  public userGrupDatas: Array<GrupoUsuarios> = [];
 
   constructor(
     private usuarioGrupoService: UsuarioGrupoService,
@@ -59,7 +57,6 @@ export class RegistrationGroupUserComponent implements OnInit, OnDestroy {
     if(event){
       this.showForm = true;
       this.eventData = event;
-      this.ref.onClose.pipe(takeUntil(this.destroy$));
     }
   }
 

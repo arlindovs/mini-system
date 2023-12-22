@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EditUserGroupAction } from 'src/app/models/interfaces/group/user/EditUserGroupAction';
-import { ListaGrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/ListaGrupoUsuariosResponse';
+import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { Table } from 'primeng/table';
 import { UserGroupEvent } from 'src/app/models/enums/group/user/UserGroupEvent';
 import { EventAction } from 'src/app/models/interfaces/EventAction';
@@ -11,14 +11,14 @@ import { EventAction } from 'src/app/models/interfaces/EventAction';
   styleUrls: []
 })
 export class GroupUserTableComponent {
-  @Input() userGroup: Array<ListaGrupoUsuarios> = [];
+  @Input() userGroup: Array<GrupoUsuarios> = [];
   @Output() userGroupEvent = new EventEmitter<EventAction>();
 
   constructor() { }
 
   public addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION;
 
-  public userGroupSelected!: ListaGrupoUsuarios;
+  public userGroupSelected!: GrupoUsuarios;
 
   public editUserGroupAction = 'EDIT_USER_GROUP_ACTION'
   public disableUserGroupAction = 'DISABLE_USER_GROUP_ACTION'
