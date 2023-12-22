@@ -27,4 +27,15 @@ export class UsuarioGrupoService {
     );
   }
 
+  addGrupoUsuario(requestDatas: {
+    descricao: string;
+    perfil: string;
+    empresa: number;
+  }): Observable<Array<ListaGrupoUsuarios>> {
+    return this.http.post<Array<ListaGrupoUsuarios>>(
+      `${this.API_URL}/usuario_grupos`,
+      requestDatas,
+      this.httpOptions
+    );
+  }
 }

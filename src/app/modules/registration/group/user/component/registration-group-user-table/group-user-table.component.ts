@@ -3,15 +3,16 @@ import { EditUserGroupAction } from 'src/app/models/interfaces/group/user/EditUs
 import { ListaGrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/ListaGrupoUsuariosResponse';
 import { Table } from 'primeng/table';
 import { UserGroupEvent } from 'src/app/models/enums/group/user/UserGroupEvent';
+import { EventAction } from 'src/app/models/interfaces/EventAction';
 
 @Component({
   selector: 'app-group-user-table',
   templateUrl: './group-user-table.component.html',
   styleUrls: []
 })
-export class GroupUserTableComponent implements OnInit {
+export class GroupUserTableComponent {
   @Input() userGroup: Array<ListaGrupoUsuarios> = [];
-  @Output() userGroupEvent = new EventEmitter<EditUserGroupAction>();
+  @Output() userGroupEvent = new EventEmitter<EventAction>();
 
   constructor() { }
 
@@ -28,12 +29,10 @@ export class GroupUserTableComponent implements OnInit {
   }
 
   handleUserGroupEvent(action:string, id?: string, userGroupName?: string){
-    if(action && action!==''){
-      this.userGroupEvent.emit({action,id,userGroupName})
+    if(action && action !=='' ){
+      const userGroupEventData = id && id !== '' ? { action, id } : { action };
+      this.userGroupEvent.emit(userGroupEventData)
     }
-  }
-
-  ngOnInit() {
   }
 
 }

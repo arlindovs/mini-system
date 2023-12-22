@@ -1,28 +1,21 @@
-
-  <div class="gray-bar">
-    <h3 class="fixed-title">Cadastro de Grupo de Produtos</h3>
-  </div>
-
   <div class="mt-2">
     <div class="gap-4">
-      <form [formGroup]="userGroupForm" (ngSubmit)="handleSubmitUserGroupAction()">
+      <form [formGroup]="userGroupForm" (ngSubmit)="handleSubmitAddUserGroupAction()">
         <div class="card flex flex-column md:flex-column gap-4">
 
         <div class="flex flex-row">
-          <span class="p-float-label flex flex-column mr-2">
-            <input pInputText formControlName="status" [disabled]="true" />
-            <label for="float-label">Status</label>
-          </span>
-
-          <span class="p-float-label flex flex-column mr-2">
-            <input pInputText formControlName="empresa" />
-            <label for="float-label">Empresa</label>
-          </span>
-
-          <span class="p-float-label flex flex-column">
-            <input pInputText formControlName="versao" />
-            <label for="float-label">Versão</label>
-          </span>
+          <div class="flex flex-column mr-2">
+            <label for="label">Status</label>
+            <input pInputText formControlName="status"/>
+          </div>
+          <div class="flex flex-column mr-2">
+            <label for="label">Empresa</label>
+            <input pInputText formControlName="empresa"/>
+          </div>
+          <div class="flex flex-column mr-2">
+            <label for="label">Versão</label>
+            <input pInputText formControlName="versao"/>
+          </div>
         </div>
 
         <span class="p-float-label flex flex-column">
@@ -31,10 +24,15 @@
         </span>
 
         <span class="p-float-label flex flex-column">
+          <input pInputText formControlName="perfil" />
+          <label for="float-label">Perfil</label>
+        </span>
+
+        <!-- <span class="p-float-label flex flex-column">
           <p-dropdown [showClear]="true" [options]="usuarioPerfilEnum" [(ngModel)]="selectionUserGroupType" optionLabel="label" filterBy="perfil_id" styleClass="w-full"
             formControlName="perfil"></p-dropdown>
           <label for="float-label">Perfil</label>
-        </span>
+        </span> -->
 
         <div class="mt-2">
         <div class="card flex flex-column md:flex-column gap-4">
