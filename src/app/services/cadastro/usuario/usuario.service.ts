@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SignupUserRequest } from 'src/app/models/interfaces/usuario/signup/SignupUserRequest';
 import { Observable, catchError } from 'rxjs';
-import { SignupUserResponse } from 'src/app/models/interfaces/usuario/signup/SignupUserResponse';
 import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest';
 import { AuthResponse } from 'src/app/models/interfaces/usuario/auth/AuthResponse';
-import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuarios';
+import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuariosResponse';
 import { CookieService } from 'ngx-cookie-service';
+import { CadastrarUsuarios } from 'src/app/models/interfaces/usuario/response/CadastrarUsuarios';
+import { CadastrarUsuariosRequest } from 'src/app/models/interfaces/usuario/request/CadastrarUsuariosRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class UsuarioService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.JWT_TOKEN}`,
+      Authorization: `${this.JWT_TOKEN}`,
     }),
   };
 
@@ -45,8 +45,8 @@ export class UsuarioService {
     );
   }
 
-  cadastrarUsuario(usuario: SignupUserRequest): Observable<SignupUserResponse> {
-    return this.http.post<SignupUserResponse>(
+  cadastrarUsuario(usuario: CadastrarUsuariosRequest): Observable<CadastrarUsuarios> {
+    return this.http.post<CadastrarUsuarios>(
       `${this.API_URL}/usuarios`,
       usuario,
       this.httpOptions

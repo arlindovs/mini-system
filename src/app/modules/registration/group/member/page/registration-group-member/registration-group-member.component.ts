@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { EventAction } from 'src/app/models/interfaces/group/member/EventAction';
+import { EventAction } from 'src/app/models/interfaces/EventAction';
 
 @Component({
   selector: 'app-registration-group-member',
@@ -15,7 +15,7 @@ export class RegistrationGroupMemberComponent implements OnInit, OnDestroy {
   eventData !: EventAction;
 
   private ref!: DynamicDialogRef;
-  
+
   constructor( private dialogService: DialogService) { }
 
   ngOnInit():void { }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserEvent } from 'src/app/models/enums/users/UserEvent';
 import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
-import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuarios';
+import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuariosResponse';
 import { Table } from 'primeng/table';
 
 
@@ -17,17 +17,6 @@ export class UserTableComponent {
   public addUserAction = UserEvent.ADD_USER_ACTION;
 
   public userSelected!: ListaTodosUsuarios;
-
-  // ngOnInit(): void {
-  //   this.users = this.users.map((user) => {
-  //     return {
-  //       ...user,
-  //       CODIGO: user.CODIGO,
-  //       login: user.login,
-  //       };
-  //     }
-  //   );
-  // }
 
   clear(table: Table) {
     table.clear();

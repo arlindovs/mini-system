@@ -40,6 +40,21 @@ router-outlet {
   right: 0;
 }
 
+.gray-bar {
+  background-color: #808080; /* Define a cor de fundo como cinza */
+  height: 30px; /* Define a altura da barra */
+  display: flex; /* Usa flexbox para alinhar o conteúdo */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+  color: white; /* Define a cor do texto como branco */
+  padding: 8px; /* Adiciona algum espaço ao redor do conteúdo */
+}
+
+.fixed-title {
+  font-size: 20px; /* Define o tamanho da fonte */
+  font-weight: bold; /* Define a fonte como negrito */
+}
+
 .sidenav-container{
   flex: 1;
 }
