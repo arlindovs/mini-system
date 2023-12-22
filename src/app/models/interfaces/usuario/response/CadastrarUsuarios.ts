@@ -1,4 +1,4 @@
-export interface SignupUserResponse{
+export interface CadastrarUsuarios{
   guid: string;
   name: string;
   email: string;

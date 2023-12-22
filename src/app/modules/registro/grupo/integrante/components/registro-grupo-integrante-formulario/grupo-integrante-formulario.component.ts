@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { MemberGroupEvent } from 'src/app/models/enums/group/member/MemberGroupEvent';
 import { AddMemberGroupAction } from 'src/app/models/interfaces/group/member/AddMemberGroupAction';
-import { EventAction } from 'src/app/models/interfaces/group/member/EventAction';
+import { EventAction } from 'src/app/models/interfaces/EventAction';
 
 @Component({
   selector: 'app-grupo-integrante-formulario',
@@ -14,7 +14,7 @@ export class GrupoIntegranteFormularioComponent implements OnInit, OnDestroy {
     @Output() public memberGroupCreateEvent = new EventEmitter<AddMemberGroupAction>();
     @Output() cancelEvent = new EventEmitter<void>();
 
-    
+
   constructor(
     private formBuilderMemberGroup: FormBuilder,
   ) { }

@@ -3,15 +3,15 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ProductGroupEvent } from 'src/app/models/enums/group/product/ProductGroupEvent';
 import { AddProductGroupAction } from 'src/app/models/interfaces/group/product/AddProductGroupAction';
 import { EditProductGroupAction } from 'src/app/models/interfaces/group/product/EditProductGroupAction';
-import { EventAction } from 'src/app/models/interfaces/group/product/EventAction';
+import { EventAction } from 'src/app/models/interfaces/EventAction';
 
 @Component({
-  selector: 'app-grupo-produto-formulario',
-  templateUrl: './grupo-produto-formulario.component.html',
+  selector: 'app-group-product-form',
+  templateUrl: './group-product-form.component.html',
   styleUrls: []
 })
-export class GrupoProdutoFormularioComponent implements OnInit,OnDestroy {
- 
+export class GroupProductFormComponent implements OnInit,OnDestroy {
+
   @Output() public productGroupCreateEvent = new EventEmitter<AddProductGroupAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
@@ -51,9 +51,7 @@ export class GrupoProdutoFormularioComponent implements OnInit,OnDestroy {
   ngOnInit() {
   }
 
-  handleSubmitAddProductGroupAction(){
-
-  }
+  handleSubmitAddProductGroupAction(){}
 
   handleSubmitEditProductGroupAction(){}
 

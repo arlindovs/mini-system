@@ -1,12 +1,14 @@
+<div class="gray-bar">
+  <h3 class="fixed-title">Cadastro de Grupo de Produtos</h3>
+</div>
 <div class="grid">
   <div class="col-12">
-    <p-card
-      styleClass="shadow-3 m-1 text-indigo-800"
-    >
     <div class="flex justify-content-end">
     </div>
       <p-table
-        #UsuarioTabela
+        #productsTable
+        [value]="userGroup"
+        [(selection)]="userGroupSelected"
         [rows]="10"
         [paginator]="true"
         [responsive]="true"
@@ -17,20 +19,18 @@
         [rowHover]="true"
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50, 100]"
-        [globalFilterFields]="['CODIGO', 'login', 'status', 'empresa', 'usuarioGrupo.descricao', 'funcionario.nome']"
+        [globalFilterFields]="['CODIGO', 'descricao', 'status', 'empresa', 'perfil']"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
       >
 
       <ng-template pTemplate="caption">
-        <div class="flex">Cadastro de Usuarios</div>
-
         <div class="flex">
 
           <div class="mr-5">
           <span class="p-buttonset">
-            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Usuario" (click)="handleUserEnvent(addUserAction)"></button>
-            <button pButton pRipple icon="pi pi-check" pTooltip="Editar Usuario" (click)="handleUserEnvent(addUserAction)"></button>
+            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Usuario" (click)="handleUserGroupEvent(addUserGroupAction)"></button>
+            <button pButton pRipple icon="pi pi-check" pTooltip="Editar Usuario" (click)="handleUserGroupEvent(addUserGroupAction)"></button>
             <button pButton pRipple icon="pi pi-trash" pTooltip="Desativar Usuario"></button>
           </span>
           </div>
@@ -38,8 +38,8 @@
 
           <div class="flex justify-content-center">
           <button type="button" pButton pRipple icon="pi pi-file" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-excel" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-pdf" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
           </div>
 
 
@@ -121,16 +121,16 @@
               </div>
             </th>
 
-            <th pResizableColumn pSortableColumn="login">
+            <th pResizableColumn pSortableColumn="descricao">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
-                  Login
+                  Descrição
                 </div>
                 <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="login"></p-sortIcon>
+                  <p-sortIcon field="descricao"></p-sortIcon>
                   <p-columnFilter
                     type="text"
-                    field="login"
+                    field="descricao"
                     display="menu"
                     matchMode="contains"
                     [showMatchModes]="true"
@@ -141,36 +141,16 @@
               </div>
             </th>
 
-            <th pResizableColumn pSortableColumn="usuarioGrupo">
+            <th pResizableColumn pSortableColumn="perfil">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
-                  Grupo
+                  Perfil
                 </div>
                 <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="usuarioGrupo"></p-sortIcon>
+                  <p-sortIcon field="perfil"></p-sortIcon>
                   <p-columnFilter
                     type="text"
-                    field="usuarioGrupo"
-                    display="menu"
-                    matchMode="contains"
-                    [showMatchModes]="true"
-                    [showOperator]="false"
-                    [showAddButton]="true"
-                  ></p-columnFilter>
-                </div>
-              </div>
-            </th>
-
-            <th pResizableColumn pSortableColumn="funcionario">
-              <div class="flex justify-content-between align-items-center">
-                <div class="flex justify-content-between align-items-center">
-                  Funcionario
-                </div>
-                <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="funcionario"></p-sortIcon>
-                  <p-columnFilter
-                    type="text"
-                    field="funcionario"
+                    field="perfil"
                     display="menu"
                     matchMode="contains"
                     [showMatchModes]="true"
@@ -192,13 +172,12 @@
             <td>{{ user.CODIGO }}</td>
             <td>{{ user.status }}</td>
             <td>{{ user.empresa }}</td>
-            <td>{{ user.login }}</td>
-            <td>{{ user.usuarioGrupo.descricao }}</td>
-            <td>{{ user.funcionario.nome }}</td>
+            <td>{{ user.descricao }}</td>
+            <td>{{ user.perfil }}</td>
           </tr>
         </ng-template>
 
       </p-table>
-    </p-card>
+
   </div>
 </div>

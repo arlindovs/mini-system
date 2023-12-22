@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { EventAction } from 'src/app/models/interfaces/group/product/EventAction';
+import { EventAction } from 'src/app/models/interfaces/EventAction';
 
 @Component({
   selector: 'app-registro-grupo-produto',

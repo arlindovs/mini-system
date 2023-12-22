@@ -1,22 +1,26 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserEvent } from 'src/app/models/enums/users/UserEvent';
-import { EditUserAction } from 'src/app/models/interfaces/user/EditUserAction';
-import { GetAllUsersResponse } from 'src/app/models/interfaces/usuario/response/GetAllUsersResponse';
+import { EditUserAction } from 'src/app/models/interfaces/user/event/EditUserAction';
+import { ListaTodosUsuarios } from 'src/app/models/interfaces/usuario/response/ListaTodosUsuariosResponse';
+import { Table } from 'primeng/table';
 
 
 @Component({
-  selector: 'app-usuario-tabela',
-  templateUrl: './usuario-tabela.component.html',
+  selector: 'app-user-table',
+  templateUrl: './user-table.component.html',
   styleUrls: [],
 })
-export class UsuarioTabelaComponent {
-  @Output() public usuarioEvent = new EventEmitter<EditUserAction>();
-  
+export class UserTableComponent {
+  @Input() users: Array<ListaTodosUsuarios> = [];
+  @Output() userEvent = new EventEmitter<EditUserAction>();
 
   public addUserAction = UserEvent.ADD_USER_ACTION;
-  public editUserAction = UserEvent.EDIT_USER_ACTION
 
+  public userSelected!: ListaTodosUsuarios;
 
+  clear(table: Table) {
+    table.clear();
+}
 
   exportPdf() {
     // import('jspdf').then((jsPDF) => {
@@ -39,7 +43,7 @@ export class UsuarioTabelaComponent {
 
   handleUserEnvent(action: string, id?: string, userName?: string): void {
     if (action && action !== '') {
-      this.usuarioEvent.emit({ action, id, userName });
+      this.userEvent.emit({ action, id, userName });
     }
   }
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { MenuItem } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-toolbar-navigation',
@@ -9,7 +12,10 @@ import { MenuItem } from 'primeng/api';
 export class ToolbarNavigationComponent implements OnInit {
   items: MenuItem[] | undefined;
 
-  constructor() {}
+  constructor(
+    private cookie: CookieService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -132,6 +138,12 @@ export class ToolbarNavigationComponent implements OnInit {
         routerLink: ['/settings']
       }
     ];
+  }
+
+
+  handleLogout(): void {
+    this.cookie.delete('token');
+    void this.router.navigate(['/login']);
   }
 
 }

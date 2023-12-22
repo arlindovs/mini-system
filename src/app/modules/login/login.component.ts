@@ -4,8 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthRequest } from 'src/app/models/interfaces/usuario/auth/AuthRequest';
-import { SignupUserRequest } from 'src/app/models/interfaces/usuario/signup/SignupUserRequest';
-import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 import { Subject, takeUntil } from 'rxjs';
 
 
@@ -34,6 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
+    private cookieService: CookieService,
     private router: Router,
   ) {
     this.selectRole = this.formBuilder.group({
@@ -69,9 +69,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$)
     )
-    .subscribe(data=>{
+    .subscribe({
+      next: (response) => {
+        if (response) {
+      this.cookieService.set('token', response?.token);
       this.loginForm.reset();
-      this.loginCard = true;
       this.router.navigate(['/home']);
       this.messageService.add({
         severity: 'success',
@@ -79,34 +81,18 @@ export class LoginComponent implements OnInit, OnDestroy {
         detail: `Bem vindo de volta!`,
         life: 2000,
       });
-      console.log(data);
-    },error=>
-    {
-      console.log(error);
+      console.log(response);
+    }
+  },error: (err) => {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
-        detail: `${error.error.message}`,
+        detail: `Erro ao fazer login: ${err.message}`,
         life: 2000,
       });
-      console.log(error);
+      console.log(err);
     }
-    );
-  }
-
-
-  public createNewUser(){
-    if(this.signupForm.value && this.signupForm.valid){
-      this.usuarioService.signupUser(this.signupForm.value).subscribe((resp: any) => {
-        alert('Usuário cadastrado com sucesso!');
-              this.signupForm.reset();
-              this.loginCard = true;
-      }, (error: any) => {
-        alert(`Erro ao cadastrar usuário: ${error.message}`);
-            console.log('Erro ao cadastrar usuário: ', error);
-      }
-      );
-    }
+  });
   }
 
   ngOnDestroy(): void {
