@@ -12,6 +12,13 @@ export class GroupUserFormComponent implements OnInit {
   @Output() public userGroupCreateEvent = new EventEmitter<AddUserGroupAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
+  public selectionUserGroupType !: FormBuilder
+
+  usuarioPerfilEnum: {label: string, value: string}[] = [
+    {label: 'Administrador', value: 'ADMIN'},
+    {label: 'Usuário', value: 'USER'}
+  ];
+
   constructor(
     private formBuilderUserGroup: FormBuilder
   ) { }
@@ -38,6 +45,10 @@ export class GroupUserFormComponent implements OnInit {
 
   public userGroupForm = this.formBuilderUserGroup.group({
     descricao:[''],
+    perfil:[''],
+    status:[''],
+    empresa:[''],
+    versao:[''],
     });
 
   ngOnInit() {
