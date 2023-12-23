@@ -9,6 +9,6 @@
         (userGroupEvent)="handlerUserGroupAction($event)"></app-group-user-table>
         <app-group-user-form
         *ngIf="showForm"
-        (cancelEvent)="showForm = false"></app-group-user-form>
+        (cancelEvent)="showForm = false; eventData = null; handleFormSubmissionSuccess()"></app-group-user-form>
   </div>
 

@@ -15,8 +15,9 @@ import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/
 export class RegistrationGroupUserComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
-  showForm = false;
-  eventData !:  EventAction;
+  public showForm = false;
+  public eventData: any;
+  // eventData !:  EventAction;
 
   public userGrupDatas: Array<GrupoUsuarios> = [];
 
@@ -53,12 +54,18 @@ export class RegistrationGroupUserComponent implements OnInit, OnDestroy {
     })
   }
 
-  handlerUserGroupAction(event: EventAction): void{
+  handlerUserGroupAction(event: any): void{
     if(event){
       this.showForm = true;
       this.eventData = event;
     }
   }
+
+    // Método que é chamado quando o formulário é submetido com sucesso
+    handleFormSubmissionSuccess(): void {
+      // Aqui você pode realizar ações após o sucesso, como limpar os campos, recarregar dados, etc.
+      console.log('Formulário submetido com sucesso!');
+    }
 
   ngOnDestroy(): void {
     this.destroy$.next();

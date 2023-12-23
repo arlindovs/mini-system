@@ -8,6 +8,8 @@ import { AddUserGroupAction } from 'src/app/models/interfaces/group/user/AddUser
 import { EditUserGroupAction } from 'src/app/models/interfaces/group/user/EditUserGroupAction';
 import { Subject, takeUntil } from 'rxjs';
 import { CriarGrupoUsuarioRequest } from 'src/app/models/interfaces/group/user/request/CriarGrupoUsuarioRequest';
+import { EventAction } from 'src/app/models/interfaces/EventAction';
+import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 
 @Component({
   selector: 'app-group-user-form',
@@ -33,12 +35,17 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
     private usuarioGrupoService: UsuarioGrupoService,
   ) { }
 
-  public addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION
+  public readonly addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION
   public editUserGroupAction = UserGroupEvent.EDIT_USER_GROUP_ACTION
   public disableUserGroupAction = UserGroupEvent.DISABLE_USER_GROUP_ACTION
   public removeUserGroupAction = UserGroupEvent.REMOVE_USER_GROUP_ACTION
 
-  public userGroupAction !: {event: EditUserGroupAction};
+  // public userGroupAction !: {event: EditUserGroupAction};
+
+  public userGroupAction!: {
+    event: EventAction;
+    productsDatas: Array<GrupoUsuarios>;
+  };
 
 
   public userGroupForm = this.formBuilderUserGroup.group({
@@ -54,17 +61,23 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
 
 
   public handleSubmitUserGroupAction(): void {
+    console.log('userGroupAction:', this.userGroupAction);
     if (this.userGroupAction?.event?.action === this.addUserGroupAction) {
+      console.log('Handling ADD action');
       this.handleSubmitAddUserGroupAction();
     } else if (this.userGroupAction?.event?.action === this.editUserGroupAction) {
+      console.log('Handling EDIT action');
       this.handleSubmitEditUserGroupAction();
-    }else if(this.userGroupAction?.event?.action === this.removeUserGroupAction){
-      this.handleSubmitRemoveUserGroupAction()
-    } else if(this.userGroupAction?.event?.action === this.disableUserGroupAction){
-      this.handleSubmitDisableUserGroupAction()
+    } else if (this.userGroupAction?.event?.action === this.removeUserGroupAction) {
+      console.log('Handling REMOVE action');
+      this.handleSubmitRemoveUserGroupAction();
+    } else if (this.userGroupAction?.event?.action === this.disableUserGroupAction) {
+      console.log('Handling DISABLE action');
+      this.handleSubmitDisableUserGroupAction();
     }
     return;
   }
+
 
   handleSubmitAddUserGroupAction(): void {
     if (this.userGroupForm?.valid) {

@@ -11,27 +11,28 @@ import { EventAction } from 'src/app/models/interfaces/EventAction';
   styleUrls: []
 })
 export class GroupUserTableComponent {
+
   @Input() userGroup: Array<GrupoUsuarios> = [];
+
   @Output() userGroupEvent = new EventEmitter<EventAction>();
-
-  constructor() { }
-
-  public addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION;
 
   public userGroupSelected!: GrupoUsuarios;
 
-  public editUserGroupAction = 'EDIT_USER_GROUP_ACTION'
-  public disableUserGroupAction = 'DISABLE_USER_GROUP_ACTION'
-  public removeUserGroupAction = 'REMOVE_USER_GROUP_ACTION'
+
+  public addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION;
+  public editUserGroupAction = UserGroupEvent.EDIT_USER_GROUP_ACTION;
+  public disableUserGroupAction = UserGroupEvent.DISABLE_USER_GROUP_ACTION;
+  public removeUserGroupAction = UserGroupEvent.REMOVE_USER_GROUP_ACTION;
 
   clear(table: Table) {
     table.clear();
   }
 
-  handleUserGroupEvent(action:string, id?: string, userGroupName?: string){
-    if(action && action !=='' ){
-      const userGroupEventData = id && id !== '' ? { action, id } : { action };
-      this.userGroupEvent.emit(userGroupEventData)
+  handleUserGroupEvent(action: string, id?: string): void {
+    console.log(action);
+    if (action && action !== '') {
+      const userGroupEventData = id && id !== null ? { action, id } : { action };
+      this.userGroupEvent.emit(userGroupEventData);
     }
   }
 
