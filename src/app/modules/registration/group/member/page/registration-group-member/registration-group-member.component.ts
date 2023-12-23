@@ -16,7 +16,7 @@ export class RegistrationGroupMemberComponent implements OnInit, OnDestroy {
 
   private ref!: DynamicDialogRef;
 
-  constructor( private dialogService: DialogService) { }
+  constructor() { }
 
   ngOnInit():void { }
 

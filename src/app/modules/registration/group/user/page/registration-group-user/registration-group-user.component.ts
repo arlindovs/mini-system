@@ -54,7 +54,7 @@ export class RegistrationGroupUserComponent implements OnInit, OnDestroy {
     })
   }
 
-  handlerUserGroupAction(event: any): void{
+  handlerUserGroupAction(event: EventAction): void{
     if(event){
       this.showForm = true;
       this.eventData = event;

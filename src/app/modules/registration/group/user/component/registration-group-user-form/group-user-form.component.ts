@@ -1,15 +1,11 @@
-import { UserFormComponent } from './../../../../user/components/user-form/user-form.component';
 import { MessageService } from 'primeng/api';
 import { UsuarioGrupoService } from './../../../../../../services/cadastro/grupo/usuario/usuario-grupo.service';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UserGroupEvent } from 'src/app/models/enums/group/user/UserGroupEvent';
-import { AddUserGroupAction } from 'src/app/models/interfaces/group/user/AddUserGroupAction';
-import { EditUserGroupAction } from 'src/app/models/interfaces/group/user/EditUserGroupAction';
 import { Subject, takeUntil } from 'rxjs';
-import { CriarGrupoUsuarioRequest } from 'src/app/models/interfaces/group/user/request/CriarGrupoUsuarioRequest';
 import { EventAction } from 'src/app/models/interfaces/EventAction';
-import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
+import { UserGroupEvent } from 'src/app/models/enums/group/user/UserGroupEvent.enum';
+import { AddGroupUser } from 'src/app/models/interfaces/group/user/AddGroupUser';
 
 @Component({
   selector: 'app-group-user-form',
@@ -17,12 +13,16 @@ import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/
   styleUrls: []
 })
 export class GroupUserFormComponent implements OnInit, OnDestroy {
+
   private readonly destroy$: Subject<void> = new Subject<void>();
 
-  @Output() public userGroupCreateEvent = new EventEmitter<AddUserGroupAction>();
   @Output() cancelEvent = new EventEmitter<void>();
 
   // public selectionUserGroupType !: FormBuilder
+
+  public addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION
+  public editUserGroupAction = UserGroupEvent.EDIT_USER_GROUP_ACTION
+  public disableUserGroupAction = UserGroupEvent.DISABLE_USER_GROUP_ACTION
 
   usuarioPerfilEnum: {label: string, value: string}[] = [
     {label: 'Administrador', value: 'ADMIN'},
@@ -35,17 +35,10 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
     private usuarioGrupoService: UsuarioGrupoService,
   ) { }
 
-  public readonly addUserGroupAction = UserGroupEvent.ADD_USER_GROUP_ACTION
-  public editUserGroupAction = UserGroupEvent.EDIT_USER_GROUP_ACTION
-  public disableUserGroupAction = UserGroupEvent.DISABLE_USER_GROUP_ACTION
-  public removeUserGroupAction = UserGroupEvent.REMOVE_USER_GROUP_ACTION
 
   // public userGroupAction !: {event: EditUserGroupAction};
 
-  public userGroupAction!: {
-    event: EventAction;
-    productsDatas: Array<GrupoUsuarios>;
-  };
+  public userGroupAction!: {event: EventAction};
 
 
   public userGroupForm = this.formBuilderUserGroup.group({
@@ -62,26 +55,25 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
 
   public handleSubmitUserGroupAction(): void {
     console.log('userGroupAction:', this.userGroupAction);
+    console.log('userGroupForm:', this.addUserGroupAction);
     if (this.userGroupAction?.event?.action === this.addUserGroupAction) {
       console.log('Handling ADD action');
       this.handleSubmitAddUserGroupAction();
     } else if (this.userGroupAction?.event?.action === this.editUserGroupAction) {
       console.log('Handling EDIT action');
       this.handleSubmitEditUserGroupAction();
-    } else if (this.userGroupAction?.event?.action === this.removeUserGroupAction) {
-      console.log('Handling REMOVE action');
-      this.handleSubmitRemoveUserGroupAction();
     } else if (this.userGroupAction?.event?.action === this.disableUserGroupAction) {
       console.log('Handling DISABLE action');
       this.handleSubmitDisableUserGroupAction();
     }
     return;
+
   }
 
 
   handleSubmitAddUserGroupAction(): void {
     if (this.userGroupForm?.valid) {
-      const requestCreateUserGroup: CriarGrupoUsuarioRequest = {
+      const requestCreateUserGroup: AddGroupUser = {
         descricao: this.userGroupForm.value.descricao as string,
         perfil: this.userGroupForm.value.perfil as string,
         empresa: this.userGroupForm.getRawValue().empresa as number,
@@ -101,17 +93,17 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
                 life: 3000,
               });
 
-              // Emitir evento de sucesso
-              this.userGroupCreateEvent.emit({
-                action: this.addUserGroupAction,
-                // Você pode adicionar outros dados que deseja enviar com o evento
-              });
+              // // Emitir evento de sucesso
+              // this.userGroupCreateEvent.emit({
+              //   action: this.addUserGroupAction,
+              //   // Você pode adicionar outros dados que deseja enviar com o evento
+              // });
 
-              // Limpar campos do formulário
-              this.userGroupForm.reset();
+              // // Limpar campos do formulário
+              // this.userGroupForm.reset();
 
-              // Emitir evento para cancelar o formulário e voltar para a tabela
-              this.cancelEvent.emit();
+              // // Emitir evento para cancelar o formulário e voltar para a tabela
+              // this.cancelEvent.emit();
             }
           },
           error: (error) => {
@@ -124,7 +116,7 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
             });
 
             // Emitir evento de cancelamento em caso de erro
-            this.cancelEvent.emit();
+            // this.cancelEvent.emit();
           },
         });
       } else {
@@ -137,7 +129,7 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
         });
 
         // Emitir evento de cancelamento em caso de formulário inválido
-        this.cancelEvent.emit();
+        // this.cancelEvent.emit();
       }
     }
 
@@ -146,6 +138,7 @@ export class GroupUserFormComponent implements OnInit, OnDestroy {
   handleSubmitRemoveUserGroupAction(){}
 
   handleSubmitDisableUserGroupAction(){}
+
 
 
   ngOnDestroy(): void {
