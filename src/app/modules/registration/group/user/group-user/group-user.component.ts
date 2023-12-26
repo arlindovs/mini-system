@@ -36,12 +36,12 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
 
   public userGroupForm = this.formBuilderUserGroup.group({
-    CODIGO: [null as bigint | null, Validators.required],
+    CODIGO: [null as bigint | null],
     descricao:['', Validators.required],
     perfil:['', Validators.required],
     status: [{value: '', disabled: true}],
-    empresa:[{value: 1, disabled: true}],
-    versao:[null as Date | null, Validators.required],
+    empresa: [{ value: 1, disabled: true }],
+    versao:[{value: null as Date | null, disabled: true}],
     });
 
 
@@ -75,10 +75,18 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     console.log(this.isEdicao());
   }
 
+  onDisableGroupButtonClick(user: GrupoUsuarios): void {
+    this.userGroupForm.patchValue({
+      CODIGO: user.CODIGO,
+    });
+    this.desativarGrupoUsuario( user.CODIGO as bigint);
+  }
+
 
   cancelarFormulario() {
-    this.userGroupForm.reset(); // Limpa os valores do formulário
-    this.showForm = false;      // Volta para a exibição da tabela
+    this.userGroupForm.reset();
+    this.showForm = false;
+    this.listarGrupoUsuarios();
   }
 
 
@@ -211,6 +219,46 @@ export class GroupUserComponent implements OnInit, OnDestroy {
         severity: 'warn',
         summary: 'Atenção',
         detail: 'Preencha todos os campos!',
+        life: 3000,
+      });
+    }
+  }
+
+  desativarGrupoUsuario(CODIGO: bigint): void {
+    console.log('Desativar grupo de usuário:', CODIGO);
+    if (CODIGO) {
+      this.usuarioGrupoService
+        .desativarGrupoUsuario(CODIGO)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              console.log('Sucesso ao desativar grupo de usuário:', response);
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Grupo de usuário desativado com sucesso!',
+                life: 3000,
+              });
+              this.listarGrupoUsuarios();
+            }
+          },
+          error: (error) => {
+            console.error('Erro ao desativar grupo de usuário:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao desativar grupo de usuário!',
+              life: 3000,
+            });
+          },
+        });
+    } else {
+      console.warn('Nenhum grupo de usuário selecionado.');
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Selecione um grupo de usuário!',
         life: 3000,
       });
     }

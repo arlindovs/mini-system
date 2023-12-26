@@ -47,7 +47,7 @@ export class UsuarioGrupoService {
 
   desativarGrupoUsuario(CODIGO: bigint): Observable<Array<GrupoUsuarios>> {
     return this.http.post<Array<GrupoUsuarios>>(
-      `${this.API_URL}/usuario_grupos/ativar/${CODIGO}`,
+      `${this.API_URL}/usuario_grupos/desativar/${CODIGO}`,
       this.httpOptions
     );
   }

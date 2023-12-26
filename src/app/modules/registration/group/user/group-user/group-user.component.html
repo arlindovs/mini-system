@@ -34,10 +34,7 @@
         <div class="flex">
 
           <div class="mr-5">
-          <span class="p-buttonset">
-            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()"></button>
-            <button pButton pRipple icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="false"></button>
-          </span>
+            <button type="button" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()">Adicionar</button>
           </div>
 
 
@@ -63,6 +60,8 @@
 
         <ng-template pTemplate="header">
           <tr>
+            <th style="width: 3rem">
+            </th>
             <th pResizableColumn pSortableColumn="CODIGO" style="width: 3rem">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
@@ -163,26 +162,24 @@
               </div>
             </th>
 
-            <th style="width: 3rem">
-            </th>
-
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-user>
           <tr>
+            <td>
+              <div
+                class="flex justify-content-center gap-2 align-content-center align-items-center"
+              >
+              <button pButton pRipple class="p-button-success" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
+              <button pButton pRipple class="p-button-warning" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
+              </div>
+            </td>
             <td>{{ user.CODIGO }}</td>
             <td>{{ user.status }}</td>
             <td>{{ user.empresa }}</td>
             <td>{{ user.descricao }}</td>
             <td>{{ user.perfil }}</td>
-            <td>
-              <div
-                class="flex justify-content-center gap-3 align-content-center align-items-center"
-              >
-              <button pButton pRipple icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
-              </div>
-            </td>
           </tr>
         </ng-template>
 
