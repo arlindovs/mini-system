@@ -1,15 +1,21 @@
+<app-toolbar-navigation></app-toolbar-navigation>
+
 <div class="gray-bar">
   <h3 class="fixed-title">Cadastro de Grupo de Produtos</h3>
 </div>
-<div class="grid">
+
+
+<!--TABELA DE GRUPO DE USUARIOS-->
+<div *ngIf="!showForm" class="grid">
   <div class="col-12">
     <div class="flex justify-content-end">
     </div>
       <p-table
         #productsTable
-        [value]="userGroup"
+        [value]="userGrupDatas"
         [(selection)]="userGroupSelected"
-        [rows]="10"
+        (onRowSelect)="onRowSelect($event)"
+        [rows]="5"
         [paginator]="true"
         [responsive]="true"
         [resizableColumns]="true"
@@ -18,7 +24,7 @@
         [tableStyle]="{ 'min-width': '50rem' }"
         [rowHover]="true"
         [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50, 100]"
+        [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
         [globalFilterFields]="['CODIGO', 'descricao', 'status', 'empresa', 'perfil']"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
@@ -28,11 +34,7 @@
         <div class="flex">
 
           <div class="mr-5">
-          <span class="p-buttonset">
-            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Usuario" (click)="handleUserGroupEvent(addUserGroupAction)"></button>
-            <button pButton pRipple icon="pi pi-check" pTooltip="Editar Usuario" (click)="handleUserGroupEvent(addUserGroupAction)"></button>
-            <button pButton pRipple icon="pi pi-trash" pTooltip="Desativar Usuario"></button>
-          </span>
+            <button type="button" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()">Adicionar</button>
           </div>
 
 
@@ -59,12 +61,11 @@
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 3rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pResizableColumn pSortableColumn="CODIGO">
+            <th pResizableColumn pSortableColumn="CODIGO" style="width: 3rem">
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
-                  Codigo
+                  ID
                 </div>
                 <div class="flex justify-content-between align-items-center">
                   <p-sortIcon field="CODIGO"></p-sortIcon>
@@ -167,7 +168,12 @@
         <ng-template pTemplate="body" let-user>
           <tr>
             <td>
-              <p-tableCheckbox [value]="user"></p-tableCheckbox>
+              <div
+                class="flex justify-content-center gap-2 align-content-center align-items-center"
+              >
+              <button pButton pRipple class="p-button-success" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
+              <button pButton pRipple class="p-button-warning" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
+              </div>
             </td>
             <td>{{ user.CODIGO }}</td>
             <td>{{ user.status }}</td>
@@ -179,5 +185,58 @@
 
       </p-table>
 
+  </div>
+</div>
+
+
+
+
+<!--FORMULARIO DE GRUPO DE USUARIOS-->
+<div *ngIf="showForm" class="mt-2">
+  <div class="gap-4">
+    <form [formGroup]="userGroupForm" (ngSubmit)="adcionarOuEditarGrupoUsuario()">
+      <div class="card flex flex-column md:flex-column gap-4">
+
+      <div class="flex flex-row">
+        <div class="flex flex-column mr-2">
+          <label for="label">Status</label>
+          <input pInputText formControlName="status"/>
+        </div>
+        <div class="flex flex-column mr-2">
+          <label for="label">Empresa</label>
+          <input pInputText formControlName="empresa"/>
+        </div>
+        <div class="flex flex-column mr-2">
+          <label for="label">Versão</label>
+          <input pInputText formControlName="versao"/>
+        </div>
+      </div>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="descricao" />
+        <label for="float-label">Descrição</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="perfil" />
+        <label for="float-label">Perfil</label>
+      </span>
+
+      <!-- <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [options]="usuarioPerfilEnum" [(ngModel)]="selectionUserGroupType" optionLabel="label" filterBy="perfil_id" styleClass="w-full"
+          formControlName="perfil"></p-dropdown>
+        <label for="float-label">Perfil</label>
+      </span> -->
+
+      <div class="mt-2">
+      <div class="card flex flex-column md:flex-column gap-4">
+        <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
+          <p-button class="mr-2" [disabled]="!userGroupForm.valid" type="submit" label="Confirmar"></p-button>
+          <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelarFormulario()"></p-button>
+        </div>
+      </div>
+      </div>
+      </div>
+    </form>
   </div>
 </div>
