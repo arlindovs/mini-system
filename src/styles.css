@@ -1,3 +1,7 @@
+@import 'primeng/resources/themes/saga-blue/theme.css';
+@import 'primeng/resources/primeng.min.css';
+@import 'primeicons/primeicons.css';
+
 .exact_route {
   button {
     background-color: #6372c3 !important;
