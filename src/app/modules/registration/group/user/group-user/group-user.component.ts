@@ -8,6 +8,11 @@ import { AddGroupUser } from 'src/app/models/interfaces/group/user/AddGroupUser'
 import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUser';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
+import { SelectItem } from 'primeng/api';
+
+interface Perfil {
+  label: string;
+}
 
 @Component({
   selector: 'app-group-user',
@@ -27,6 +32,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     table.clear();
   }
 
+  perfis: Perfil[] | undefined;
+
+  selectedPerfil: Perfil | undefined;
+
   constructor(
     private usuarioGrupoService: UsuarioGrupoService,
     private messageService: MessageService,
@@ -38,7 +47,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   public userGroupForm = this.formBuilderUserGroup.group({
     CODIGO: [null as bigint | null],
     descricao:['', Validators.required],
-    perfil:['', Validators.required],
+    perfil: ['', Validators.required],
     status: [{value: '', disabled: true}],
     empresa: [{ value: 1, disabled: true }],
     versao:[{value: null as Date | null, disabled: true}],
@@ -47,6 +56,11 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.listarGrupoUsuarios();
+    this.perfis = [
+      { label: 'SUPER' },
+      { label: 'ADMIN' },
+      { label: 'USER' },
+    ];
   }
 
   onRowSelect(event: any) {
@@ -74,6 +88,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     });
     console.log(this.isEdicao());
   }
+
 
   onDisableGroupButtonClick(user: GrupoUsuarios): void {
     this.userGroupForm.patchValue({
@@ -124,44 +139,44 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
   adcionarGrupoUsuario(): void {
     if (this.userGroupForm.valid) {
-      const requestCreateUserGroup: AddGroupUser = {
-        descricao: this.userGroupForm.value.descricao as string,
-        perfil: this.userGroupForm.value.perfil as string,
-        empresa: this.userGroupForm.getRawValue().empresa as number,
-      };
+        const requestCreateUserGroup: AddGroupUser = {
+          descricao: this.userGroupForm.value.descricao as string,
+          perfil: this.userGroupForm.value.perfil as string,
+          empresa: this.userGroupForm.getRawValue().empresa as number,
+        };
 
-      this.usuarioGrupoService
-        .addGrupoUsuario(requestCreateUserGroup)
-        .pipe(takeUntil(this.destroy$)) // Importe o takeUntil se ainda não estiver importado
-        .subscribe({
-          next: (response) => {
-            console.log('Sucesso ao cadastrar grupo de usuário:', response);
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Sucesso',
-              detail: 'Grupo de usuário criado com sucesso!',
-              life: 3000,
-            });
+        this.usuarioGrupoService
+          .addGrupoUsuario(requestCreateUserGroup)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (response) => {
+              console.log('Sucesso ao cadastrar grupo de usuário:', response);
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Grupo de usuário criado com sucesso!',
+                life: 3000,
+              });
 
-            // Resetar o formulário
-            this.userGroupForm.reset();
+              // Resetar o formulário
+              this.userGroupForm.reset();
 
-            // Voltar para a tabela
-            this.showForm = false;
+              // Voltar para a tabela
+              this.showForm = false;
 
-            // Recarregar os dados da tabela
-            this.listarGrupoUsuarios();
-          },
-          error: (error) => {
-            console.error('Erro ao cadastrar grupo de usuário:', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Erro',
-              detail: 'Erro ao criar grupo de usuário!',
-              life: 3000,
-            });
-          },
-        });
+              // Recarregar os dados da tabela
+              this.listarGrupoUsuarios();
+            },
+            error: (error) => {
+              console.error('Erro ao cadastrar grupo de usuário:', error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao criar grupo de usuário!',
+                life: 3000,
+              });
+            },
+          });
     } else {
       console.warn('Formulário inválido. Preencha todos os campos.');
       this.messageService.add({
@@ -172,6 +187,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
       });
     }
   }
+
 
 
   editarGrupoUsuario(): void {

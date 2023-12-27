@@ -1,4 +1,4 @@
-import { Status } from "src/app/models/enums/Status.enum";
+import { Perfil } from "src/app/models/enums/group/user/Perfil.enum";
 
 export interface GrupoUsuarios {
   CODIGO: bigint;

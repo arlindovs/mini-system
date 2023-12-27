@@ -46,7 +46,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     MenuModule,
     MenubarModule,
     TieredMenuModule,
-    CheckboxModule
+    CheckboxModule,
   ],
   exports: [
     CardModule,

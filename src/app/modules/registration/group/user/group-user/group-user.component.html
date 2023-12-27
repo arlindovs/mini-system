@@ -217,16 +217,16 @@
         <label for="float-label">Descrição</label>
       </span>
 
-      <span class="p-float-label flex flex-column">
+      <!-- <span class="p-float-label flex flex-column">
         <input pInputText formControlName="perfil" />
         <label for="float-label">Perfil</label>
-      </span>
+      </span> -->
 
-      <!-- <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [options]="usuarioPerfilEnum" [(ngModel)]="selectionUserGroupType" optionLabel="label" filterBy="perfil_id" styleClass="w-full"
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [options]="perfis" [(ngModel)]="selectedPerfil" optionLabel="label" filterBy="perfil" styleClass="w-full"
           formControlName="perfil"></p-dropdown>
         <label for="float-label">Perfil</label>
-      </span> -->
+      </span>
 
       <div class="mt-2">
       <div class="card flex flex-column md:flex-column gap-4">
