@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RegistrationGroupUserRoutes } from './registration-group-user.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimengModule } from 'src/app/libraries/primeng.module';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -21,6 +21,6 @@ import { GroupUserComponent } from './group-user/group-user.component';
   declarations: [
     GroupUserComponent,
   ],
-  providers:[MessageService, CookieService]
+  providers:[MessageService, CookieService, ConfirmationService]
 })
 export class RegistrationGroupUserModule { }

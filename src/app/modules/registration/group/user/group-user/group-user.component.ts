@@ -1,18 +1,16 @@
+import { Status } from './../../../../../models/enums/Status.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { AddGroupUser } from 'src/app/models/interfaces/group/user/AddGroupUser';
 import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUser';
+import { Perfil } from 'src/app/models/interfaces/group/user/Perfil';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
-import { SelectItem } from 'primeng/api';
 
-interface Perfil {
-  label: string;
-}
 
 @Component({
   selector: 'app-group-user',
@@ -32,22 +30,27 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     table.clear();
   }
 
-  perfis: Perfil[] | undefined;
+  perfis: Perfil[] = [
+    { label: 'SUPER' },
+    { label: 'ADMIN' },
+    { label: 'USER' },
+  ];
 
-  selectedPerfil: Perfil | undefined;
+  selectedPerfil?: Perfil;
 
   constructor(
     private usuarioGrupoService: UsuarioGrupoService,
     private messageService: MessageService,
     private router: Router,
     private formBuilderUserGroup: FormBuilder,
+    private confirmationService: ConfirmationService,
   ) { }
 
 
   public userGroupForm = this.formBuilderUserGroup.group({
     CODIGO: [null as bigint | null],
     descricao:['', Validators.required],
-    perfil: ['', Validators.required],
+    perfil: [this.selectedPerfil, Validators.required],
     status: [{value: '', disabled: true}],
     empresa: [{ value: 1, disabled: true }],
     versao:[{value: null as Date | null, disabled: true}],
@@ -56,11 +59,6 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.listarGrupoUsuarios();
-    this.perfis = [
-      { label: 'SUPER' },
-      { label: 'ADMIN' },
-      { label: 'USER' },
-    ];
   }
 
   onRowSelect(event: any) {
@@ -77,17 +75,29 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   }
 
   onEditGroupButtonClick(user: GrupoUsuarios): void {
-    this.showForm = true;
-    this.userGroupForm.patchValue({
-      CODIGO: user.CODIGO,
-      descricao: user.descricao,
-      perfil: user.perfil,
-      status: user.status,
-      empresa: user.empresa,
-      versao: user.versao,
-    });
-    console.log(this.isEdicao());
+    console.log('Editar grupo de usuário:', user.status)
+    if (user.status === 'DESATIVADO') {
+      // Exibir pop-up informando que não é permitido editar um grupo desativado
+      this.confirmationService.confirm({
+        header: 'Aviso',
+        message: 'Não é permitido editar um grupo desativado.',
+      });
+    } else {
+      this.showForm = true;
+      this.selectedPerfil = this.perfis?.find(perfil => perfil.label === user.perfil.toString()); // Selecionar o perfil correspondente ao perfil do usuário
+      this.userGroupForm.patchValue({
+        CODIGO: user.CODIGO,
+        descricao: user.descricao,
+        perfil: this.selectedPerfil, // Use a opção do dropdown correspondente ao perfil
+        status: user.status,
+        empresa: user.empresa,
+        versao: user.versao,
+      });
+      console.log(this.isEdicao());
+    }
   }
+
+
 
 
   onDisableGroupButtonClick(user: GrupoUsuarios): void {
@@ -141,7 +151,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     if (this.userGroupForm.valid) {
         const requestCreateUserGroup: AddGroupUser = {
           descricao: this.userGroupForm.value.descricao as string,
-          perfil: this.userGroupForm.value.perfil as string,
+          perfil: this.selectedPerfil?.label || '',
           empresa: this.userGroupForm.getRawValue().empresa as number,
         };
 
@@ -195,7 +205,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
       const requestEditUserGroup: EditGroupUser = {
         CODIGO: this.userGroupForm.value.CODIGO as bigint,
         descricao: this.userGroupForm.value.descricao as string,
-        perfil: this.userGroupForm.value.perfil as string,
+        perfil: this.selectedPerfil?.label || '',
         status: this.userGroupForm.value.status as string,
         empresa: this.userGroupForm.getRawValue().empresa as number,
       };
@@ -241,7 +251,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   }
 
   desativarGrupoUsuario(CODIGO: bigint): void {
-    console.log('Desativar grupo de usuário:', CODIGO);
+    console.log('Alterar o Status!:', CODIGO);
     if (CODIGO) {
       this.usuarioGrupoService
         .desativarGrupoUsuario(CODIGO)
@@ -249,22 +259,22 @@ export class GroupUserComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             if (response) {
-              console.log('Sucesso ao desativar grupo de usuário:', response);
+              console.log('Sucesso ao Alterar o Status!:', response);
               this.messageService.add({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: 'Grupo de usuário desativado com sucesso!',
+                detail: 'Status Alterado com sucesso!',
                 life: 3000,
               });
               this.listarGrupoUsuarios();
             }
           },
           error: (error) => {
-            console.error('Erro ao desativar grupo de usuário:', error);
+            console.error('Erro ao Alterar o Status!:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Erro',
-              detail: 'Erro ao desativar grupo de usuário!',
+              detail: 'Erro ao Alterar o Status!!',
               life: 3000,
             });
           },
