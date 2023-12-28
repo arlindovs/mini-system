@@ -1,0 +1,114 @@
+<div>
+  <form [formGroup]="productForm" (ngSubmit)="handleSubmitProductAction()">
+    <div class="card flex flex-column md:flex-column gap-4">
+      <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
+        <p-button class="mr-2" [disabled]="!productForm.valid" type="submit" label="Confirmar"></p-button>
+        <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelEvent.emit()" ></p-button>
+      </div>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="description" />
+        <label for="float-label">Descrição</label>
+      </span>
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="fiscalProfile_id" styleClass="w-full"
+        formControlName="fiscalProfile" optionLabel="perfilFiscal" optionValue="id"></p-dropdown>
+      <label for="float-label">Perfil Fiscal</label>
+      </span>
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="productGroup_id" styleClass="w-full"
+        formControlName="productGroup" optionLabel="grupoProduto" optionValue="id"></p-dropdown>
+      <label for="float-label">Grupo</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="saleUnit_id" styleClass="w-full"
+        formControlName="saleUnit" optionLabel="unidadeVenda" optionValue="id"></p-dropdown>
+      <label for="float-label">Unidade Venda</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="purchasingUnit_id" styleClass="w-full"
+        formControlName="purchasingUnit" optionLabel="unidadeCompra" optionValue="id"></p-dropdown>
+      <label for="float-label">Unidade Compra</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="brand_id" styleClass="w-full"
+        formControlName="brand" optionLabel="marca" optionValue="id"></p-dropdown>
+      <label for="float-label">Marca</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <p-dropdown [showClear]="true" [options]="productType" [(ngModel)]="selectionProductType" filterBy="productType_id" styleClass="w-full"
+          formControlName="productType"></p-dropdown>
+        <label for="float-label">Tipo Produto</label>
+      </span>
+
+      <span class="p-float-label flex flex-column">
+        <input pInputText formControlName="barCode" />
+        <label for="float-label">Código de Barras</label>
+      </span>
+
+      <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="allowChangeDescription" value="True" inputId="allowChangeDescription" label="Permite alterar descrição"></p-checkbox>
+      </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="allowChangeUnitValue" value="True" inputId="allowChangeUnitValue" label="Pode alterar descrição"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="allowDiscountIncrease" value="True" inputId="allowDiscountIncrease" label="Permite desconto/acréscimo"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="controlStock" value="True" inputId="controlStock" label="Controla Estoque"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="saleType" value="True" inputId="saleType" label="Tipo Venda"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="purchasingType" value="True" inputId="purchasingType" label="Tipo Compra"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="equipmentType" value="True" inputId="equipmentType" label="Tipo Equipamento"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="heritageType" value="True" inputId="heritageType" label="Tipo Patrimonio"></p-checkbox>
+        </div>
+
+        <div class="card flex justify-content-start gap-3">
+          <p-checkbox formControlName="rawMaterialType" value="True" inputId="rawMaterialType" label="Tipo Matéria-Prima"></p-checkbox>
+        </div>
+
+        <div class="card flex flex-wrap gap-3 p-fluid">
+          <div class="flex-auto">
+              <label class="block font-bold mb-2" for="currency-br">Valor Venda</label>
+              <p-inputNumber formControlName="salePrice" [(ngModel)]="salesPrice" inputId="currency-br" mode="currency" currency="BRL" locale="pt-BR"> </p-inputNumber>
+          </div>
+        </div>
+
+
+        <div class="card flex flex-wrap gap-3 p-fluid">
+          <div class="flex-auto">
+              <label class="block font-bold mb-2" for="currency-br">Quantidade</label>
+              <p-inputNumber formControlName="quantityProduct" [(ngModel)]="quantityProduct" inputId="quantityProduct" mode="decimal"> </p-inputNumber>
+          </div>
+        </div>
+
+        <span class="p-float-label flex flex-column">
+          <input pInputText pKeyFilter = "int" formControlName="convertUnitMeasure" />
+          <label for="float-label">Unidade Medida Conversão</label>
+        </span>
+        <p>Exemplo: Unidade compra = caixa, porém na caixa vem 10 unidades, caso venda a unidade, no campo acima você pode colocar a quantidade 10.<br>
+          1 Caixa faz a entrada de 10 unidades para serem vendidas. </p>
+
+    </div>
+
+  </form>
+</div>

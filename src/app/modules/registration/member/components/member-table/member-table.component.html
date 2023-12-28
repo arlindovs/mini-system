@@ -1,0 +1,161 @@
+
+    <div class="flex justify-content-end">
+    </div>
+      <p-table
+        #MembersTable
+        [rows]="10"
+        [paginator]="true"
+        [responsive]="true"
+        [resizableColumns]="true"
+        columnResizeMode="expand"
+        styleClass="p-datatable-gridlines"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50, 100]"
+        [globalFilterFields]="['name', 'login', 'member.name', 'groupMember.name']"
+        dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
+      >
+
+      <ng-template pTemplate="caption">
+
+        <div class="flex">
+
+          <div class="mr-5">
+          <span class="p-buttonset">
+            <button pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Integrante" (click)="handleMemberEnvent(addMemberAction)"></button>
+            <button pButton pRipple icon="pi pi-check" pTooltip="Editar Integrante" (click)="handleMemberEnvent(addMemberAction)"></button>
+            <button pButton pRipple icon="pi pi-trash" pTooltip="Remover Integrante"></button>
+          </span>
+          </div>
+
+
+          <div class="flex justify-content-center">
+          <button type="button" pButton pRipple icon="pi pi-file" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+          </div>
+
+
+          <!-- <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+            selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect> -->
+
+          <span class="p-input-icon-left ml-auto mr-2">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" placeholder="Pesquisar" />
+          </span>
+          <button pButton label="Limpar" class="p-button-outlined" icon="pi pi-filter-slash"></button>
+
+        </div>
+
+      </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pResizableColumn pSortableColumn="name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Nome
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="secondName">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Segundo Nome
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="secondName"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="secondName"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="email">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  E-mail
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="email"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="email"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="groupMember.name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Grupo de Integrante
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="groupMember.name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="groupMember.name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pResizableColumn pSortableColumn="addressMember.name">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Endereço
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="addressMember.name"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="addressMember.name"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+          </tr>
+        </ng-template>
+      </p-table>
