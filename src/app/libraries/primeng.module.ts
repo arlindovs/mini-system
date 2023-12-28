@@ -22,6 +22,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { CheckboxModule } from 'primeng/checkbox';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TagModule } from 'primeng/tag';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { TagModule } from 'primeng/tag';
     CheckboxModule,
     OverlayPanelModule,
     TagModule,
+    MultiSelectModule,
   ],
   exports: [
     CardModule,
@@ -77,6 +79,7 @@ import { TagModule } from 'primeng/tag';
     CheckboxModule,
     OverlayPanelModule,
     TagModule,
+    MultiSelectModule,
   ]
 })
 export class PrimengModule { }
