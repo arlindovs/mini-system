@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Status } from './../../../../../models/enums/Status.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -10,7 +11,19 @@ import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUse
 import { Perfil } from 'src/app/models/interfaces/group/user/Perfil';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
+import * as FileSaver from 'file-saver';
 
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-group-user',
@@ -30,6 +43,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     table.clear();
   }
 
+  colunas!: Column[];
+
+  exportColumns!: ExportColumn[];
+
   perfis: Perfil[] = [
     { label: 'SUPER' },
     { label: 'ADMIN' },
@@ -47,19 +64,50 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   ) { }
 
 
+
   public userGroupForm = this.formBuilderUserGroup.group({
     CODIGO: [null as bigint | null],
     descricao:['', Validators.required],
     perfil: [this.selectedPerfil, Validators.required],
     status: [{value: '', disabled: true}],
     empresa: [{ value: 1, disabled: true }],
-    versao:[{value: null as Date | null, disabled: true}],
+    versao: [{value: null as DatePipe | string | null, disabled: true}],
     });
 
 
   ngOnInit(): void {
     this.listarGrupoUsuarios();
+
+    this.exportColumns = this.colunas.map((col) => ({ title: col.header, dataKey: col.field }));
   }
+
+  exportPdf() {
+    import('jspdf').then((jsPDF) => {
+        import('jspdf-autotable').then((x) => {
+            const doc = new jsPDF.default('p', 'px', 'a4');
+            (doc as any).autoTable(this.exportColumns, this.userGrupDatas);
+            doc.save('grupo_usuarios.pdf');
+        });
+    });
+}
+
+exportExcel() {
+  import('xlsx').then((xlsx) => {
+      const worksheet = xlsx.utils.json_to_sheet(this.userGrupDatas);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'grupo_usuarios');
+  });
+}
+
+saveAsExcelFile(buffer: any, fileName: string): void {
+  let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  let EXCEL_EXTENSION = '.xlsx';
+  const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+  });
+  FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+}
 
   onRowSelect(event: any) {
     console.log('Row selected:', event.data);
@@ -85,7 +133,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     } else {
       this.showForm = true;
       this.selectedPerfil = this.perfis?.find(perfil => perfil.label === user.perfil.toString()); // Selecionar o perfil correspondente ao perfil do usuário
-      this.userGroupForm.patchValue({
+      this.userGroupForm.setValue({
         CODIGO: user.CODIGO,
         descricao: user.descricao,
         perfil: this.selectedPerfil, // Use a opção do dropdown correspondente ao perfil

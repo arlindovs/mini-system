@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Perfil } from "src/app/models/enums/group/user/Perfil.enum";
 
 export interface GrupoUsuarios {
@@ -6,6 +7,6 @@ export interface GrupoUsuarios {
   perfil: Perfil;
   status: string;
   empresa: number;
-  versao: Date;
+  versao: string | DatePipe;
 }
 

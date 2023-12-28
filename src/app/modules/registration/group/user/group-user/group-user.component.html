@@ -1,6 +1,6 @@
 <div class="card flex justify-content-center gap-2">
   <p-toast></p-toast>
-  <p-confirmDialog></p-confirmDialog>
+  <p-confirmDialog header="Título do Diálogo" icon="pi pi-exclamation-triangle" [acceptLabel]="'OK'" [rejectVisible]="false" [closable]="false"></p-confirmDialog>
 </div>
 
 <app-toolbar-navigation></app-toolbar-navigation>
@@ -17,9 +17,11 @@
     </div>
       <p-table
         #productsTable
+        [columns]="colunas"
         [value]="userGrupDatas"
         [(selection)]="userGroupSelected"
         (onRowSelect)="onRowSelect($event)"
+        selectionMode="multiple"
         [rows]="5"
         [paginator]="true"
         [responsive]="true"
@@ -30,7 +32,8 @@
         [rowHover]="true"
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
-        [globalFilterFields]="['CODIGO', 'descricao', 'status', 'empresa', 'perfil']"
+        [globalFilterFields]="['CODIGO', 'status', 'empresa', 'descricao', 'perfil']"
+        [exportHeader]="'customExportHeader'"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
       >
@@ -44,9 +47,9 @@
 
 
           <div class="flex justify-content-center">
-          <button type="button" pButton pRipple icon="pi pi-file" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-excel" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-          <button type="button" pButton pRipple icon="pi pi-file-pdf" class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file" (click)="productsTable.exportCSV()" class="mr-2" pTooltip="CSV - Exportar os dados da tabela com formato csv." tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" pTooltip="XLS - Exportar os dados da tabela com formato xls." tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF - Exportar os dados da tabela com formato pdf." tooltipPosition="bottom"></button>
           </div>
 
 
@@ -217,21 +220,30 @@
         </div>
       </div>
 
-      <span class="p-float-label flex flex-column">
+
+      <div class="flex flex-row">
+        <p-overlayPanel #opDescricao>
+          Campo deve ser preenchido a descrição do grupo de usuários.
+        </p-overlayPanel>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opDescricao.toggle($event)"></p-button>
+      <span class="p-float-label flex flex-column mr-4">
         <input pInputText formControlName="descricao" />
         <label for="float-label">Descrição</label>
       </span>
 
-      <!-- <span class="p-float-label flex flex-column">
-        <input pInputText formControlName="perfil" />
-        <label for="float-label">Perfil</label>
-      </span> -->
-
+        <p-overlayPanel #opPerfil>
+          Selecionar o Perfil do grupo de usuários.
+        </p-overlayPanel>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opPerfil.toggle($event)"></p-button>
       <span class="p-float-label flex flex-column">
         <p-dropdown [showClear]="true" [options]="perfis" [(ngModel)]="selectedPerfil" optionLabel="label" filterBy="perfil" styleClass="w-full"
           formControlName="perfil"></p-dropdown>
         <label for="float-label">Perfil</label>
       </span>
+      </div>
+
+
+
 
       <div class="mt-2">
       <div class="card flex flex-column md:flex-column gap-4">
