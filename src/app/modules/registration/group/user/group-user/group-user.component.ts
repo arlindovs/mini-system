@@ -75,7 +75,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router,
     private formBuilderUserGroup: FormBuilder,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
   ) {}
 
 
