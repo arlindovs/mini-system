@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { RegistrationGroupUserFormComponent } from './group-user-form.component';
+import { GroupUserComponent } from './group-user.component';
 
-describe('RegistrationGroupUserFormComponent', () => {
-  let component: RegistrationGroupUserFormComponent;
-  let fixture: ComponentFixture<RegistrationGroupUserFormComponent>;
+describe('GroupUserComponent', () => {
+  let component: GroupUserComponent;
+  let fixture: ComponentFixture<GroupUserComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegistrationGroupUserFormComponent ]
+      declarations: [ GroupUserComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegistrationGroupUserFormComponent);
+    fixture = TestBed.createComponent(GroupUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

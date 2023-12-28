@@ -2,7 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
-import { ListaGrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/ListaGrupoUsuariosResponse';
+import { AddGroupUser } from 'src/app/models/interfaces/group/user/AddGroupUser';
+import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUser';
+import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,11 +22,33 @@ export class UsuarioGrupoService {
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
-  listaGrupoUsuarios(): Observable<Array<ListaGrupoUsuarios>> {
-    return this.http.get<Array<ListaGrupoUsuarios>>(
+  listaGrupoUsuarios(): Observable<Array<GrupoUsuarios>> {
+    return this.http.get<Array<GrupoUsuarios>>(
       `${this.API_URL}/usuario_grupos`,
       this.httpOptions
     );
   }
 
+  addGrupoUsuario(requestDatas: AddGroupUser): Observable<Array<GrupoUsuarios>> {
+    return this.http.post<Array<GrupoUsuarios>>(
+      `${this.API_URL}/usuario_grupos`,
+      requestDatas,
+      this.httpOptions
+    );
+  }
+
+  editGrupoUsuario(requestDatas: EditGroupUser): Observable<Array<GrupoUsuarios>> {
+    return this.http.put<Array<GrupoUsuarios>>(
+      `${this.API_URL}/usuario_grupos`,
+      requestDatas,
+      this.httpOptions
+    );
+  }
+
+  desativarGrupoUsuario(CODIGO: bigint): Observable<Array<GrupoUsuarios>> {
+    return this.http.post<Array<GrupoUsuarios>>(
+      `${this.API_URL}/usuario_grupos/desativar/${CODIGO}`,
+      this.httpOptions
+    );
+  }
 }

@@ -1,4 +1,5 @@
 export interface AddMemberGroupAction {
     action: string;
-    id?: string;
+    id?: number;
+    memberGroupName?: string;
 }
