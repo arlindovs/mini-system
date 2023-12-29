@@ -7,6 +7,6 @@ export interface GrupoUsuarios {
   perfil: Perfil;
   status: string;
   empresa: number;
-  versao: string | DatePipe;
+  versao: string;
 }
 
