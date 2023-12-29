@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -14,6 +14,7 @@ import { SelectItem } from 'primeng/api';
 import * as FileSaver from 'file-saver';
 import { Column } from 'src/app/models/interfaces/group/user/Column';
 import { ExportColumn } from 'src/app/models/interfaces/group/user/ExportColumn';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-group-user',
@@ -23,6 +24,7 @@ import { ExportColumn } from 'src/app/models/interfaces/group/user/ExportColumn'
 export class GroupUserComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
+  @ViewChild('userGroupTable') userGroupTable: Table | undefined;
   // Exemplo usando uma variável de controle
   private updateTable(): void {
   // Outros processamentos necessários
@@ -42,7 +44,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     /**
    * Grupo de usuário selecionado.
    */
-  public userGroupSelected!: GrupoUsuarios;
+  public userGroupSelected!: GrupoUsuarios[] | null;
 
   /**
    * Limpa a seleção da tabela.
@@ -108,6 +110,11 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   this.selectedColumns = this.cols;
 
   }
+
+  applyFilterGlobal($event: any, stringVal: any) {
+    this.userGroupTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+  }
+
 
   /**
    * Exporta os dados da tabela para um arquivo PDF.
