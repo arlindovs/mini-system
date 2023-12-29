@@ -1,5 +1,4 @@
 import { DatePipe } from '@angular/common';
-import { Status } from './../../../../../models/enums/Status.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +11,6 @@ import { Perfil } from 'src/app/models/interfaces/group/user/Perfil';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
 import * as FileSaver from 'file-saver';
-
 
 interface Column {
   field: string;
@@ -28,7 +26,7 @@ interface ExportColumn {
 @Component({
   selector: 'app-group-user',
   templateUrl: './group-user.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class GroupUserComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
@@ -60,54 +58,72 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router,
     private formBuilderUserGroup: FormBuilder,
-    private confirmationService: ConfirmationService,
-  ) { }
-
-
+    private confirmationService: ConfirmationService
+  ) {}
 
   public userGroupForm = this.formBuilderUserGroup.group({
     CODIGO: [null as bigint | null],
-    descricao:['', Validators.required],
+    descricao: ['', Validators.required],
     perfil: [this.selectedPerfil, Validators.required],
-    status: [{value: '', disabled: true}],
+    status: [{ value: '', disabled: true }],
     empresa: [{ value: 1, disabled: true }],
-    versao: [{value: null as DatePipe | string | null, disabled: true}],
-    });
-
+    versao: [{ value: null as DatePipe | string | null, disabled: true }],
+  });
 
   ngOnInit(): void {
     this.listarGrupoUsuarios();
 
-    this.exportColumns = this.colunas.map((col) => ({ title: col.header, dataKey: col.field }));
+    this.exportColumns = this.colunas.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
   }
 
   exportPdf() {
     import('jspdf').then((jsPDF) => {
-        import('jspdf-autotable').then((x) => {
-            const doc = new jsPDF.default('p', 'px', 'a4');
-            (doc as any).autoTable(this.exportColumns, this.userGrupDatas);
-            doc.save('grupo_usuarios.pdf');
-        });
+      import('jspdf-autotable').then((x) => {
+        const doc = new jsPDF.default('p', 'px', 'a4');
+        (doc as any).autoTable(this.exportColumns, this.userGrupDatas);
+        doc.save('grupo_usuarios.pdf');
+      });
     });
-}
+  }
 
-exportExcel() {
-  import('xlsx').then((xlsx) => {
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(this.userGrupDatas);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const excelBuffer: any = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+      });
       this.saveAsExcelFile(excelBuffer, 'grupo_usuarios');
-  });
-}
+    });
+  }
 
-saveAsExcelFile(buffer: any, fileName: string): void {
-  let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-  let EXCEL_EXTENSION = '.xlsx';
-  const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-  });
-  FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-}
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE =
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE,
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
+  }
+
+  getSeverity(status: string) {
+    switch (status) {
+      case 'ATIVO':
+        return 'success';
+      case 'DESATIVADO':
+        return 'danger';
+      default:
+        return ''; // Add a default case that returns a default value
+    }
+  }
 
   onRowSelect(event: any) {
     console.log('Row selected:', event.data);
@@ -123,7 +139,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
   }
 
   onEditGroupButtonClick(user: GrupoUsuarios): void {
-    console.log('Editar grupo de usuário:', user.status)
+    console.log('Editar grupo de usuário:', user.status);
     if (user.status === 'DESATIVADO') {
       // Exibir pop-up informando que não é permitido editar um grupo desativado
       this.confirmationService.confirm({
@@ -132,7 +148,9 @@ saveAsExcelFile(buffer: any, fileName: string): void {
       });
     } else {
       this.showForm = true;
-      this.selectedPerfil = this.perfis?.find(perfil => perfil.label === user.perfil.toString()); // Selecionar o perfil correspondente ao perfil do usuário
+      this.selectedPerfil = this.perfis?.find(
+        (perfil) => perfil.label === user.perfil.toString()
+      ); // Selecionar o perfil correspondente ao perfil do usuário
       this.userGroupForm.setValue({
         CODIGO: user.CODIGO,
         descricao: user.descricao,
@@ -145,16 +163,12 @@ saveAsExcelFile(buffer: any, fileName: string): void {
     }
   }
 
-
-
-
   onDisableGroupButtonClick(user: GrupoUsuarios): void {
     this.userGroupForm.patchValue({
       CODIGO: user.CODIGO,
     });
-    this.desativarGrupoUsuario( user.CODIGO as bigint);
+    this.desativarGrupoUsuario(user.CODIGO as bigint);
   }
-
 
   cancelarFormulario() {
     this.userGroupForm.reset();
@@ -162,28 +176,27 @@ saveAsExcelFile(buffer: any, fileName: string): void {
     this.listarGrupoUsuarios();
   }
 
-
-  listarGrupoUsuarios(){
+  listarGrupoUsuarios() {
     this.usuarioGrupoService
-    .listaGrupoUsuarios()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response) => {
-        if (response) {
-          this.userGrupDatas = response;
-        }
-      },
-      error: (error) => {
-        console.log(error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro ao carregar o grupo de usuários',
-          detail: error.message,
-          life: 3000,
-        });
-        this.router.navigate(['/home']);
-      },
-    })
+      .listaGrupoUsuarios()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.userGrupDatas = response;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro ao carregar o grupo de usuários',
+            detail: error.message,
+            life: 3000,
+          });
+          this.router.navigate(['/home']);
+        },
+      });
   }
 
   adcionarOuEditarGrupoUsuario(): void {
@@ -194,47 +207,46 @@ saveAsExcelFile(buffer: any, fileName: string): void {
     }
   }
 
-
   adcionarGrupoUsuario(): void {
     if (this.userGroupForm.valid) {
-        const requestCreateUserGroup: AddGroupUser = {
-          descricao: this.userGroupForm.value.descricao as string,
-          perfil: this.selectedPerfil?.label || '',
-          empresa: this.userGroupForm.getRawValue().empresa as number,
-        };
+      const requestCreateUserGroup: AddGroupUser = {
+        descricao: this.userGroupForm.value.descricao as string,
+        perfil: this.selectedPerfil?.label || '',
+        empresa: this.userGroupForm.getRawValue().empresa as number,
+      };
 
-        this.usuarioGrupoService
-          .addGrupoUsuario(requestCreateUserGroup)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: (response) => {
-              console.log('Sucesso ao cadastrar grupo de usuário:', response);
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Sucesso',
-                detail: 'Grupo de usuário criado com sucesso!',
-                life: 3000,
-              });
+      this.usuarioGrupoService
+        .addGrupoUsuario(requestCreateUserGroup)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            console.log('Sucesso ao cadastrar grupo de usuário:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Grupo de usuário criado com sucesso!',
+              life: 3000,
+            });
 
-              // Resetar o formulário
-              this.userGroupForm.reset();
+            // Resetar o formulário
+            this.userGroupForm.reset();
 
-              // Voltar para a tabela
-              this.showForm = false;
+            // Voltar para a tabela
+            this.showForm = false;
 
-              // Recarregar os dados da tabela
-              this.listarGrupoUsuarios();
-            },
-            error: (error) => {
-              console.error('Erro ao cadastrar grupo de usuário:', error);
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: 'Erro ao criar grupo de usuário!',
-                life: 3000,
-              });
-            },
-          });
+            // Recarregar os dados da tabela
+            this.listarGrupoUsuarios();
+          },
+          error: (error) => {
+            console.error('Erro ao cadastrar grupo de usuário:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao criar grupo de usuário!',
+              life: 3000,
+            });
+          },
+        });
     } else {
       console.warn('Formulário inválido. Preencha todos os campos.');
       this.messageService.add({
@@ -245,8 +257,6 @@ saveAsExcelFile(buffer: any, fileName: string): void {
       });
     }
   }
-
-
 
   editarGrupoUsuario(): void {
     if (this.userGroupForm?.valid) {
@@ -338,10 +348,8 @@ saveAsExcelFile(buffer: any, fileName: string): void {
     }
   }
 
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 }

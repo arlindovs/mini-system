@@ -179,12 +179,12 @@
               <div
                 class="flex justify-content-center gap-2 align-content-center align-items-center"
               >
-              <button pButton pRipple class="p-button-success" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
-              <button pButton pRipple class="p-button-warning" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
+              <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
+              <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
               </div>
             </td>
             <td>{{ user.CODIGO }}</td>
-            <td>{{ user.status }}</td>
+            <td><p-tag [value]="user.status" [severity]="getSeverity(user.status)"></p-tag></td>
             <td>{{ user.empresa }}</td>
             <td>{{ user.descricao }}</td>
             <td>{{ user.perfil }}</td>
