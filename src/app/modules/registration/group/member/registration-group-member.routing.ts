@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { RegistrationGroupMemberComponent } from './page/registration-group-member/registration-group-member.component';
+import { GroupMemberComponent } from './group-member/group-member.component';
 
-export const registrationGroupMemberRoutes: Routes = [
+export const RegistrationGroupMemberRoutes: Routes = [
   { 
     path: '',
-    component: RegistrationGroupMemberComponent
+    component: GroupMemberComponent
    },
 ];

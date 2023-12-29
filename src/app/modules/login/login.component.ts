@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
-        detail: `Erro ao fazer login: ${err.message}`,
+        detail: `Erro ao fazer login: ${err.error}`,
         life: 2000,
       });
       console.log(err);

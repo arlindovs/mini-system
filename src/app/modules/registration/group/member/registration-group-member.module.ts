@@ -4,27 +4,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimengModule } from 'src/app/libraries/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { CookieService } from 'ngx-cookie-service';
-import { RegistrationGroupMemberComponent } from './page/registration-group-member/registration-group-member.component';
-import { GroupMemberFormComponent } from './component/registration-group-member-form/group-member-form/group-member-form.component';
-import { GroupMemberTableComponent } from './component/registration-group-member-table/group-member-table/group-member-table.component';
-import { registrationGroupMemberRoutes } from './registration-group-member.routing';
+import { RegistrationGroupMemberRoutes } from './registration-group-member.routing';
+import { GroupMemberComponent } from './group-member/group-member.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(registrationGroupMemberRoutes),
+    RouterModule.forChild(RegistrationGroupMemberRoutes),
     PrimengModule,
     SharedModule
   ],
   declarations: [
-    RegistrationGroupMemberComponent,
-    GroupMemberFormComponent,
-    GroupMemberTableComponent
+    GroupMemberComponent,
   ],
-  providers:[MessageService,CookieService]
+  providers:[MessageService,CookieService, ConfirmationService]
 })
 export class RegistrationGroupMemberModule { }
