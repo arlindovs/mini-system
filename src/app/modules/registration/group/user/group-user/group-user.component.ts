@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +12,7 @@ import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usu
 import * as FileSaver from 'file-saver';
 import { Column } from 'src/app/models/interfaces/group/user/Column';
 import { ExportColumn } from 'src/app/models/interfaces/group/user/ExportColumn';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-group-user',
@@ -43,6 +43,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * Valor digitado no campo de pesquisa
    */
   valorPesquisa!: string;
+
   /**
    * Limpa a seleção da tabela.
    *
@@ -57,8 +58,6 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     table.clear();
   }
 
-
-
   cols!: Column[];
 
   selectedColumns!: Column[];
@@ -72,6 +71,8 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   ];
 
   selectedPerfil?: Perfil;
+
+
 
   constructor(
     private usuarioGrupoService: UsuarioGrupoService,
@@ -91,7 +92,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     perfil: [this.selectedPerfil, Validators.required],
     status: [{ value: '', disabled: true }],
     empresa: [{ value: 1, disabled: true }],
-    versao: [{ value: null as DatePipe | string | null, disabled: true }],
+    versao: [{ value: null as Date | string | null, disabled: true }],
   });
 
 
@@ -112,6 +113,12 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
   }
 
+  /**
+   * Aplica um filtro global na tabela de grupos de usuários.
+   *
+   * @param $event O evento que acionou a função.
+   * @param stringVal O valor da string para filtrar.
+   */
   applyFilterGlobal($event: any, stringVal: any) {
     this.userGroupTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
@@ -204,6 +211,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   }
 
 
+
   /**
    * Manipulador de eventos para o botão de edição de grupo.
    * Exibe o formulário de edição de grupo.
@@ -212,7 +220,8 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * @returns {void}
    */
   onEditGroupButtonClick(user: GrupoUsuarios): void {
-    console.log('Editar grupo de usuário:', user.status);
+    const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
+    console.log('Editar grupo de usuário:', formattedDate);
     if (user.status === 'DESATIVADO') {
       // Exibir pop-up informando que não é permitido editar um grupo desativado
       this.confirmationService.confirm({
@@ -230,7 +239,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
         perfil: this.selectedPerfil, // Use a opção do dropdown correspondente ao perfil
         status: user.status,
         empresa: user.empresa,
-        versao: user.versao,
+        versao: formattedDate,
       });
       console.log(this.isEdicao());
     }
