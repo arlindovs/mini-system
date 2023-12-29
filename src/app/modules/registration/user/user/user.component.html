@@ -44,7 +44,7 @@
 
           <div class="mr-5">
             <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddButtonClick()">Adicionar</button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="disableSelectedUsers()" [disabled]="!userSelected || !userSelected.length"></button>
+            <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="disableSelectedUsers()" [disabled]="!userSelected || !userSelected.length"></button>
           </div>
 
 
@@ -129,7 +129,7 @@
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
                 <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditButtonClick(user)"></button>
-                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableButtonClick(user)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-ban" pTooltip="Desativar Grupo" (click)="onDisableButtonClick(user)"></button>
               </div>
             </td>
             <td>
@@ -177,10 +177,12 @@
           <label for="label">Status</label>
           <input pInputText formControlName="status"/>
         </div>
+
         <div class="flex flex-column mr-2">
           <label for="label">Empresa</label>
           <input pInputText formControlName="empresa"/>
         </div>
+
         <div class="flex flex-column mr-2">
           <label for="label">Versão</label>
           <input pInputText type="text" formControlName="versao" />
@@ -189,15 +191,41 @@
 
 
       <div class="flex flex-row">
-        <p-overlayPanel #opDescricao>
-          Campo deve ser preenchido a descrição do grupo de usuários.
+        <p-overlayPanel #opGrupo>
+          Campo deve ser selecionado o Grupo de usuario onde vai definir as permissões para esta usuario dentro do sistema.
         </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opDescricao.toggle($event)"></p-button>
-      <span class="p-float-label flex flex-column mr-4">
-        <input pInputText formControlName="descricao" />
-        <label for="float-label">Descrição</label>
-      </span>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opGrupo.toggle($event)"></p-button>
+        <span class="p-float-label flex flex-column mr-4">
+          <input pInputText formControlName="usuarioGrupo" />
+          <label for="float-label">Grupo</label>
+        </span>
 
+        <p-overlayPanel #opFuncionario>
+          Campo deve ser selecionado o funcionario que vai ter acesso ao sistema.
+        </p-overlayPanel>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opFuncionario.toggle($event)"></p-button>
+        <span class="p-float-label flex flex-column mr-4">
+          <input pInputText formControlName="funcionario" />
+          <label for="float-label">Funcionario</label>
+        </span>
+
+        <p-overlayPanel #opLogin>
+          Campo deve ser preenchido o nome de usuario para acesso ao sistema.
+        </p-overlayPanel>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opLogin.toggle($event)"></p-button>
+        <span class="p-float-label flex flex-column mr-4">
+          <input pInputText formControlName="login" />
+          <label for="float-label">Login</label>
+        </span>
+
+        <p-overlayPanel #opPassword>
+          Campo deve ser preenchido s senha e deve ter no minimo 6 caracteres.
+        </p-overlayPanel>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opPassword.toggle($event)"></p-button>
+        <span class="p-float-label flex flex-column mr-4">
+          <input pInputText type="password" formControlName="password" />
+          <label for="float-label">Senha</label>
+        </span>
       </div>
 
 
