@@ -10,11 +10,9 @@ import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUse
 import { Perfil } from 'src/app/models/interfaces/group/user/Perfil';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
-import { SelectItem } from 'primeng/api';
 import * as FileSaver from 'file-saver';
 import { Column } from 'src/app/models/interfaces/group/user/Column';
 import { ExportColumn } from 'src/app/models/interfaces/group/user/ExportColumn';
-import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-group-user',
@@ -25,11 +23,6 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   @ViewChild('userGroupTable') userGroupTable: Table | undefined;
-  // Exemplo usando uma variável de controle
-  private updateTable(): void {
-  // Outros processamentos necessários
-  this.showForm = false; // Volte para a tabela
-  }
 
   /**
    * Flag para exibir ou ocultar o formulário de grupo de usuário.
@@ -248,6 +241,20 @@ export class GroupUserComponent implements OnInit, OnDestroy {
       CODIGO: user.CODIGO,
     });
     this.desativarGrupoUsuario(user.CODIGO as bigint);
+  }
+
+
+  disableSelectedGroups() {
+    this.confirmationService.confirm({
+      message: 'Tem certeza de que deseja excluir os grupos selecionados?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userGrupDatas = this.userGrupDatas.filter((val) => !this.userGroupSelected?.includes(val));
+        this.userGroupSelected = null;
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Grupos Excluídos', life: 3000 });
+      }
+    });
   }
 
 
