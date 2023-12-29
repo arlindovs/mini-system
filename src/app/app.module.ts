@@ -11,8 +11,7 @@ import { PrimengModule } from './libraries/primeng.module';
 import { PageNotFoundComponent } from './modules/page-not-found/page-not-found.component';
 import { CookieService } from 'ngx-cookie-service';
 import { FooterComponent } from './modules/footer/footer.component';
-import { MessageService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -35,7 +34,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   providers: [
     CookieService,
     MessageService,
-    ConfirmDialogModule,
+    ConfirmationService,
     { provide: LOCALE_ID, useValue: 'pt-BR' },
   ],
 
