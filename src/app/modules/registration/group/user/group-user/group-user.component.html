@@ -67,9 +67,9 @@
 
           <span class="p-input-icon-left ml-auto mr-2">
             <i class="pi pi-search"></i>
-            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Pesquisar" />
+            <input pInputText type="text" [(ngModel)]="valorPesquisa" (input)="applyFilterGlobal($event, 'contains')" placeholder="Pesquisar" />
           </span>
-          <button pButton label="Limpar" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(userGroupTable)"></button>
+          <button pButton label="Limpar"  class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(userGroupTable)"></button>
 
         </div>
 
