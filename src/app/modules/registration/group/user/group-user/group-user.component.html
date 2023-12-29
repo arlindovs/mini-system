@@ -44,7 +44,9 @@
 
           <div class="mr-5">
             <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()">Adicionar</button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="disableSelectedGroups()" [disabled]="!userGroupSelected || !userGroupSelected.length"></button>
+            
+            <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="disableSelectedGroups()" [disabled]="!userGroupSelected || !userGroupSelected.length"></button>
+          
           </div>
 
 
@@ -129,7 +131,7 @@
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
                 <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
-                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-ban" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
               </div>
             </td>
             <td>
