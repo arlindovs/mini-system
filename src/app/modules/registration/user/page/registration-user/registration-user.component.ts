@@ -33,26 +33,26 @@ export class RegistrationUserComponent implements OnInit, OnDestroy {
 
 
   getAllUsers(){
-    this.usuarioService
-    .getAllUsuarios()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response) => {
-        if (response) {
-          this.usersDatas = response;
-        }
-      },
-      error: (error) => {
-        console.log(error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro ao carregar os usuários',
-          detail: error.message,
-          life: 3000,
-        });
-        this.router.navigate(['/home']);
-      },
-    })
+    // this.usuarioService
+    // .getAllUsuarios()
+    // .pipe(takeUntil(this.destroy$))
+    // .subscribe({
+    //   next: (response) => {
+    //     if (response) {
+    //       this.usersDatas = response;
+    //     }
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //     this.messageService.add({
+    //       severity: 'error',
+    //       summary: 'Erro ao carregar os usuários',
+    //       detail: error.message,
+    //       life: 3000,
+    //     });
+    //     this.router.navigate(['/home']);
+    //   },
+    // })
   }
 
   handleUserAction(event: EventAction): void {

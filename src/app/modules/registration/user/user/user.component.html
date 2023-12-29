@@ -6,20 +6,20 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
 <div class="gray-bar">
-  <h3 class="fixed-title">Cadastro de Grupo de Usuarios</h3>
+  <h3 class="fixed-title">Cadastro de Usuários</h3>
 </div>
 
 
-<!--TABELA DE GRUPO DE USUARIOS-->
+<!--TABELA DE USUARIOS-->
 <div *ngIf="!showForm" class="grid">
   <div class="col-12">
     <div class="flex justify-content-end">
     </div>
       <p-table
-        #userGroupTable
+        #userTable
         [columns]="selectedColumns"
-        [value]="userGrupDatas"
-        [(selection)]="userGroupSelected"
+        [value]="userDatas"
+        [(selection)]="userSelected"
         (onRowSelect)="onRowSelect($event)"
         selectionMode="multiple"
         [rows]="5"
@@ -32,7 +32,7 @@
         [rowHover]="true"
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
-        [globalFilterFields]="['CODIGO', 'status', 'empresa', 'descricao', 'perfil']"
+        [globalFilterFields]="['CODIGO', 'status', 'empresa', 'login', 'usuarioGrupo', 'funcionario']"
         [exportHeader]="'customExportHeader'"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
@@ -43,13 +43,13 @@
         <div class="flex">
 
           <div class="mr-5">
-            <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()">Adicionar</button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="disableSelectedGroups()" [disabled]="!userGroupSelected || !userGroupSelected.length"></button>
+            <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddButtonClick()">Adicionar</button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="disableSelectedUsers()" [disabled]="!userSelected || !userSelected.length"></button>
           </div>
 
 
           <div class="flex justify-content-center mr-5">
-          <button type="button" pButton pRipple icon="pi pi-file" (click)="userGroupTable.exportCSV()" class="mr-2" pTooltip="CSV - Exportar os dados da tabela com formato csv." tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file" (click)="userTable.exportCSV()" class="mr-2" pTooltip="CSV - Exportar os dados da tabela com formato csv." tooltipPosition="bottom"></button>
           <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" pTooltip="XLS - Exportar os dados da tabela com formato xls." tooltipPosition="bottom"></button>
           <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF - Exportar os dados da tabela com formato pdf." tooltipPosition="bottom"></button>
           </div>
@@ -69,7 +69,7 @@
             <i class="pi pi-search"></i>
             <input pInputText type="text" [(ngModel)]="valorPesquisa" (input)="applyFilterGlobal($event, 'contains')" placeholder="Pesquisar" />
           </span>
-          <button pButton label="Limpar"  class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(userGroupTable)"></button>
+          <button pButton label="Limpar"  class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(userTable)"></button>
 
         </div>
 
@@ -128,8 +128,8 @@
           <tr>
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
-                <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(user)"></button>
-                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(user)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditButtonClick(user)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-trash" pTooltip="Desativar Grupo" (click)="onDisableButtonClick(user)"></button>
               </div>
             </td>
             <td>
@@ -148,7 +148,7 @@
         </ng-template>
 
         <ng-template pTemplate="summary">
-          <div class="flex align-items-center justify-content-between">Total de {{ userGrupDatas ? userGrupDatas.length : 0 }} Grupos Cadastrados.</div>
+          <div class="flex align-items-center justify-content-between">Total de {{ userDatas ? userDatas.length : 0 }} Usuarios Cadastrados.</div>
         </ng-template>
 
         <ng-template pTemplate="emptymessage">
@@ -166,10 +166,10 @@
 
 
 
-<!--FORMULARIO DE GRUPO DE USUARIOS-->
+<!--FORMULARIO DE USUARIOS-->
 <div *ngIf="showForm" class="mt-2">
   <div class="gap-4">
-    <form [formGroup]="userGroupForm" (ngSubmit)="adcionarOuEditarGrupoUsuario()">
+    <form [formGroup]="userForm" (ngSubmit)="adcionarOuEditarUsuario()">
       <div class="card flex flex-column md:flex-column gap-4">
 
       <div class="flex flex-row">
@@ -199,15 +199,6 @@
         <label for="float-label">Descrição</label>
       </span>
 
-        <p-overlayPanel #opPerfil>
-          Selecionar o Perfil do grupo de usuários.
-        </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opPerfil.toggle($event)"></p-button>
-      <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [options]="perfis" [(ngModel)]="selectedPerfil" optionLabel="label" filterBy="perfil" styleClass="w-full"
-          formControlName="perfil"></p-dropdown>
-        <label for="float-label">Perfil</label>
-      </span>
       </div>
 
 
@@ -216,7 +207,7 @@
       <div class="mt-2">
       <div class="card flex flex-column md:flex-column gap-4">
         <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
-          <p-button class="mr-2" [disabled]="!userGroupForm.valid" type="submit" label="Confirmar"></p-button>
+          <p-button class="mr-2" [disabled]="!userForm.valid" type="submit" label="Confirmar"></p-button>
           <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelarFormulario()"></p-button>
         </div>
       </div>
