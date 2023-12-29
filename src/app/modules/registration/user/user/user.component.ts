@@ -1,28 +1,27 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { format } from 'date-fns';
+import * as FileSaver from 'file-saver';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
-import { AddGroupUser } from 'src/app/models/interfaces/usuario/grupo/AddGroupUser';
-import { EditGroupUser } from 'src/app/models/interfaces/usuario/grupo/EditGroupUser';
-import { Perfil } from 'src/app/models/interfaces/usuario/grupo/Perfil';
-import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
-import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
-import * as FileSaver from 'file-saver';
 import { Column } from 'src/app/models/interfaces/Column';
 import { ExportColumn } from 'src/app/models/interfaces/ExportColumn';
-import { format } from 'date-fns';
+import { AddUser } from 'src/app/models/interfaces/usuario/AddUser';
+import { EditUser } from 'src/app/models/interfaces/usuario/EditUser';
+import { Usuarios } from 'src/app/models/interfaces/usuario/response/UsuariosResponse';
+import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 
 @Component({
-  selector: 'app-group-user',
-  templateUrl: './group-user.component.html',
-  styleUrls: [],
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: []
 })
-export class GroupUserComponent implements OnInit, OnDestroy {
+export class UserComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
-  @ViewChild('userGroupTable') userGroupTable: Table | undefined;
+  @ViewChild('userTable') userTable: Table | undefined;
 
   /**
    * Flag para exibir ou ocultar o formulário de grupo de usuário.
@@ -32,12 +31,12 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   /**
    * Lista de dados de grupos de usuários.
    */
-  public userGrupDatas: Array<GrupoUsuarios> = [];
+  public userDatas: Array<Usuarios> = [];
 
     /**
    * Grupo de usuário selecionado.
    */
-  public userGroupSelected!: GrupoUsuarios[] | null;
+  public userSelected!: Usuarios[] | null;
 
   /**
    * Valor digitado no campo de pesquisa
@@ -52,7 +51,6 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * @param {Table} table - Instância da tabela a ser limpa.
    * @returns {void}
    */
-
   clear(table: Table) {
     this.valorPesquisa = ""
     table.clear();
@@ -64,21 +62,12 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
   exportColumns!: ExportColumn[];
 
-  perfis: Perfil[] = [
-    { label: 'SUPER' },
-    { label: 'ADMIN' },
-    { label: 'USER' },
-  ];
-
-  selectedPerfil?: Perfil;
-
-
 
   constructor(
-    private usuarioGrupoService: UsuarioGrupoService,
+    private usuarioService: UsuarioService,
     private messageService: MessageService,
     private router: Router,
-    private formBuilderUserGroup: FormBuilder,
+    private formBuilderUser: FormBuilder,
     private confirmationService: ConfirmationService,
   ) {}
 
@@ -86,10 +75,12 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   /**
    * Formulário reativo para adicionar/editar grupos de usuários.
    */
-  public userGroupForm = this.formBuilderUserGroup.group({
+  public userForm = this.formBuilderUser.group({
     CODIGO: [null as bigint | null],
-    descricao: ['', Validators.required],
-    perfil: [this.selectedPerfil, Validators.required],
+    usuarioGrupo: [null as bigint | null],
+    funcionario: [null as bigint | null],
+    login: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
     status: [{ value: '', disabled: true }],
     empresa: [{ value: 1, disabled: true }],
     versao: [{ value: null as Date | string | null, disabled: true }],
@@ -100,13 +91,14 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * Inicialização do componente. Chama a função para listar os grupos de usuários.
    */
   ngOnInit(): void {
-    this.listarGrupoUsuarios();
+    this.listarUsuarios();
 
     this.cols = [
       { field: 'status', header: 'Status' },
       { field: 'empresa', header: 'Empresa' },
-      { field: 'descricao', header: 'Descrição' },
-      { field: 'perfil', header: 'Perfil' },
+      { field: 'usuarioGrupo.descricao', header: 'Grupo de Usuário' },
+      { field: 'funcionario.nome', header: 'Funcionário' },
+      { field: 'login', header: 'Login' },
   ];
 
   this.selectedColumns = this.cols;
@@ -120,7 +112,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * @param stringVal O valor da string para filtrar.
    */
   applyFilterGlobal($event: any, stringVal: any) {
-    this.userGroupTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    this.userTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 
 
@@ -131,8 +123,8 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.userGrupDatas);
-        doc.save('grupo_usuarios.pdf');
+        (doc as any).autoTable(this.exportColumns, this.userDatas);
+        doc.save('usuarios.pdf');
       });
     });
   }
@@ -142,13 +134,13 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    */
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(this.userGrupDatas);
+      const worksheet = xlsx.utils.json_to_sheet(this.userDatas);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, {
         bookType: 'xlsx',
         type: 'array',
       });
-      this.saveAsExcelFile(excelBuffer, 'grupo_usuarios');
+      this.saveAsExcelFile(excelBuffer, 'usuarios');
     });
   }
 
@@ -190,7 +182,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    */
   onRowSelect(event: any) {
     console.log('Row selected:', event.data);
-    this.userGroupSelected = event.data;
+    this.userSelected = event.data;
   }
 
   /**
@@ -199,14 +191,14 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * @returns {boolean} - Verdadeiro se estiver em modo de edição, falso caso contrário.
    */
   isEdicao(): boolean {
-    return !!this.userGroupForm.value.CODIGO;
+    return !!this.userForm.value.CODIGO;
   }
 
     /**
    * Manipulador de eventos para o botão de adição de grupo.
    * Exibe o formulário de adição de grupo.
    */
-  onAddGroupButtonClick() {
+  onAddButtonClick() {
     this.showForm = true;
   }
 
@@ -216,27 +208,25 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * Manipulador de eventos para o botão de edição de grupo.
    * Exibe o formulário de edição de grupo.
    *
-   * @param {GrupoUsuarios} user - Grupo de usuário a ser editado.
+   * @param {GrupoUsuarios} user - usuário a ser editado.
    * @returns {void}
    */
-  onEditGroupButtonClick(user: GrupoUsuarios): void {
+  onEditButtonClick(user: Usuarios): void {
     const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
-    console.log('Editar grupo de usuário:', formattedDate);
+    console.log('Editar usuário:', formattedDate);
     if (user.status === 'DESATIVADO') {
-      // Exibir pop-up informando que não é permitido editar um grupo desativado
       this.confirmationService.confirm({
         header: 'Aviso',
-        message: 'Não é permitido editar um grupo desativado.',
+        message: 'Não é permitido editar um usuario desativado.',
       });
     } else {
       this.showForm = true;
-      this.selectedPerfil = this.perfis?.find(
-        (perfil) => perfil.label === user.perfil.toString()
-      ); // Selecionar o perfil correspondente ao perfil do usuário
-      this.userGroupForm.setValue({
+      this.userForm.setValue({
         CODIGO: user.CODIGO,
-        descricao: user.descricao,
-        perfil: this.selectedPerfil, // Use a opção do dropdown correspondente ao perfil
+        usuarioGrupo: user.usuarioGrupo,
+        funcionario: user.funcionario,
+        login: user.login,
+        password: user.password,
         status: user.status,
         empresa: user.empresa,
         versao: formattedDate,
@@ -248,28 +238,28 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
   /**
    * Manipulador de eventos para o botão de desativação de grupo.
-   * Desativa o grupo de usuário selecionado.
+   * Desativa o usuário selecionado.
    *
-   * @param {GrupoUsuarios} user - Grupo de usuário a ser desativado.
+   * @param {GrupoUsuarios} user - usuário a ser desativado.
    * @returns {void}
    */
-  onDisableGroupButtonClick(user: GrupoUsuarios): void {
-    this.userGroupForm.patchValue({
+  onDisableButtonClick(user: Usuarios): void {
+    this.userForm.patchValue({
       CODIGO: user.CODIGO,
     });
-    this.desativarGrupoUsuario(user.CODIGO as bigint);
+    this.desativarUsuario(user.CODIGO as bigint);
   }
 
 
-  disableSelectedGroups() {
+  disableSelectedUsers() {
     this.confirmationService.confirm({
-      message: 'Tem certeza de que deseja excluir os grupos selecionados?',
+      message: 'Tem certeza de que deseja excluir os usuarios selecionados?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.userGrupDatas = this.userGrupDatas.filter((val) => !this.userGroupSelected?.includes(val));
-        this.userGroupSelected = null;
-        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Grupos Excluídos', life: 3000 });
+        this.userDatas = this.userDatas.filter((val) => !this.userSelected?.includes(val));
+        this.userSelected = null;
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuarios Excluídos', life: 3000 });
       }
     });
   }
@@ -279,30 +269,30 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * Cancela o formulário de adição/editação e limpa os campos.
    */
   cancelarFormulario() {
-    this.userGroupForm.reset();
+    this.userForm.reset();
     this.showForm = false;
-    this.listarGrupoUsuarios();
+    this.listarUsuarios();
   }
 
 
   /**
    * Lista os grupos de usuários chamando o serviço correspondente.
    */
-  listarGrupoUsuarios() {
-    this.usuarioGrupoService
-      .listaGrupoUsuarios()
+  listarUsuarios() {
+    this.usuarioService
+      .getAllUsuarios()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           if (response) {
-            this.userGrupDatas = response;
+            this.userDatas = response;
           }
         },
         error: (error) => {
           console.log(error);
           this.messageService.add({
             severity: 'error',
-            summary: 'Erro ao carregar o grupo de usuários',
+            summary: 'Erro ao carregar o usuários',
             detail: error.message,
             life: 3000,
           });
@@ -315,54 +305,56 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   /**
    * Adiciona ou edita um grupo de usuário com base no estado do formulário.
    */
-  adcionarOuEditarGrupoUsuario(): void {
+  adcionarOuEditarUsuario(): void {
     if (this.isEdicao()) {
-      this.editarGrupoUsuario();
+      this.editarUsuario();
     } else {
-      this.adcionarGrupoUsuario();
+      this.adcionarUsuario();
     }
   }
 
 
   /**
-   * Adiciona um novo grupo de usuário.
+   * Adiciona um novo usuário.
    */
-  adcionarGrupoUsuario(): void {
-    if (this.userGroupForm.valid) {
-      const requestCreateUserGroup: AddGroupUser = {
-        descricao: this.userGroupForm.value.descricao as string,
-        perfil: this.selectedPerfil?.label || '',
-        empresa: this.userGroupForm.getRawValue().empresa as number,
+  adcionarUsuario(): void {
+    if (this.userForm.valid) {
+      const requestCreateUser: AddUser = {
+        usuarioGrupo: this.userForm.value.usuarioGrupo as bigint,
+        funcionario: this.userForm.value.funcionario as bigint,
+        login: this.userForm.value.login as string,
+        password: this.userForm.value.password as string,
+        empresa: this.userForm.getRawValue().empresa as number,
       };
 
-      this.usuarioGrupoService
-        .addGrupoUsuario(requestCreateUserGroup)
+      this.usuarioService
+        .addUsuario(requestCreateUser)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            console.log('Sucesso ao cadastrar grupo de usuário:', response);
+            console.log('Sucesso ao cadastrar usuário:', response);
             this.messageService.add({
               severity: 'success',
               summary: 'Sucesso',
-              detail: 'Grupo de usuário criado com sucesso!',
+              detail: 'Usuário criado com sucesso!',
               life: 3000,
             });
 
             // Resetar o formulário
-            this.userGroupForm.reset();
+            this.userForm.reset();
 
             // Voltar para a tabela
             this.showForm = false;
 
             // Recarregar os dados da tabela
-            this.listarGrupoUsuarios();
+            this.listarUsuarios();
           },
           error: (error) => {
-            console.error('Erro ao cadastrar grupo de usuário:', error);
+            console.error('Erro ao cadastrarusuário:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Erro',
-              detail: 'Erro ao criar grupo de usuário!',
+              detail: 'Erro ao criarusuário!',
               life: 3000,
             });
           },
@@ -380,43 +372,45 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Edita um grupo de usuário existente.
+   * Edita um usuário existente.
    */
-  editarGrupoUsuario(): void {
-    if (this.userGroupForm?.valid) {
-      const requestEditUserGroup: EditGroupUser = {
-        CODIGO: this.userGroupForm.value.CODIGO as bigint,
-        descricao: this.userGroupForm.value.descricao as string,
-        perfil: this.selectedPerfil?.label || '',
-        status: this.userGroupForm.value.status as string,
-        empresa: this.userGroupForm.getRawValue().empresa as number,
+  editarUsuario(): void {
+    if (this.userForm?.valid) {
+      const requestEditUser: EditUser = {
+        CODIGO: this.userForm.value.CODIGO as bigint,
+        usuarioGrupo: this.userForm.value.usuarioGrupo as bigint,
+        funcionario: this.userForm.value.funcionario as bigint,
+        login: this.userForm.value.login as string,
+        password: this.userForm.value.password as string,
+        status: this.userForm.value.status as string,
+        empresa: this.userForm.getRawValue().empresa as number,
       };
 
-      // Chamar o serviço para editar o grupo de usuário
-      this.usuarioGrupoService
-        .editGrupoUsuario(requestEditUserGroup)
+      // Chamar o serviço para editar o usuário
+      this.usuarioService
+        .editUsuario(requestEditUser)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
             if (response) {
-              console.log('Sucesso ao editar grupo de usuário:', response);
+              console.log('Sucesso ao editar usuário:', response);
               this.messageService.add({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: 'Grupo de usuário editado com sucesso!',
+                detail: 'Usuário editado com sucesso!',
                 life: 3000,
               });
-              this.userGroupForm.reset();
+              this.userForm.reset();
               this.showForm = false;
-              this.listarGrupoUsuarios();
+              this.listarUsuarios();
             }
           },
           error: (error) => {
-            console.error('Erro ao editar grupo de usuário:', error);
+            console.error('Erro ao editar usuário:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Erro',
-              detail: 'Erro ao editar grupo de usuário!',
+              detail: 'Erro ao editar usuário!',
               life: 3000,
             });
           },
@@ -434,16 +428,16 @@ export class GroupUserComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Desativa um grupo de usuário com o código fornecido.
+   * Desativa um usuário com o código fornecido.
    *
-   * @param {bigint} CODIGO - Código do grupo de usuário a ser desativado.
+   * @param {bigint} CODIGO - Código do usuário a ser desativado.
    * @returns {void}
    */
-  desativarGrupoUsuario(CODIGO: bigint): void {
+  desativarUsuario(CODIGO: bigint): void {
     console.log('Alterar o Status!:', CODIGO);
     if (CODIGO) {
-      this.usuarioGrupoService
-        .desativarGrupoUsuario(CODIGO)
+      this.usuarioService
+        .desativarUsuario(CODIGO)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -455,7 +449,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
                 detail: 'Status Alterado com sucesso!',
                 life: 3000,
               });
-              this.listarGrupoUsuarios();
+              this.listarUsuarios();
             }
           },
           error: (error) => {
@@ -469,11 +463,11 @@ export class GroupUserComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      console.warn('Nenhum grupo de usuário selecionado.');
+      console.warn('Nenhum usuário selecionado.');
       this.messageService.add({
         severity: 'warn',
         summary: 'Atenção',
-        detail: 'Selecione um grupo de usuário!',
+        detail: 'Selecione um usuário!',
         life: 3000,
       });
     }
@@ -488,3 +482,4 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 }
+
