@@ -47,6 +47,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
   public userGroupSelected!: GrupoUsuarios[] | null;
 
   /**
+   * Valor digitado no campo de pesquisa
+   */
+  valorPesquisa!: string;
+  /**
    * Limpa a seleção da tabela.
    *
    * @public
@@ -54,9 +58,13 @@ export class GroupUserComponent implements OnInit, OnDestroy {
    * @param {Table} table - Instância da tabela a ser limpa.
    * @returns {void}
    */
+
   clear(table: Table) {
+    this.valorPesquisa = ""
     table.clear();
   }
+
+
 
   cols!: Column[];
 
