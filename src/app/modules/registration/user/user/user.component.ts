@@ -215,7 +215,6 @@ export class UserComponent implements OnInit, OnDestroy {
     const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
     console.log('Editar usuário:', formattedDate);
     if (user.status === 'DESATIVADO') {
-      // Exibir pop-up informando que não é permitido editar um grupo desativado
       this.confirmationService.confirm({
         header: 'Aviso',
         message: 'Não é permitido editar um usuario desativado.',
