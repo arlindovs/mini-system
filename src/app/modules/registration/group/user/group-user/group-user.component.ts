@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -10,18 +10,11 @@ import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUse
 import { Perfil } from 'src/app/models/interfaces/group/user/Perfil';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
+import { SelectItem } from 'primeng/api';
 import * as FileSaver from 'file-saver';
-
-interface Column {
-  field: string;
-  header: string;
-  customExportHeader?: string;
-}
-
-interface ExportColumn {
-  title: string;
-  dataKey: string;
-}
+import { Column } from 'src/app/models/interfaces/group/user/Column';
+import { ExportColumn } from 'src/app/models/interfaces/group/user/ExportColumn';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-group-user',
@@ -31,17 +24,43 @@ interface ExportColumn {
 export class GroupUserComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
+  @ViewChild('userGroupTable') userGroupTable: Table | undefined;
+  // Exemplo usando uma variável de controle
+  private updateTable(): void {
+  // Outros processamentos necessários
+  this.showForm = false; // Volte para a tabela
+  }
+
+  /**
+   * Flag para exibir ou ocultar o formulário de grupo de usuário.
+   */
   public showForm = false;
 
+  /**
+   * Lista de dados de grupos de usuários.
+   */
   public userGrupDatas: Array<GrupoUsuarios> = [];
 
-  public userGroupSelected!: GrupoUsuarios;
+    /**
+   * Grupo de usuário selecionado.
+   */
+  public userGroupSelected!: GrupoUsuarios[] | null;
 
+  /**
+   * Limpa a seleção da tabela.
+   *
+   * @public
+   * @memberof GroupUserComponent
+   * @param {Table} table - Instância da tabela a ser limpa.
+   * @returns {void}
+   */
   clear(table: Table) {
     table.clear();
   }
 
-  colunas!: Column[];
+  cols!: Column[];
+
+  selectedColumns!: Column[];
 
   exportColumns!: ExportColumn[];
 
@@ -58,9 +77,13 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router,
     private formBuilderUserGroup: FormBuilder,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
   ) {}
 
+
+  /**
+   * Formulário reativo para adicionar/editar grupos de usuários.
+   */
   public userGroupForm = this.formBuilderUserGroup.group({
     CODIGO: [null as bigint | null],
     descricao: ['', Validators.required],
@@ -70,15 +93,32 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     versao: [{ value: null as DatePipe | string | null, disabled: true }],
   });
 
+
+  /**
+   * Inicialização do componente. Chama a função para listar os grupos de usuários.
+   */
   ngOnInit(): void {
     this.listarGrupoUsuarios();
 
-    this.exportColumns = this.colunas.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
+    this.cols = [
+      { field: 'status', header: 'Status' },
+      { field: 'empresa', header: 'Empresa' },
+      { field: 'descricao', header: 'Descrição' },
+      { field: 'perfil', header: 'Perfil' },
+  ];
+
+  this.selectedColumns = this.cols;
+
   }
 
+  applyFilterGlobal($event: any, stringVal: any) {
+    this.userGroupTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+  }
+
+
+  /**
+   * Exporta os dados da tabela para um arquivo PDF.
+   */
   exportPdf() {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
@@ -89,6 +129,9 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Exporta os dados da tabela para um arquivo Excel.
+   */
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(this.userGrupDatas);
@@ -114,6 +157,12 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     );
   }
 
+    /**
+   * Retorna a severidade com base no status fornecido.
+   *
+   * @param {string} status - Status a ser avaliado.
+   * @returns {string} - Severidade correspondente.
+   */
   getSeverity(status: string) {
     switch (status) {
       case 'ATIVO':
@@ -125,19 +174,42 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Manipulador de eventos para a seleção de uma linha na tabela.
+   *
+   * @param {*} event - Evento de seleção de linha.
+   * @returns {void}
+   */
   onRowSelect(event: any) {
     console.log('Row selected:', event.data);
     this.userGroupSelected = event.data;
   }
 
+  /**
+   * Verifica se o formulário está em modo de edição.
+   *
+   * @returns {boolean} - Verdadeiro se estiver em modo de edição, falso caso contrário.
+   */
   isEdicao(): boolean {
     return !!this.userGroupForm.value.CODIGO;
   }
 
+    /**
+   * Manipulador de eventos para o botão de adição de grupo.
+   * Exibe o formulário de adição de grupo.
+   */
   onAddGroupButtonClick() {
     this.showForm = true;
   }
 
+
+  /**
+   * Manipulador de eventos para o botão de edição de grupo.
+   * Exibe o formulário de edição de grupo.
+   *
+   * @param {GrupoUsuarios} user - Grupo de usuário a ser editado.
+   * @returns {void}
+   */
   onEditGroupButtonClick(user: GrupoUsuarios): void {
     console.log('Editar grupo de usuário:', user.status);
     if (user.status === 'DESATIVADO') {
@@ -163,6 +235,14 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  /**
+   * Manipulador de eventos para o botão de desativação de grupo.
+   * Desativa o grupo de usuário selecionado.
+   *
+   * @param {GrupoUsuarios} user - Grupo de usuário a ser desativado.
+   * @returns {void}
+   */
   onDisableGroupButtonClick(user: GrupoUsuarios): void {
     this.userGroupForm.patchValue({
       CODIGO: user.CODIGO,
@@ -170,12 +250,20 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     this.desativarGrupoUsuario(user.CODIGO as bigint);
   }
 
+
+    /**
+   * Cancela o formulário de adição/editação e limpa os campos.
+   */
   cancelarFormulario() {
     this.userGroupForm.reset();
     this.showForm = false;
     this.listarGrupoUsuarios();
   }
 
+
+  /**
+   * Lista os grupos de usuários chamando o serviço correspondente.
+   */
   listarGrupoUsuarios() {
     this.usuarioGrupoService
       .listaGrupoUsuarios()
@@ -199,6 +287,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
       });
   }
 
+
+  /**
+   * Adiciona ou edita um grupo de usuário com base no estado do formulário.
+   */
   adcionarOuEditarGrupoUsuario(): void {
     if (this.isEdicao()) {
       this.editarGrupoUsuario();
@@ -207,6 +299,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  /**
+   * Adiciona um novo grupo de usuário.
+   */
   adcionarGrupoUsuario(): void {
     if (this.userGroupForm.valid) {
       const requestCreateUserGroup: AddGroupUser = {
@@ -258,6 +354,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  /**
+   * Edita um grupo de usuário existente.
+   */
   editarGrupoUsuario(): void {
     if (this.userGroupForm?.valid) {
       const requestEditUserGroup: EditGroupUser = {
@@ -308,6 +408,13 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  /**
+   * Desativa um grupo de usuário com o código fornecido.
+   *
+   * @param {bigint} CODIGO - Código do grupo de usuário a ser desativado.
+   * @returns {void}
+   */
   desativarGrupoUsuario(CODIGO: bigint): void {
     console.log('Alterar o Status!:', CODIGO);
     if (CODIGO) {
@@ -348,6 +455,10 @@ export class GroupUserComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  /**
+   * Manipulador de eventos OnDestroy. Completa o subject de destruição.
+   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
