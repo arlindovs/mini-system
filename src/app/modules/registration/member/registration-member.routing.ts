@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { RegistrationMemberComponent } from './page/registration-member/registration-member.component';
+import { IntegranteComponent } from './integrante/integrante.component';
 
 export const registrationMemberRoutes: Routes = [
   {
     path: '',
-    component: RegistrationMemberComponent,
+    component: IntegranteComponent,
   },
 ];

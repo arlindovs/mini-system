@@ -6,20 +6,20 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
 <div class="gray-bar">
-  <h3 class="fixed-title">Cadastro de Grupo de Integrante</h3>
+  <h3 class="fixed-title">Cadastro de Integrante</h3>
 </div>
 
 
-<!--TABELA DE GRUPO DE USUARIOS-->
+<!--TABELA DE INTEGRANTES-->
 <div *ngIf="!showForm" class="grid">
   <div class="col-12">
     <div class="flex justify-content-end">
     </div>
       <p-table
-        #memberGroupTable
+        #integranteTable
         [columns]="selectedColumns"
-        [value]="memberGroupDatas"
-        [(selection)]="memberGroupSelected"
+        [value]="integranteDatas"
+        [(selection)]="integranteSelected"
         (onRowSelect)="onRowSelect($event)"
         selectionMode="multiple"
         [rows]="5"
@@ -43,15 +43,15 @@
         <div class="flex">
 
           <div class="mr-5">
-            <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()">Adicionar</button>
+            <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddIntegranteButtonClick()">Adicionar</button>
             
-            <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="disableSelectedGroups()" [disabled]="!memberGroupSelected || !memberGroupSelected.length"></button>
+            <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="disableSelectedGroups()" [disabled]="! integranteSelected || !integranteSelected.length"></button>
           
           </div>
 
 
           <div class="flex justify-content-center mr-5">
-          <button type="button" pButton pRipple icon="pi pi-file" (click)="memberGroupTable?.exportCSV()" class="mr-2" pTooltip="CSV - Exportar os dados da tabela com formato csv." tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file" (click)="integranteTable?.exportCSV()" class="mr-2" pTooltip="CSV - Exportar os dados da tabela com formato csv." tooltipPosition="bottom"></button>
           <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" pTooltip="XLS - Exportar os dados da tabela com formato xls." tooltipPosition="bottom"></button>
           <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning mr-2" pTooltip="PDF - Exportar os dados da tabela com formato pdf." tooltipPosition="bottom"></button>
           </div>
@@ -71,7 +71,7 @@
             <i class="pi pi-search"></i>
             <input pInputText type="text" [(ngModel)]="valorPesquisa" (input)="applyFilterGlobal($event, 'contains')" placeholder="Pesquisar" />
           </span>
-          <button pButton label="Limpar"  class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(memberGroupTable)"></button>
+          <button pButton label="Limpar"  class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(integranteTable)"></button>
 
         </div>
 
@@ -88,6 +88,44 @@
               <div class="flex justify-content-between align-items-center">
                 <div class="flex justify-content-between align-items-center">
                   ID
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="CODIGO"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="CODIGO"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+            <th pResizableColumn pSortableColumn="CODIGO" style="width: 3rem">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Nome
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="CODIGO"></p-sortIcon>
+                  <p-columnFilter
+                    type="text"
+                    field="CODIGO"
+                    display="menu"
+                    matchMode="contains"
+                    [showMatchModes]="true"
+                    [showOperator]="false"
+                    [showAddButton]="true"
+                  ></p-columnFilter>
+                </div>
+              </div>
+            </th>
+            <th pResizableColumn pSortableColumn="CODIGO" style="width: 3rem">
+              <div class="flex justify-content-between align-items-center">
+                <div class="flex justify-content-between align-items-center">
+                  Nome Secundário
                 </div>
                 <div class="flex justify-content-between align-items-center">
                   <p-sortIcon field="CODIGO"></p-sortIcon>
@@ -126,23 +164,23 @@
           </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-member let-columns="columns">
+        <ng-template pTemplate="body" let-integrante let-columns="columns">
           <tr>
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
-                <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(member)"></button>
-                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-ban" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(member)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditGroupButtonClick(integrante)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-ban" pTooltip="Desativar Grupo" (click)="onDisableGroupButtonClick(integrante)"></button>
               </div>
             </td>
             <td>
-              <p-tableCheckbox [value]="member"></p-tableCheckbox>
+              <p-tableCheckbox [value]="integrante"></p-tableCheckbox>
             </td>
-            <td>{{ member.CODIGO }}</td>
+            <td>{{ integrante.CODIGO }}</td>
             <ng-container *ngFor="let col of columns">
-              <td *ngIf="col.field !== 'status'; else statusColumn">{{ member[col.field] }}</td>
+              <td *ngIf="col.field !== 'status'; else statusColumn">{{ integrante[col.field] }}</td>
               <ng-template #statusColumn>
                 <td>
-                  <p-tag [value]="member.status" [severity]="getSeverity(member.status)"></p-tag>
+                  <p-tag [value]="integrante.status" [severity]="getSeverity(integrante.status)"></p-tag>
                 </td>
               </ng-template>
             </ng-container>
@@ -150,7 +188,7 @@
         </ng-template>
 
         <ng-template pTemplate="summary">
-          <div class="flex align-items-center justify-content-between">Total de {{ memberGroupDatas ? memberGroupDatas.length : 0 }} Grupos Cadastrados.</div>
+          <div class="flex align-items-center justify-content-between">Total de {{ integranteDatas ? integranteDatas.length : 0 }} Grupos Cadastrados.</div>
         </ng-template>
 
         <ng-template pTemplate="emptymessage">
@@ -168,10 +206,10 @@
 
 
 
-<!--FORMULARIO DE GRUPO DE USUARIOS-->
+<!--FORMULARIO DE INTEGRANTE-->
 <div *ngIf="showForm" class="mt-2">
   <div class="gap-4">
-    <form [formGroup]="memberGroupForm" (ngSubmit)="adcionarOuEditarGrupoIntegrante()">
+    <form [formGroup]="integranteForm" (ngSubmit)="adcionarOuEditarIntegrante() ">
       <div class="card flex flex-column md:flex-column gap-4">
 
       <div class="flex flex-row">
@@ -208,7 +246,7 @@
       <div class="mt-2">
       <div class="card flex flex-column md:flex-column gap-4">
         <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
-          <p-button class="mr-2" [disabled]="!memberGroupForm.valid" type="submit" label="Confirmar"></p-button>
+          <p-button class="mr-2" [disabled]="!integranteForm.valid" type="submit" label="Confirmar"></p-button>
           <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelarFormulario()"></p-button>
         </div>
       </div>
@@ -217,3 +255,51 @@
     </form>
   </div>
 </div>
+
+
+<!--FORMULARIO DE ENDEREÇOS INTEGRANTE-->
+<div *ngIf="showForm" class="mt-2">
+  <div class="gap-4">
+    <form [formGroup]="integranteEnderecoForm" (ngSubmit)="onAddEnderecoButtonClick()">
+      <div class="card flex flex-column md:flex-column gap-4">
+        <div></div>
+  
+        <span class="p-float-label flex flex-column">
+          <input pInputText formControlName="zipCode" />
+          <label for="float-label">Cep</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <p-dropdown [showClear]="true" [filter]="true" filterBy="county_id" styleClass="w-full"
+            formControlName="county_id" optionLabel="name" optionValue="id"></p-dropdown>
+          <label for="float-label">Municipio</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <p-dropdown [showClear]="true" [filter]="true" filterBy="streetType_id" styleClass="w-full"
+            formControlName="streetType_id" optionLabel="name" optionValue="id"></p-dropdown>
+          <label for="float-label">Tipo Logradouro</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <input pInputText formControlName="street" />
+          <label for="float-label">Logradouro</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <input type="email" pInputText formControlName="number" />
+          <label for="float-label">Numero</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <input type="email" pInputText formControlName="complement" />
+          <label for="float-label">Complemento</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <input type="taxt" pInputText formControlName="district" />
+          <label for="float-label">Bairro</label>
+        </span>
+  
+        <div class="flex flex-row justify-content-center align-content-center align-itens-center m-1">
+          <p-button [disabled]="!integranteEnderecoForm.valid" type="submit" label="Concluir"></p-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+-->

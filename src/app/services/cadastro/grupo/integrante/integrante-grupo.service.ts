@@ -22,14 +22,14 @@ export class IntegranteGrupoService {
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
-  listaGrupoUsuarios(): Observable<Array<GrupoIntegrante>> {
+  listaGrupoIntegrantes(): Observable<Array<GrupoIntegrante>> {
     return this.http.get<Array<GrupoIntegrante>>(
       `${this.API_URL}/integrante_grupos`,
       this.httpOptions
     );
   }
 
-  addGrupoUsuario(requestDatas: AddGroupMember): Observable<Array<GrupoIntegrante>> {
+  addGrupoIntegrante(requestDatas: AddGroupMember): Observable<Array<GrupoIntegrante>> {
     return this.http.post<Array<GrupoIntegrante>>(
       `${this.API_URL}/integrante_grupos`,
       requestDatas,
@@ -37,7 +37,7 @@ export class IntegranteGrupoService {
     );
   }
 
-  editGrupoUsuario(requestDatas: EditGroupMember): Observable<Array<GrupoIntegrante>> {
+  editGrupoIntegrante(requestDatas: EditGroupMember): Observable<Array<GrupoIntegrante>> {
     return this.http.put<Array<GrupoIntegrante>>(
       `${this.API_URL}/integrante_grupos`,
       requestDatas,
@@ -45,7 +45,7 @@ export class IntegranteGrupoService {
     );
   }
 
-  desativarGrupoUsuario(CODIGO: bigint): Observable<Array<GrupoIntegrante>> {
+  desativarGrupoIntegrante(CODIGO: bigint): Observable<Array<GrupoIntegrante>> {
     return this.http.post<Array<GrupoIntegrante>>(
       `${this.API_URL}/integrante_grupos/desativar/${CODIGO}`,
       this.httpOptions

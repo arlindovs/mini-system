@@ -1,25 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegistrationMemberComponent } from './page/registration-member/registration-member.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimengModule } from 'src/app/libraries/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { registrationMemberRoutes } from './registration-member.routing';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { CookieService } from 'ngx-cookie-service';
-import { MemberTableComponent } from './components/member-table/member-table.component';
-import { MemberFormComponent } from './components/member-form/member-form.component';
-import { MemberAddressFormComponent } from './components/member-address-form/member-address-form.component';
+import { IntegranteComponent } from './integrante/integrante.component';
 
 
 
 @NgModule({
   declarations: [
-    RegistrationMemberComponent,
-    MemberTableComponent,
-    MemberFormComponent,
-    MemberAddressFormComponent,
+    IntegranteComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +23,6 @@ import { MemberAddressFormComponent } from './components/member-address-form/mem
     PrimengModule,
     SharedModule
   ],
-  providers: [MessageService,CookieService],
+  providers: [MessageService,CookieService, ConfirmationService],
 })
 export class RegistrationMemberModule  { }

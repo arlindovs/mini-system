@@ -22,7 +22,7 @@ import { IntegranteGrupoService } from 'src/app/services/cadastro/grupo/integran
 export class GroupMemberComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
 
-  @ViewChild('userGroupTable') userGroupTable: Table | undefined;
+  @ViewChild('memberGroupTable') memberGroupTable: Table | undefined;
 
   /**
    * Flag para exibir ou ocultar o formulário de grupo de usuário.
@@ -48,7 +48,7 @@ export class GroupMemberComponent implements OnInit {
    * Limpa a seleção da tabela.
    *
    * @public
-   * @memberof GroupUserComponent
+   * @memberof GroupMemberComponent
    * @param {Table} table - Instância da tabela a ser limpa.
    * @returns {void}
    */
@@ -105,7 +105,7 @@ this.selectedColumns = this.cols;
    * @param stringVal O valor da string para filtrar.
    */
   applyFilterGlobal($event: any, stringVal: any) {
-    this.userGroupTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    this.memberGroupTable!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 
    /**
@@ -199,13 +199,13 @@ this.selectedColumns = this.cols;
    * Manipulador de eventos para o botão de edição de grupo.
    * Exibe o formulário de edição de grupo.
    *
-   * @param {GrupoUsuarios} user - Grupo de usuário a ser editado.
+   * @param {GrupoUsuarios} member - Grupo de integrante a ser editado.
    * @returns {void}
    */
-  onEditGroupButtonClick(user: GrupoIntegrante): void {
-    const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
-    console.log('Editar grupo de usuário:', formattedDate);
-    if (user.status === 'DESATIVADO') {
+  onEditGroupButtonClick(member: GrupoIntegrante): void {
+    const formattedDate = format(new Date(member.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Defina o formato da data
+    console.log('Editar grupo de integrante:', formattedDate);
+    if (member.status === 'DESATIVADO') {
       // Exibir pop-up informando que não é permitido editar um grupo desativado
       this.confirmationService.confirm({
         header: 'Aviso',
@@ -214,10 +214,10 @@ this.selectedColumns = this.cols;
     } else {
       this.showForm = true;
       this.memberGroupForm.setValue({
-        CODIGO: user.CODIGO,
-        descricao: user.descricao,
-        status: user.status,
-        empresa: user.empresa,
+        CODIGO: member.CODIGO,
+        descricao: member.descricao,
+        status: member.status,
+        empresa: member.empresa,
         versao: formattedDate,
       });
       console.log(this.isEdicao());
@@ -229,14 +229,14 @@ this.selectedColumns = this.cols;
    * Manipulador de eventos para o botão de desativação de grupo.
    * Desativa o grupo de usuário selecionado.
    *
-   * @param {GrupoUsuarios} user - Grupo de usuário a ser desativado.
+   * @param {GrupoIntegrantes} member - Grupo de integrante a ser desativado.
    * @returns {void}
    */
-  onDisableGroupButtonClick(user: GrupoIntegrante): void {
+  onDisableGroupButtonClick(member: GrupoIntegrante): void {
     this.memberGroupForm.patchValue({
-      CODIGO: user.CODIGO,
+      CODIGO: member.CODIGO,
     });
-    this.desativarGrupoIntegrante(user.CODIGO as bigint);
+    this.desativarGrupoIntegrante(member.CODIGO as bigint);
   }
 
 
@@ -247,7 +247,6 @@ this.selectedColumns = this.cols;
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.memberGroupDatas = this.memberGroupDatas.filter((val) => !this.memberGroupDatas?.includes(val));
-        this.memberGroupSelected = null;
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Grupos Excluídos', life: 3000 });
       }
     });
@@ -269,7 +268,7 @@ this.selectedColumns = this.cols;
    */
   listarGrupoIntegrante() {
     this.integranteGrupoService
-      .listaGrupoUsuarios()
+      .listaGrupoIntegrantes()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -314,7 +313,7 @@ this.selectedColumns = this.cols;
       };
 
       this.integranteGrupoService
-        .addGrupoUsuario(requestCreateMemberGroup)
+        .addGrupoIntegrante(requestCreateMemberGroup)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -371,7 +370,7 @@ this.selectedColumns = this.cols;
 
       // Chamar o serviço para editar o grupo de usuário
       this.integranteGrupoService
-        .editGrupoUsuario(requestEditMemberGroup)
+        .editGrupoIntegrante(requestEditMemberGroup)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -413,17 +412,18 @@ this.selectedColumns = this.cols;
   /**
    * Desativa um grupo de usuário com o código fornecido.
    *
-   * @param {bigint} CODIGO - Código do grupo de usuário a ser desativado.
+   * @param {bigint} CODIGO - Código do grupo de integrante a ser desativado.
    * @returns {void}
    */
   desativarGrupoIntegrante(CODIGO: bigint): void {
-    console.log('Alterar o Status!:', CODIGO);
+    console.log('Alterar o Status:', CODIGO);
     if (CODIGO) {
       this.integranteGrupoService
-        .desativarGrupoUsuario(CODIGO)
+        .desativarGrupoIntegrante(CODIGO)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
+            console.log(response)
             if (response) {
               console.log('Sucesso ao Alterar o Status!:', response);
               this.messageService.add({
