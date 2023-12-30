@@ -23,6 +23,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TagModule } from 'primeng/tag';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { MessagesModule } from 'primeng/messages';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     OverlayPanelModule,
     TagModule,
     MultiSelectModule,
+    MessagesModule,
   ],
   exports: [
     CardModule,
@@ -80,6 +82,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     OverlayPanelModule,
     TagModule,
     MultiSelectModule,
+    MessagesModule,
   ]
 })
 export class PrimengModule { }

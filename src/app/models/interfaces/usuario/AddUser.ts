@@ -1,6 +1,6 @@
 export interface AddUser {
   usuarioGrupo: bigint;
-  funcionario: bigint;
+  funcionario: string;
   login: string;
   password: string;
   empresa: number;

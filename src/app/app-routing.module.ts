@@ -11,15 +11,23 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./modules/home/home.module').then((m) => m.HomeModule),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
+  // {
+  //   path: 'registration-user',
+  //   loadChildren: () =>
+  //     import('./modules/registration/user/registration-user.module').then(
+  //       (m) => m.RegistrationUserModule
+  //     ),
+  //   canActivate: [AuthGuardService],
+  // },
   {
-    path: 'registration-user',
+    path: 'cadastro-usuario',
     loadChildren: () =>
-      import('./modules/registration/user/registration-user.module').then(
-        (m) => m.RegistrationUserModule
+      import('./modules/cadastro/usuario/usuario.module').then(
+        (m) => m.UsuarioModule
       ),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: 'registration-member',
@@ -27,7 +35,7 @@ const routes: Routes = [
       import('./modules/registration/member/registration-member.module').then(
         (m) => m.RegistrationMemberModule
       ),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: 'registration-product',
@@ -35,7 +43,7 @@ const routes: Routes = [
       import('./modules/registration/product/registration-product.module').then(
         (m) => m.RegistrationProductModule
       ),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: 'registration-unitMeasure',
@@ -43,7 +51,7 @@ const routes: Routes = [
       import(
         './modules/registration/unitMeasure/registration-unitMeasure.module'
       ).then((m) => m.RegistrationUnitMeasureModule),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: 'registration/group/member',
@@ -51,7 +59,7 @@ const routes: Routes = [
       import(
         './modules/registration/group/member/registration-group-member.module'
       ).then((m) => m.RegistrationGroupMemberModule),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: 'registration/group/product',
@@ -59,7 +67,7 @@ const routes: Routes = [
       import(
         './modules/registration/group/product/registration-group-product.module'
       ).then((m) => m.RegistrationGroupProductModule),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
   {
     path: 'registration/group/user',
@@ -67,7 +75,7 @@ const routes: Routes = [
       import(
         './modules/registration/group/user/registration-group-user.module'
       ).then((m) => m.RegistrationGroupUserModule),
-      canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
   },
 
   { path: '**', component: PageNotFoundComponent },

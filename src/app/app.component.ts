@@ -4,7 +4,7 @@ import { PrimeNGConfig } from 'primeng/api';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['../styles.css']
+  styleUrls: ['../styles.scss']
 })
 export class AppComponent implements OnInit {
 

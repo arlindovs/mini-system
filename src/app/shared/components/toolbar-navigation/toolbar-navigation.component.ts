@@ -30,7 +30,7 @@ export class ToolbarNavigationComponent implements OnInit {
         items: [
           {
             label: 'Usuário',
-            routerLink: ['/registration-user'],
+            routerLink: ['/cadastro-usuario'],
           },
           {
             label: 'Integrante',
