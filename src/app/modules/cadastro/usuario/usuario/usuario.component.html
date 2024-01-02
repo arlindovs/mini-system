@@ -124,7 +124,7 @@
           </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-user let-columns="columns">
+        <ng-template pTemplate="body" let-user let-grupoUsuario let-columns="columns">
           <tr>
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
@@ -137,7 +137,10 @@
             </td>
             <td>{{ user.CODIGO }}</td>
             <ng-container *ngFor="let col of columns">
-              <td *ngIf="col.field !== 'status'; else statusColumn">{{ user[col.field] }}</td>
+              <td *ngIf="col.field !== 'status'; else statusColumn">
+                {{ col.field === 'funcionario' ? user.funcionario.nome :
+                    col.field === 'usuarioGrupo' ? user.usuarioGrupo.descricao : user[col.field] }}
+              </td>
               <ng-template #statusColumn>
                 <td>
                   <p-tag [value]="user.status" [severity]="getSeverity(user.status)"></p-tag>
@@ -189,14 +192,14 @@
         </div>
       </div>
 
-
       <div class="flex flex-row">
         <p-overlayPanel #opGrupo>
           Campo deve ser selecionado o Grupo de usuario onde vai definir as permissões para esta usuario dentro do sistema.
         </p-overlayPanel>
         <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opGrupo.toggle($event)"></p-button>
-        <span class="p-float-label flex flex-column mr-4">
-          <input pInputText formControlName="usuarioGrupo" />
+        <span class="p-float-label flex flex-column">
+          <p-dropdown [showClear]="true" [options]="userGroupDatas" [(ngModel)]="userGroupSelected" optionLabel="descricao" filterBy="usuarioGrupo" styleClass="w-full"
+            formControlName="usuarioGrupo" [style]="{'min-width': '300px'}"></p-dropdown>
           <label for="float-label">Grupo</label>
         </span>
 

@@ -1,7 +1,7 @@
 export interface Usuarios {
   CODIGO: bigint;
-  usuarioGrupo: bigint;
-  funcionario: bigint;
+  usuarioGrupo: string;
+  funcionario: string;
   login: string;
   password: string;
   status: string;
