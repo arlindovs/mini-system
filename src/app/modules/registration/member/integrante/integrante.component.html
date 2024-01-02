@@ -231,8 +231,11 @@
           <input pInputText type="text" formControlName="versao" />
         </div>
       </div>
-
-
+    <span class="p-float-label flex flex-column">
+    <p-dropdown [showClear]="true" [filter]="true" filterBy="grupoIntegrante_id" styleClass="w-full"
+            formControlName="grupoIntegrante" [options]="grupoIntegrante" [(ngModel)]="selectedGrupoIntegrante" optionLabel="name" optionValue="id"></p-dropdown>
+            <label for="p-float-label"> Grupo Integrante</label>
+          </span>
       <div class="flex flex-row">
         <p-overlayPanel #opNome>
           Campo deve ser preenchido a descrição do grupo de integrante.
