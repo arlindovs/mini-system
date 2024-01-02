@@ -46,6 +46,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   selectedGrupo?: GrupoUsuarios;
 
+  selectedIntegrante?: GrupoUsuarios;
+
   /**
    * Valor digitado no campo de pesquisa
    */
@@ -86,8 +88,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    */
   public userForm = this.formBuilderUser.group({
     CODIGO: [null as bigint | null],
-    usuarioGrupo: [this.selectedGrupo, [Validators.required]],
-    funcionario: ['', [Validators.required]],
+    usuarioGrupo: [this.selectedGrupo?.descricao, [Validators.required]],
+    funcionario: [this.selectedIntegrante?.descricao, [Validators.required]],
     login: ['', [Validators.required, Validators.minLength(6)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     status: [{ value: '', disabled: true }],
@@ -230,7 +232,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    * @param {GrupoUsuarios} user - usuário a ser editado.
    * @returns {void}
    */
-  onEditButtonClick(user: Usuarios, grupoUsuario: GrupoUsuarios): void {
+  onEditButtonClick(user: Usuarios): void {
     const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
     console.log('Editar usuário:', formattedDate);
     if (user.status === 'DESATIVADO') {
@@ -240,11 +242,12 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       });
     } else {
       this.showForm = true;
-      this.selectedGrupo = this.userGroupDatas?.find((x) => x.CODIGO = user.usuarioGrupo);
+      const usuarioGrupoValue = user.usuarioGrupo.descricao;
+      const funcionarioValue = this.selectedIntegrante?.descricao || null;
       this.userForm.setValue({
         CODIGO: user.CODIGO,
-        usuarioGrupo: this.selectedGrupo,
-        funcionario: user.funcionario,
+        usuarioGrupo: usuarioGrupoValue,
+        funcionario: funcionarioValue,
         login: user.login,
         password: user.password,
         status: user.status,
@@ -351,22 +354,10 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    * Adiciona ou edita um grupo de usuário com base no estado do formulário.
    */
   adcionarOuEditarUsuario(): void {
-    const grupoSelecionado = this.userGroupSelected[0]?.CODIGO as bigint;
-    console.log(grupoSelecionado)
     if (this.isEdicao()) {
       this.editarUsuario();
     } else {
-      if (this.userGroupSelected && this.userGroupSelected.length > 0){
-        this.adcionarUsuario();
-      } else {
-          this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Formulário inválido. Preencha todos os campos.',
-          life: 3000,
-        });
-      }
-
+      this.adcionarUsuario();
     }
   }
 
@@ -377,8 +368,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   adcionarUsuario(): void {
     if (this.userForm.valid) {
       const requestCreateUser: AddUser = {
-        usuarioGrupo: this.userGroupSelected?.[0]?.CODIGO as bigint,
-        funcionario: this.userForm.value.funcionario as string,
+        usuarioGrupo: this.selectedGrupo?.CODIGO,
+        funcionario: this.selectedIntegrante?.CODIGO,
         login: this.userForm.value.login as string,
         password: this.userForm.value.password as string,
         empresa: this.userForm.getRawValue().empresa as number,
@@ -417,7 +408,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      console.warn('Formulário inválido. Preencha todos os campos.');
+      console.log('Formulário inválido. Preencha todos os campos.', this.userForm);
       this.messageService.add({
         severity: 'warn',
         summary: 'Atenção',
@@ -435,8 +426,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     if (this.userForm?.valid) {
       const requestEditUser: EditUser = {
         CODIGO: this.userForm.value.CODIGO as bigint,
-        usuarioGrupo: this.userGroupSelected?.[0].CODIGO as bigint,
-        funcionario: this.userForm.value.funcionario as string,
+        usuarioGrupo: this.selectedGrupo?.CODIGO,
+        funcionario: this.selectedIntegrante?.CODIGO,
         login: this.userForm.value.login as string,
         password: this.userForm.value.password as string,
         status: this.userForm.value.status as string,
@@ -473,7 +464,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      console.warn('Formulário inválido. Preencha todos os campos.');
+      console.warn('Formulário inválido. Preencha todos os campos.', this.userForm);
       this.messageService.add({
         severity: 'warn',
         summary: 'Atenção',
