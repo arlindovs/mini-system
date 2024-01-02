@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
-import { AddGroupUser } from 'src/app/models/interfaces/group/user/AddGroupUser';
-import { EditGroupUser } from 'src/app/models/interfaces/group/user/EditGroupUser';
+import { AddGroupUser } from 'src/app/models/interfaces/usuario/grupo/AddGroupUser';
+import { EditGroupUser } from 'src/app/models/interfaces/usuario/grupo/EditGroupUser';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { environment } from 'src/environments/environment';
 

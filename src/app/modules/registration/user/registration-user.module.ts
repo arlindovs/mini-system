@@ -5,11 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimengModule } from 'src/app/libraries/primeng.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { registrationUserRoutes } from './registration-user.routing';
-import { MessageService } from 'primeng/api';
+import { RegistrationUserRoutes } from './registration-user.routing';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { CookieService } from 'ngx-cookie-service';
 import { UserTableComponent } from './components/user-table/user-table.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
+import { UserComponent } from './user/user.component';
 
 
 
@@ -17,16 +18,17 @@ import { UserFormComponent } from './components/user-form/user-form.component';
   declarations: [
     RegistrationUserComponent,
     UserTableComponent,
-    UserFormComponent
+    UserFormComponent,
+    UserComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(registrationUserRoutes),
+    RouterModule.forChild(RegistrationUserRoutes),
     PrimengModule,
     SharedModule
   ],
-  providers: [MessageService,CookieService],
+  providers: [MessageService,CookieService,ConfirmationService],
 })
 export class RegistrationUserModule  { }
