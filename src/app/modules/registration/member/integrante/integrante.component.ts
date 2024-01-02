@@ -12,9 +12,13 @@ import { Column } from 'src/app/models/interfaces/member/Column';
 import { EditIntegrante } from 'src/app/models/interfaces/member/EditIntegrante';
 import { ExportColumn } from 'src/app/models/interfaces/member/ExportColumn';
 import { Integrante } from 'src/app/models/interfaces/member/IntegranteResponse';
+import { TipoDocumento } from 'src/app/models/interfaces/member/TipoDocumento';
 import { addIntegranteEndereco } from 'src/app/models/interfaces/member/endereco/AddIntegranteEndereco';
 import { EditIntegranteEndereco } from 'src/app/models/interfaces/member/endereco/EditIntegranteEndereco';
 import { IntegranteEndereco } from 'src/app/models/interfaces/member/endereco/IntegranteEnderecoResponse';
+import { Municipio } from 'src/app/models/interfaces/member/endereco/Municipio';
+import { TipoLogradouroInterface } from 'src/app/models/interfaces/member/endereco/TipoLogradouroInterface';
+import { UfInterface } from 'src/app/models/interfaces/member/endereco/UfInterface';
 import { IntegranteService } from 'src/app/services/cadastro/integrante/integrante.service';
 import { IntegranteEnderecoService } from 'src/app/services/integrante-endereco/integrante-endereco.service';
 
@@ -38,6 +42,7 @@ export class IntegranteComponent implements OnInit {
    * Flag para exibir ou ocultar o formulário dos endereços integrantes.
    */
   public showEnderecoForm = false;
+
 
   /**
    * Lista de dados dos integrantes.
@@ -93,6 +98,36 @@ export class IntegranteComponent implements OnInit {
   cols!: Column[];
 
   selectedColumns!: Column[];
+
+  /**
+   * Lista de Tipos de Logradouro para carregar no dropdown no campo Tipo Logradouro - formulário endereço
+   */
+  tipoLogradouro!: TipoLogradouroInterface[];
+  
+  /**
+   * Tipo Logradouro selecionado no dropdown no campo Uf - formulário endereço
+   */
+  selectedTipoLogradouro!: TipoLogradouroInterface[];
+
+  /**
+   * Lista de Uf's para carregar no dropdown no campo Uf - formulário endereço
+   */
+  uf!: UfInterface[];
+
+  /**
+   * Uf selecionada no dropdown no campo Uf - formulário endereço
+   */
+  selectedUf!: UfInterface[];
+
+  /**
+   * Lista de Tipo Documento para carregar no dropdown no campo Tipo Documento - formulário integrante
+   */
+  tipoDocumento!: TipoDocumento[];
+
+  /**
+   * Tipo Documento selecionado no dropdown no campo Tipo Documento - formulário integrante
+   */
+  selectedTipoDocumento!: TipoDocumento[];
 
   exportColumns!: ExportColumn[];
   
@@ -160,6 +195,67 @@ export class IntegranteComponent implements OnInit {
 
 this.selectedColumns = this.cols;
 
+  this.tipoLogradouro = [
+    {name: 'Rua'},
+    {name: 'Avenida'},
+    {name: 'Travessa'},
+    {name: 'Alameda'},
+    {name: 'Estrada'},
+    {name: 'Rodovia'},
+    {name: 'Praça'},
+    {name: 'Largo'},
+    {name: 'Beco'},
+    {name: 'Viaduto'},
+    {name: 'Jardim'},
+    {name: 'Parque'},
+    {name: 'Loteamento'},
+    {name: 'Condomínio'},
+    {name: 'Chácara'},
+    {name: 'Fazenda'},
+    {name: 'Sítio'},
+    {name: 'Vila'},
+    {name: 'Outros'}
+  ]
+  
+  this.selectedTipoLogradouro = this.tipoLogradouro
+
+  this.uf =[
+    {name:'Acre'},
+    {name:'Alagoas'},
+    {name:'Amazonas'},
+    {name:'Amapá'},
+    {name:'Bahia'},
+    {name:'Ceará'},
+    {name:'Distrito Federal'},
+    {name:'Espírito Santo'},
+    {name:'Goiás'},
+    {name:'Maranhão'},
+    {name:'Minas Gerais'},
+    {name:'Mato Grosso do Sul'},
+    {name:'Mato Grosso'},
+    {name:'Paraíba'},
+    {name:'Pernambuco'},
+    {name:'Pará'},
+    {name:'Piauí'},
+    {name:'Paraná'},
+    {name:'Rio de Janeiro'},
+    {name:'Rio Grande do Norte'},
+    {name:'Rondônia'},
+    {name:'Roraima'},
+    {name:'Rio Grande do Sul'},
+    {name:'Santa Catarina'},
+    {name:'Sergipe'},
+    {name:'São Paulo'},
+    {name:'Tocantins'}
+  ]
+  this.selectedUf = this.uf
+
+  this.tipoDocumento =[
+    {name:'CPF'},
+    {name:'CNPJ'},
+    {name:'CNH'}
+  ]
+  this.selectedTipoDocumento = this.tipoDocumento
   }
 
   /**
@@ -264,7 +360,7 @@ this.selectedColumns = this.cols;
    * Exibe o formulário de adição de grupo.
    */
     onAddEnderecoButtonClick() {
-      this.showForm = true;
+      this.showEnderecoForm = true;
     }
 
   

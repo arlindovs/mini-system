@@ -32,7 +32,7 @@
         [rowHover]="true"
         [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
-        [globalFilterFields]="['CODIGO', 'descricao']"
+        [globalFilterFields]="['CODIGO', 'nome']"
         [exportHeader]="'customExportHeader'"
         dataKey="CODIGO"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros"
@@ -230,68 +230,94 @@
 
 
       <div class="flex flex-row">
-        <p-overlayPanel #opDescricao>
+        <p-overlayPanel #opNome>
           Campo deve ser preenchido a descrição do grupo de integrante.
         </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opDescricao.toggle($event)"></p-button>
+        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opNome.toggle($event)"></p-button>
       <span class="p-float-label flex flex-column mr-4">
-        <input pInputText formControlName="descricao" />
-        <label for="float-label">Descrição</label>
+        <input pInputText formControlName="nome" />
+        <label for="float-label">Nome</label>
       </span>
+      <span class="p-float-label flex flex-column mr-4">
+        <input pInputText formControlName="nomeSecundario" />
+        <label for="float-label">Nome Secundário</label>
+      </span>
+    </div>
+    <div class="flex flex-row"> 
+    <span class="p-float-label flex flex-column mr-4">
+        <p-dropdown [showClear]="true" [filter]="true" filterBy="tipoDocumento_id" styleClass="w-half"
+          formControlName="tipoDocumento" optionLabel="name" [(ngModel)]="selectedTipoDocumento" [options]="tipoDocumento" optionValue="id"></p-dropdown>
+          <label for="float-label">Tipo Documento</label>
+      </span>
+        <span class="p-float-label flex flex-column mr-4">
+          <input pInputText formControlName="documento" />
+          <label for="float-label">Documento</label>
+        </span>
       </div>
-
-
-
-
+      <span class="p-float-label flex flex-column mr-4">
+        <input pInputText formControlName="telefone" />
+        <label for="float-label">Telefone</label>
+      </span>
+      <span class="p-float-label flex flex-column mr-4">
+        <input pInputText formControlName="email" />
+        <label for="float-label">E-mail</label>
+      </span>
       <div class="mt-2">
-      <div class="card flex flex-column md:flex-column gap-4">
-        <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
-          <p-button class="mr-2" [disabled]="!integranteForm.valid" type="submit" label="Confirmar"></p-button>
-          <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelarFormulario()"></p-button>
-        </div>
+        <button type="button" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Endereço" (click)="onAddEnderecoButtonClick()">Adicionar Endereço</button>
       </div>
-      </div>
-      </div>
-    </form>
+
+<div class="mt-2">
+  <div class="card flex flex-column md:flex-column gap-4">
+    <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
+      <p-button class="mr-2" [disabled]="!integranteForm.valid" type="submit" label="Confirmar"></p-button>
+      <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelarFormulario()"></p-button>
+    </div>
   </div>
+  </div>
+  </div>
+</form>
 </div>
-
-
-<!--FORMULARIO DE ENDEREÇOS INTEGRANTE-->
-<div *ngIf="showForm" class="mt-2">
+</div>
+ 
+<!-- FORMULARIO DE ENDEREÇOS INTEGRANTE -->
+<div *ngIf="showEnderecoForm" class="mt-2">
   <div class="gap-4">
     <form [formGroup]="integranteEnderecoForm" (ngSubmit)="onAddEnderecoButtonClick()">
       <div class="card flex flex-column md:flex-column gap-4">
         <div></div>
   
         <span class="p-float-label flex flex-column">
-          <input pInputText formControlName="zipCode" />
+          <input pInputText formControlName="cep" />
           <label for="float-label">Cep</label>
         </span>
         <span class="p-float-label flex flex-column">
-          <p-dropdown [showClear]="true" [filter]="true" filterBy="county_id" styleClass="w-full"
-            formControlName="county_id" optionLabel="name" optionValue="id"></p-dropdown>
+          <input pInputText formControlName="municipio" />
           <label for="float-label">Municipio</label>
         </span>
         <span class="p-float-label flex flex-column">
           <p-dropdown [showClear]="true" [filter]="true" filterBy="streetType_id" styleClass="w-full"
-            formControlName="streetType_id" optionLabel="name" optionValue="id"></p-dropdown>
+            formControlName="tipoLogradouro" [options]="tipoLogradouro" [(ngModel)]="selectedTipoLogradouro" optionLabel="name" optionValue="id"></p-dropdown>
           <label for="float-label">Tipo Logradouro</label>
         </span>
         <span class="p-float-label flex flex-column">
-          <input pInputText formControlName="street" />
+          <p-dropdown [showClear]="true" [filter]="true" filterBy="estado_id" styleClass="w-full"
+            formControlName="estado" optionLabel="name" [(ngModel)]="selectedUf" [options]="uf" optionValue="id"></p-dropdown>
+            <label for="float-label">Estado</label>
+        </span>
+        <span class="p-float-label flex flex-column">
+          <input pInputText formControlName="logradouro" />
           <label for="float-label">Logradouro</label>
         </span>
         <span class="p-float-label flex flex-column">
-          <input type="email" pInputText formControlName="number" />
+          <input type="email" pInputText formControlName="numero" />
           <label for="float-label">Numero</label>
         </span>
         <span class="p-float-label flex flex-column">
-          <input type="email" pInputText formControlName="complement" />
+          <input type="email" pInputText formControlName="complemento" />
           <label for="float-label">Complemento</label>
         </span>
         <span class="p-float-label flex flex-column">
-          <input type="taxt" pInputText formControlName="district" />
+          <input type="taxt" pInputText formControlName="bairro" />
           <label for="float-label">Bairro</label>
         </span>
   
@@ -302,4 +328,3 @@
     </form>
   </div>
 </div>
--->
