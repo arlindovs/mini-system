@@ -243,7 +243,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.selectedGrupo = this.userGroupDatas?.find((x) => x.CODIGO = user.usuarioGrupo);
       this.userForm.setValue({
         CODIGO: user.CODIGO,
-        usuarioGrupo: grupoUsuario.CODIGO,
+        usuarioGrupo: this.selectedGrupo,
         funcionario: user.funcionario,
         login: user.login,
         password: user.password,
