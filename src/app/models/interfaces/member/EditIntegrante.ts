@@ -2,7 +2,7 @@ import { GrupoIntegrante } from "../group/member/GrupoIntegranteResponse";
 
 export interface EditIntegrante{
     CODIGO: bigint,
-    grupoIntegrante:string,
+    integranteGrupo:bigint,
     tipoIntegrante: string,
     nome: string,
     segundoNome: string,

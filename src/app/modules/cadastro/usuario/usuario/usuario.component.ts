@@ -232,7 +232,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    * @param {GrupoUsuarios} user - usuário a ser editado.
    * @returns {void}
    */
-  onEditButtonClick(user: Usuarios): void {
+  onEditButtonClick(user: Usuarios, grupoUsuario: GrupoUsuarios): void {
     const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
     console.log('Editar usuário:', formattedDate);
     if (user.status === 'DESATIVADO') {
@@ -242,7 +242,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       });
     } else {
       this.showForm = true;
-      const usuarioGrupoValue = user.usuarioGrupo.descricao;
+      const usuarioGrupoValue = grupoUsuario.descricao;
       const funcionarioValue = this.selectedIntegrante?.descricao || null;
       this.userForm.setValue({
         CODIGO: user.CODIGO,

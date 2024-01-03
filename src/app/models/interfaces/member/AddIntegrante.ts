@@ -1,7 +1,7 @@
 import { GrupoIntegrante } from "../group/member/GrupoIntegranteResponse";
 
 export interface addIntegrante{
-    grupoIntegrante: string
+    integranteGrupo: bigint 
     tipoIntegrante: string
     nome:string
     segundoNome:string

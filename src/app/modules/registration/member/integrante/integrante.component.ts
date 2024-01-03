@@ -107,7 +107,7 @@ export class IntegranteComponent implements OnInit {
   /**
    * Tipo Logradouro selecionado no dropdown no campo Uf - formulário endereço
    */
-  selectedTipoLogradouro!: TipoLogradouroInterface[];
+  selectedTipoLogradouro!: TipoLogradouroInterface[] | null;
 
   /**
    * Lista de Uf's para carregar no dropdown no campo Uf - formulário endereço
@@ -117,7 +117,7 @@ export class IntegranteComponent implements OnInit {
   /**
    * Uf selecionada no dropdown no campo Uf - formulário endereço
    */
-  selectedUf!: UfInterface[];
+  selectedUf!: UfInterface[] | null;
 
   /**
    * Lista de Tipo Documento para carregar no dropdown no campo Tipo Documento - formulário integrante
@@ -127,7 +127,7 @@ export class IntegranteComponent implements OnInit {
   /**
    * Tipo Documento selecionado no dropdown no campo Tipo Documento - formulário integrante
    */
-  selectedTipoDocumento!: TipoDocumento[];
+  selectedTipoDocumento!: TipoDocumento[] | null;
 
   exportColumns!: ExportColumn[];
   
@@ -145,7 +145,7 @@ export class IntegranteComponent implements OnInit {
    */
   public integranteForm = this.formBuilderIntegrante.group({
     CODIGO: [null as bigint | null],
-    grupoIntegrante: ['', Validators.required],
+    integranteGrupo: [null as bigint | null],
     tipoIntegrante: ['', Validators.required],
     nome: ['', Validators.required],
     nomeSecundario: ['', Validators.required],
@@ -372,7 +372,7 @@ this.selectedColumns = this.cols;
    * @param {GrupoUsuarios} member - Grupo de integrante a ser editado.
    * @returns {void}
    */
-  onEditGroupButtonClick(member: Integrante): void {
+  onEditGroupButtonClick(member: Integrante, integranteGrupo: GrupoIntegrante): void {
     const formattedDate = format(new Date(member.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Defina o formato da data
     console.log('Editar grupo de integrante:', formattedDate);
     if (member.status === 'DESATIVADO') {
@@ -385,7 +385,7 @@ this.selectedColumns = this.cols;
       this.showForm = true;
       this.integranteForm.setValue({
         CODIGO: null,
-        grupoIntegrante: null,
+        integranteGrupo: integranteGrupo.CODIGO,
         tipoIntegrante: null,
         nome: null,
         nomeSecundario: null,
@@ -487,7 +487,7 @@ this.selectedColumns = this.cols;
     if (this.integranteForm.valid) {
       const requestCriarIntegrante: addIntegrante = {
         tipoIntegrante: this.integranteForm.value.tipoIntegrante as string,
-        grupoIntegrante:this.integranteForm.value.grupoIntegrante as string,
+        integranteGrupo:this.integranteForm.value.integranteGrupo as bigint,
         nome: this.integranteForm.value.nome as string,
         segundoNome: this.integranteForm.value.nomeSecundario as string,
         telefone: this.integranteForm.value.telefone as string,
@@ -628,7 +628,7 @@ adcionarEndereco(): void {
       const requestEditarIntegrante: EditIntegrante = {
         CODIGO: this.integranteForm.value.CODIGO as bigint,
         tipoIntegrante: this.integranteForm.value.tipoIntegrante as string,
-        grupoIntegrante:this.integranteForm.value.grupoIntegrante as string,
+        integranteGrupo:this.integranteForm.value.integranteGrupo as bigint,
         nome: this.integranteForm.value.nome as string,
         segundoNome: this.integranteForm.value.nomeSecundario as string,
         telefone: this.integranteForm.value.telefone as string,

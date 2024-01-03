@@ -8,8 +8,10 @@ import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { Column } from 'src/app/models/interfaces/Column';
 import { ExportColumn } from 'src/app/models/interfaces/ExportColumn';
+import { Integrante } from 'src/app/models/interfaces/member/IntegranteResponse';
 import { AddUser } from 'src/app/models/interfaces/usuario/AddUser';
 import { EditUser } from 'src/app/models/interfaces/usuario/EditUser';
+import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { Usuarios } from 'src/app/models/interfaces/usuario/response/UsuariosResponse';
 import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 
@@ -211,7 +213,7 @@ export class UserComponent implements OnInit, OnDestroy {
    * @param {GrupoUsuarios} user - usuário a ser editado.
    * @returns {void}
    */
-  onEditButtonClick(user: Usuarios): void {
+  onEditButtonClick(user: Usuarios, usuarioGrupo: GrupoUsuarios, funcionario: Integrante): void {
     const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
     console.log('Editar usuário:', formattedDate);
     if (user.status === 'DESATIVADO') {
@@ -223,8 +225,8 @@ export class UserComponent implements OnInit, OnDestroy {
       this.showForm = true;
       this.userForm.setValue({
         CODIGO: user.CODIGO,
-        usuarioGrupo: user.usuarioGrupo,
-        funcionario: user.funcionario,
+        usuarioGrupo: usuarioGrupo.CODIGO,
+        funcionario: funcionario.CODIGO,
         login: user.login,
         password: user.password,
         status: user.status,
