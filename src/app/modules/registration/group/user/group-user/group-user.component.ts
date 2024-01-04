@@ -230,8 +230,7 @@ export class GroupUserComponent implements OnInit, OnDestroy {
       });
     } else {
       this.showForm = true;
-      this.selectedPerfil = this.perfis?.find(
-        (perfil) => perfil.label === user.perfil.toString()
+      this.selectedPerfil = this.perfis?.find((perfil) => perfil.label === user.perfil.toString()
       ); // Selecionar o perfil correspondente ao perfil do usuário
       this.userGroupForm.setValue({
         CODIGO: user.CODIGO,

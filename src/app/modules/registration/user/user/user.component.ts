@@ -204,13 +204,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
 
 
-  /**
-   * Manipulador de eventos para o botão de edição de grupo.
-   * Exibe o formulário de edição de grupo.
-   *
-   * @param {GrupoUsuarios} user - usuário a ser editado.
-   * @returns {void}
-   */
   onEditButtonClick(user: Usuarios): void {
     const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
     console.log('Editar usuário:', formattedDate);
