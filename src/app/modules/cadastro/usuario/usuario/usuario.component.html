@@ -200,6 +200,7 @@
         <span class="p-float-label flex flex-column">
           <p-dropdown
           [showClear]="true"
+          optionValue="CODIGO"
           [options]="userGroupDatas"
           [(ngModel)]="userGroupSelected"
           optionLabel="descricao"
@@ -216,7 +217,7 @@
         </p-overlayPanel>
         <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opFuncionario.toggle($event)"></p-button>
         <span class="p-float-label flex flex-column mr-4">
-          <input pInputText formControlName="funcionario" />
+          <input pInputText formControlName="usuarioGrupo" />
           <label for="float-label">Funcionario</label>
         </span>
 

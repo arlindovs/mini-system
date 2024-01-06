@@ -240,11 +240,11 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
       // Encontrar o grupo com base na descrição
       this.selectedGrupo = this.userGroupDatas?.find((grupo) => grupo.CODIGO === user.usuarioGrupo.CODIGO);
-
+      console.log(user.usuarioGrupo.CODIGO);
       const grupoValue = this.selectedGrupo?.descricao || null;
 
       const funcionarioValue = this.selectedIntegrante?.descricao || null;
-      console.log(grupoValue as GrupoUsuarios | null);
+      console.log(grupoValue);
 
       this.userForm.patchValue({
         CODIGO: user.CODIGO,
@@ -260,12 +260,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       console.log(this.isEdicao());
     }
   }
-
-
-  compareGrupos(group1: GrupoUsuarios, group2: GrupoUsuarios): boolean {
-    return group1 && group2 ? group1.CODIGO === group2.CODIGO : group1 === group2;
-  }
-
 
 
   onDisableButtonClick(user: Usuarios): void {
