@@ -8,6 +8,7 @@ import { Usuarios } from 'src/app/models/interfaces/usuario/response/UsuariosRes
 import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 import { AddUser } from 'src/app/models/interfaces/usuario/AddUser';
 import { EditUser } from 'src/app/models/interfaces/usuario/EditUser';
+import { LoadEditUser } from 'src/app/models/interfaces/usuario/LoadEditUser';
 import * as FileSaver from 'file-saver';
 import { Column } from 'src/app/models/interfaces/Column';
 import { ExportColumn } from 'src/app/models/interfaces/ExportColumn';
@@ -88,8 +89,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    */
   public userForm = this.formBuilderUser.group({
     CODIGO: [null as bigint | null],
-    usuarioGrupo: [this.selectedGrupo?.descricao, [Validators.required]],
-    funcionario: [this.selectedIntegrante?.descricao, [Validators.required]],
+    usuarioGrupo: [this.selectedGrupo, [Validators.required]],
+    funcionario: [this.selectedIntegrante, [Validators.required]],
     login: ['', [Validators.required, Validators.minLength(6)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     status: [{ value: '', disabled: true }],
@@ -225,47 +226,48 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
 
-  /**
-   * Manipulador de eventos para o botão de edição de grupo.
-   * Exibe o formulário de edição de grupo.
-   *
-   * @param {GrupoUsuarios} user - usuário a ser editado.
-   * @returns {void}
-   */
-  onEditButtonClick(user: Usuarios, grupoUsuario: GrupoUsuarios): void {
-    const formattedDate = format(new Date(user.versao as string), 'dd/MM/yyyy HH:mm:ss'); // Set the formatted date
-    console.log('Editar usuário:', formattedDate);
+
+  onEditButtonClick(user: LoadEditUser): void {
+    const formattedDate = format(new Date(user.versao), 'dd/MM/yyyy HH:mm:ss');
+
     if (user.status === 'DESATIVADO') {
       this.confirmationService.confirm({
         header: 'Aviso',
-        message: 'Não é permitido editar um usuario desativado.',
+        message: 'Não é permitido editar um usuário desativado.',
       });
     } else {
       this.showForm = true;
-      const usuarioGrupoValue = grupoUsuario.descricao;
+
+      // Encontrar o grupo com base na descrição
+      this.selectedGrupo = this.userGroupDatas?.find((grupo) => grupo.CODIGO === user.usuarioGrupo.CODIGO);
+
+      const grupoValue = this.selectedGrupo?.descricao || null;
+
       const funcionarioValue = this.selectedIntegrante?.descricao || null;
-      this.userForm.setValue({
+      console.log(grupoValue as GrupoUsuarios | null);
+
+      this.userForm.patchValue({
         CODIGO: user.CODIGO,
-        usuarioGrupo: usuarioGrupoValue,
-        funcionario: funcionarioValue,
+        usuarioGrupo: grupoValue as GrupoUsuarios | null,
+        funcionario: null,
         login: user.login,
         password: user.password,
         status: user.status,
         empresa: user.empresa,
         versao: formattedDate,
       });
+
       console.log(this.isEdicao());
     }
   }
 
 
-  /**
-   * Manipulador de eventos para o botão de desativação de grupo.
-   * Desativa o usuário selecionado.
-   *
-   * @param {GrupoUsuarios} user - usuário a ser desativado.
-   * @returns {void}
-   */
+  compareGrupos(group1: GrupoUsuarios, group2: GrupoUsuarios): boolean {
+    return group1 && group2 ? group1.CODIGO === group2.CODIGO : group1 === group2;
+  }
+
+
+
   onDisableButtonClick(user: Usuarios): void {
     this.userForm.patchValue({
       CODIGO: user.CODIGO,
@@ -368,8 +370,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   adcionarUsuario(): void {
     if (this.userForm.valid) {
       const requestCreateUser: AddUser = {
-        usuarioGrupo: this.selectedGrupo?.CODIGO,
-        funcionario: this.selectedIntegrante?.CODIGO,
+        usuarioGrupo: this.userForm.value.usuarioGrupo?.CODIGO,
+        funcionario: this.userForm.value.funcionario?.CODIGO,
         login: this.userForm.value.login as string,
         password: this.userForm.value.password as string,
         empresa: this.userForm.getRawValue().empresa as number,

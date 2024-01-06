@@ -124,7 +124,7 @@
           </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-user let-grupoUsuario let-columns="columns">
+        <ng-template pTemplate="body" let-user let-columns="columns">
           <tr>
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
@@ -198,8 +198,16 @@
         </p-overlayPanel>
         <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opGrupo.toggle($event)"></p-button>
         <span class="p-float-label flex flex-column">
-          <p-dropdown [showClear]="true" [options]="userGroupDatas" [(ngModel)]="userGroupSelected" optionLabel="descricao" filterBy="usuarioGrupo" styleClass="w-full"
-            formControlName="usuarioGrupo" [style]="{'min-width': '300px'}"></p-dropdown>
+          <p-dropdown
+          [showClear]="true"
+          [options]="userGroupDatas"
+          [(ngModel)]="userGroupSelected"
+          optionLabel="descricao"
+          filterBy="usuarioGrupo"
+          styleClass="w-full"
+          formControlName="usuarioGrupo"
+          [style]="{'min-width': '300px'}"
+          ></p-dropdown>
           <label for="float-label">Grupo</label>
         </span>
 

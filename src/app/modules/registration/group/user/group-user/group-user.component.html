@@ -44,9 +44,9 @@
 
           <div class="mr-5">
             <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddGroupButtonClick()">Adicionar</button>
-            
+
             <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="disableSelectedGroups()" [disabled]="!userGroupSelected || !userGroupSelected.length"></button>
-          
+
           </div>
 
 
@@ -206,8 +206,14 @@
         </p-overlayPanel>
         <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opPerfil.toggle($event)"></p-button>
       <span class="p-float-label flex flex-column">
-        <p-dropdown [showClear]="true" [options]="perfis" [(ngModel)]="selectedPerfil" optionLabel="label" filterBy="perfil" styleClass="w-full"
-          formControlName="perfil"></p-dropdown>
+        <p-dropdown
+        [showClear]="true"
+        [options]="perfis"
+        [(ngModel)]="selectedPerfil"
+        optionLabel="label"
+        filterBy="perfil"
+        styleClass="w-full"
+        formControlName="perfil"></p-dropdown>
         <label for="float-label">Perfil</label>
       </span>
       </div>
