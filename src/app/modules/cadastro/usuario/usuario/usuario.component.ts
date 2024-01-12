@@ -90,7 +90,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   public userForm = this.formBuilderUser.group({
     CODIGO: [null as bigint | null],
     usuarioGrupo: [this.selectedGrupo, [Validators.required]],
-    funcionario: [this.selectedIntegrante, [Validators.required]],
+    funcionario: [this.selectedIntegrante],
     login: ['', [Validators.required, Validators.minLength(6)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     status: [{ value: '', disabled: true }],
@@ -239,7 +239,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       this.showForm = true;
 
       // Encontrar o grupo com base na descrição
-      this.selectedGrupo = this.userGroupDatas?.find((grupo) => grupo.CODIGO === user.usuarioGrupo.CODIGO);
+      this.selectedGrupo = this.userGroupDatas?.find((grupo) => grupo.descricao === user.usuarioGrupo.descricao);
 
       const grupoValue = this.selectedGrupo?.descricao || null;
 
