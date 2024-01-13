@@ -19,7 +19,7 @@
         #integranteTable
         [columns]="colunasSelecionadas"
         [value]="integranteDatas"
-        [(selection)]="integranteSelecionado"
+        [(selection)]="integranteSelecionadoDatas"
         (onRowSelect)="onRowSelect($event)"
         selectionMode="multiple"
         [rows]="5"
@@ -44,7 +44,7 @@
 
           <div class="mr-5">
             <button type="button" class="mr-2" pButton pRipple icon="pi pi-plus" pTooltip="Adicionar Grupo" (click)="onAddButtonClick()">Adicionar</button>
-            <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="disableSelectedUsers()" [disabled]="!integranteSelecionadoDatas || !integranteSelecionadoDatas.length"></button>
+            <button pButton pRipple icon="pi pi-ban" class="p-button-danger" (click)="desabilitarIntegranteSelecionado()" [disabled]="!integranteSelecionadoDatas || !integranteSelecionadoDatas.length"></button>
           </div>
 
 
@@ -139,7 +139,7 @@
             <ng-container *ngFor="let col of columns">
               <td *ngIf="col.field !== 'status'; else statusColumn">
                 {{ col.field === 'nome' ? integrante.nome:
-                    col.field === 'integranteGrupo' ? integrante.grupoIntegrante.descricao : integrante[col.field] }}
+                    col.field === 'grupoIntegrante' ? integrante.grupoIntegrante.descricao : integrante[col.field] }}
               </td>
               <ng-template #statusColumn>
                 <td>
@@ -172,7 +172,7 @@
 <!--FORMULARIO DE INTEGRANTES-->
 <div *ngIf="showForm" class="mt-2">
   <div class="gap-4">
-    <form [formGroup]="integranteForm" (ngSubmit)="adcionarOuEditarUsuario()">
+    <form [formGroup]="integranteForm" (ngSubmit)="adcionarOuEditarIntegrante()">
       <div class="card flex flex-column md:flex-column gap-4">
 
       <div class="flex flex-row">
@@ -190,55 +190,86 @@
           <label for="label">Versão</label>
           <input pInputText type="text" formControlName="versao" />
         </div>
+
+        <div class="flex flex-column mr-2">
+          <label for="label">Data Criação</label>
+          <input pInputText type="text" formControlName="dataCriacao" />
+        </div>
       </div>
 
       <div class="flex flex-row">
-        <p-overlayPanel #opGrupo>
-          Campo deve ser selecionado o Grupo de usuario onde vai definir as permissões para esta usuario dentro do sistema.
-        </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opGrupo.toggle($event)"></p-button>
+       
         <span class="p-float-label flex flex-column">
           <p-dropdown
-          [showClear]="true"
-          optionValue="CODIGO"
-          [options]="userGroupDatas"
-          [(ngModel)]="userGroupSelected"
+          [showClear]="true"  
+          optionValue="descricao"
+          [options]="grupoIntegranteData"
+          [(ngModel)]="grupoIntegranteSelecionado"
           optionLabel="descricao"
-          filterBy="usuarioGrupo"
+          filterBy="grupoIntegrante"
           styleClass="w-full"
-          formControlName="usuarioGrupo"
+          formControlName="grupoIntegrante"
           [style]="{'min-width': '300px'}"
           ></p-dropdown>
           <label for="float-label">Grupo</label>
         </span>
-
-        <p-overlayPanel #opFuncionario>
-          Campo deve ser selecionado o funcionario que vai ter acesso ao sistema.
-        </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opFuncionario.toggle($event)"></p-button>
+        
+       
         <span class="p-float-label flex flex-column mr-4">
-          <input pInputText formControlName="usuarioGrupo" />
-          <label for="float-label">Funcionario</label>
+          <input pInputText formControlName="nome" />
+          <label for="float-label">Nome</label>
         </span>
 
-        <p-overlayPanel #opLogin>
-          Campo deve ser preenchido o nome de usuario para acesso ao sistema.
-        </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opLogin.toggle($event)"></p-button>
         <span class="p-float-label flex flex-column mr-4">
-          <input pInputText formControlName="login" />
-          <label for="float-label">Login</label>
+          <input pInputText formControlName="segundoNome" />
+          <label for="float-label">Nome Secundário</label>
         </span>
 
-        <p-overlayPanel #opPassword>
-          Campo deve ser preenchidos senha e deve ter no minimo 6 caracteres.
-        </p-overlayPanel>
-        <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opPassword.toggle($event)"></p-button>
+        <span class="p-float-label flex flex-column">
+          <p-dropdown
+          [showClear]="true"  
+          optionValue="tipo"
+          [options]="tipoIntegrante"
+          [(ngModel)]="tipoIntegranteSelecionado"
+          optionLabel="tipo"
+          styleClass="w-full"
+          formControlName="tipoIntegrante"
+          [style]="{'min-width': '300px'}"
+          ></p-dropdown>
+          <label for="float-label">Tipo Integrante</label>
+        </span>
+
+      </div>
+      <div class="flex flex-row">
         <span class="p-float-label flex flex-column mr-4">
-          <input pInputText type="password" formControlName="password" />
-          <label for="float-label">Senha</label>
+          <input pInputText formControlName="telefone" />
+          <label for="float-label">Telefone</label>
+        </span>
+        
+        <span class="p-float-label flex flex-column mr-4">
+          <input pInputText type="email" formControlName ="email" >
+          <label for="float-label">E-mail</label>
+        </span>
+
+        <span class="p-float-label flex flex-column">
+          <p-dropdown
+          [showClear]="true"  
+          optionValue="name"
+          [options]="tipoDocumentoIntegrante"
+          [(ngModel)]="tipoDocumentoIntegranteSelecionado"
+          optionLabel="name"
+          styleClass="w-full"
+          formControlName="tipoDocumento"
+          [style]="{'min-width': '300px'}"
+          ></p-dropdown>
+          <label for="float-label">Tipo Documento</label>
         </span>
       </div>
+          <span class="p-float-label flex flex-column mr-4">
+            <input pInputText formControlName="documento" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"/>
+            <label for="float-label">Documento</label>
+          </span>
+   
 
 
 
@@ -246,7 +277,7 @@
       <div class="mt-2">
       <div class="card flex flex-column md:flex-column gap-4">
         <div class="flex flex-row justify-content-left align-content-center align-itens-center m-1">
-          <p-button class="mr-2" [disabled]="!userForm.valid" type="submit" label="Confirmar"></p-button>
+          <p-button class="mr-2" [disabled]="!integranteForm.valid" type="submit" label="Confirmar"></p-button>
           <p-button type="submit" label="Cancelar" styleClass="red-button" (onClick)="cancelarFormulario()"></p-button>
         </div>
       </div>

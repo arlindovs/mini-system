@@ -32,8 +32,8 @@ const routes: Routes = [
   {
     path: 'registration-member',
     loadChildren: () =>
-      import('./modules/registration/member/registration-member.module').then(
-        (m) => m.RegistrationMemberModule
+      import('./modules/cadastro/integrante/integrante.module').then(
+        (m) => m.IntegranteModule
       ),
     canActivate: [AuthGuardService],
   },

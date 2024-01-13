@@ -90,7 +90,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   public userForm = this.formBuilderUser.group({
     CODIGO: [null as bigint | null],
     usuarioGrupo: [this.selectedGrupo, [Validators.required]],
-    funcionario: [this.selectedIntegrante, [Validators.required]],
+    funcionario: [this.selectedIntegrante],
     login: ['', [Validators.required, Validators.minLength(6)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     status: [{ value: '', disabled: true }],

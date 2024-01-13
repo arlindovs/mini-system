@@ -22,6 +22,13 @@ export class IntegranteService {
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
+  getAllIntegrantes(){
+    return this.http.get<Array<Integrante>>(
+      `${this.API_URL}/integrantes`,
+      this.httpOptions
+    );
+  }
+
   listaIntegrantes(): Observable<Array<Integrante>> {
     return this.http.get<Array<Integrante>>(
       `${this.API_URL}/integrante_grupos`,

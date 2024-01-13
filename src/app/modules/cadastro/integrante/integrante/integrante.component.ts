@@ -3,17 +3,20 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { format } from 'date-fns';
 import { Table } from 'primeng/table';
 import * as FileSaver from 'file-saver';
-import { ConfirmationService } from 'primeng/api';
-import { Subject } from 'rxjs';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 import { Column } from 'src/app/models/interfaces/Column';
 import { ExportColumn } from 'src/app/models/interfaces/ExportColumn';
 import { GrupoIntegrante } from 'src/app/models/interfaces/group/member/GrupoIntegranteResponse';
 import { Integrante } from 'src/app/models/interfaces/member/IntegranteResponse';
 import { LoadEditIntegrante } from 'src/app/models/interfaces/member/LoadEditIntegrante';
+import { IntegranteService } from 'src/app/services/cadastro/integrante/integrante.service';
+import { Router, Routes } from '@angular/router';
+import { IntegranteGrupoService } from 'src/app/services/cadastro/grupo/integrante/integrante-grupo.service';
+import { addIntegrante } from 'src/app/models/interfaces/member/AddIntegrante';
+import { EditIntegrante } from 'src/app/models/interfaces/member/EditIntegrante';
+import { TipoIntegrante } from 'src/app/models/interfaces/member/TipoIntegrante';
 
-interface TipoIntegrante {
-  name: string
-}
 
 interface TipoDocumento{
   name: string
@@ -36,13 +39,15 @@ export class IntegranteComponent implements OnInit {
 /**
   * Integrante selecionado
   */
-public integranteDatas!: Array<Integrante>
+public integranteDatas: Array<Integrante> = []
 
-  /**
+
+/**
   * Integrante selecionado
   */
- public integranteSelecionado!: Integrante
+public integranteSelecionadoDatas!: Array<Integrante> | null
 
+ 
   /**
   * Lista de dados de grupos de integrante
   */
@@ -51,9 +56,9 @@ public integranteDatas!: Array<Integrante>
   /**
    * Grupo de usuário selecionado.
    */
- public grupoIntegranteSelecionado!: GrupoIntegrante[] | null;
+ public grupoIntegranteSelecionadoArr!: GrupoIntegrante[] | null;
 
- public grupoIntegrante ?: GrupoIntegrante
+  public grupoIntegranteSelecionado ?: GrupoIntegrante
 
  /**
    * Tipos de integrante.
@@ -64,6 +69,9 @@ public integranteDatas!: Array<Integrante>
    * Tipo de integrante selecionado.
    */
  public tipoIntegranteSelecionado!: TipoIntegrante[]
+
+ 
+ public tipoIntegranteSelecionadoUnico?: TipoIntegrante
 
   public tipoDocumentoIntegrante!: TipoDocumento[]
 
@@ -101,10 +109,15 @@ public integranteDatas!: Array<Integrante>
   constructor(
     private integranteFormBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
-
+    private messageService: MessageService,
+    private integranteService:IntegranteService,
+    private router:Router,
+    private integranteGrupoService:IntegranteGrupoService
   ) { }
 
   ngOnInit() {
+    // this.listarIntegrantes();
+    this.listarGrupoIntegrante();
     this.colunas =[
       {field:'codigo', header: 'Código'},
       {field:'status', header: 'Status'},
@@ -118,11 +131,11 @@ public integranteDatas!: Array<Integrante>
     this.colunasSelecionadas = this.colunas
 
     this.tipoIntegrante = [
-      {name:'Cliente'},
-      {name:'Funcionário'},
-      {name:'Fornecedor'},
-      {name:'Transportadora'},
-      {name:'Contador'}
+      {CODIGO: 1, tipo:'Cliente'},
+      {CODIGO: 2,tipo:'Funcionário'},
+      {CODIGO: 3,tipo:'Fornecedor'},
+      {CODIGO: 4,tipo:'Transportadora'},
+      {CODIGO: 5,tipo:'Contador'}
     ]
     this.tipoIntegranteSelecionado = this.tipoIntegrante
 
@@ -139,7 +152,8 @@ public integranteDatas!: Array<Integrante>
    */
 public integranteForm = this.integranteFormBuilder.group({
   CODIGO: [null as bigint | null],
-  grupoIntegrante: [this.grupoIntegrante,[Validators.required]],
+  grupoIntegrante: [this.grupoIntegranteSelecionado,[Validators.required]],
+  tipoIntegrante: [this.tipoIntegranteSelecionadoUnico,[Validators.required]],
   nome: ['',Validators.required],
   segundoNome: ['',Validators.required],
   telefone: ['',Validators.required],
@@ -186,7 +200,7 @@ exportExcel() {
       bookType: 'xlsx',
       type: 'array',
     });
-    this.saveAsExcelFile(excelBuffer, 'usuarios');
+    this.saveAsExcelFile(excelBuffer, 'integrantes');
   });
 }
 
@@ -228,7 +242,7 @@ getSeverity(status: string) {
    */
 onRowSelect(event: any) {
   console.log('Row selected:', event.data);
-  this.integranteSelecionado = event.data;
+  this.integranteSelecionadoDatas = event.data;
 }
 
 /**
@@ -249,6 +263,7 @@ isEdicao(): boolean {
   this.integranteForm.setValue({
     CODIGO: null,
     grupoIntegrante: null,
+    tipoIntegrante: null,
     nome: null,
     segundoNome: null,
     telefone: null,
@@ -273,11 +288,16 @@ onEditButtonClick(integrante: LoadEditIntegrante){
   } else{
     this.showForm == true;
 
-    const valorGrupoIntegrante = this.grupoIntegrante?.descricao || null;
+  // Encontrar o grupo com base na descrição
+  this.grupoIntegranteSelecionado = this.grupoIntegranteData?.find((grupo) => grupo.CODIGO === integrante.integranteGrupo.CODIGO);
+  console.log(integrante.integranteGrupo.CODIGO);
+    const valorGrupoIntegrante =  this.grupoIntegranteSelecionado?.descricao  || null;
+    const valorTipoIntegrante =  this.tipoIntegranteSelecionadoUnico?.tipo  || null;
     
     this.integranteForm.patchValue({
       CODIGO: integrante.CODIGO,
       grupoIntegrante: valorGrupoIntegrante as GrupoIntegrante | null,
+      tipoIntegrante: valorTipoIntegrante as TipoIntegrante | null,
       nome: integrante.integrante.nome,
       segundoNome: integrante.integrante.segundoNome,
       telefone:integrante.integrante.telefone,
@@ -290,6 +310,275 @@ onEditButtonClick(integrante: LoadEditIntegrante){
     });
     console.log(this.isEdicao())
   }
+}
+
+
+onDisableButtonClick(integrante: Integrante): void {
+  this.integranteForm.patchValue({
+    CODIGO: integrante.CODIGO,
+  });
+  this.desativarIntegrante(integrante.CODIGO as bigint)
+}
+
+desabilitarIntegranteSelecionado() {
+  this.confirmationService.confirm({
+    message: 'Tem certeza de que deseja excluir os integrantes selecionados?',
+    header: 'Confirmar',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.integranteDatas = this.integranteDatas.filter((val) => !this.integranteSelecionadoDatas?.includes(val));
+      this.integranteSelecionadoDatas = null;
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Integrantes Excluídos', life: 3000 });
+    }
+  });
+}
+
+   /**
+   * Cancela o formulário de adição/editação e limpa os campos.
+   */
+   cancelarFormulario() {
+    this.integranteForm.reset();
+    this.showForm = false;
+    this.listarIntegrantes();
+  }
+
+  /**
+   * Lista os grupos de usuários chamando o serviço correspondente.
+   */
+  listarIntegrantes() {
+    this.integranteService
+      .getAllIntegrantes()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.integranteDatas = response;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro ao carregar o usuários',
+            detail: error.message,
+            life: 3000,
+          });
+          this.router.navigate(['/home']);
+        },
+      });
+  }
+
+   /**
+   * Lista os grupos de usuários chamando o serviço correspondente.
+   */
+   listarGrupoIntegrante() {
+    this.integranteGrupoService
+      .listaGrupoIntegrantes()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.grupoIntegranteData = response;
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro ao carregar o grupo de usuários',
+            detail: error.message,
+            life: 3000,
+          });
+        },
+      });
+  }
+
+  /**
+   * Adiciona um novo integrante.
+   */
+  adcionarIntegrante(): void {
+    const valorGrupoIntegrante =  this.grupoIntegranteSelecionado?.CODIGO;
+      const valorTipoIntegrante =  this.
+      tipoIntegranteSelecionadoUnico?.CODIGO ;
+
+    if (this.integranteForm.valid) {
+      const requestCreateUser: addIntegrante = {
+        integranteGrupo: valorGrupoIntegrante as GrupoIntegrante | undefined,
+        tipoIntegrante: valorTipoIntegrante as TipoIntegrante | undefined,
+        nome: this.integranteForm.value.nome as string,     
+        segundoNome: this.integranteForm.value.segundoNome as string,     
+        telefone: this.integranteForm.value.telefone as string,     
+        email: this.integranteForm.value.email as string,     
+        tipoDocumento: this.integranteForm.value.tipoDocumento as string,     
+        documento: this.integranteForm.value.documento as string,     
+        empresa: this.integranteForm.getRawValue().empresa as number,
+      };
+      
+      this.integranteService
+        .addIntegrante(requestCreateUser)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            console.log('Sucesso ao cadastrar usuário:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Usuário criado com sucesso!',
+              life: 3000,
+            });
+
+            // Resetar o formulário
+            this.integranteForm.reset();
+
+            // Voltar para a tabela
+            this.showForm = false;
+
+            // Recarregar os dados da tabela
+            this.listarIntegrantes();
+          },
+          error: (error) => {
+            console.error('Erro ao cadastrarusuário:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao criarusuário!',
+              life: 3000,
+            });
+          },
+        });
+    } else {
+      console.log('Formulário inválido. Preencha todos os campos.', this.integranteForm);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha todos os campos!',
+        life: 3000,
+      });
+    }
+  }
+
+/**
+   * Edita um usuário existente.
+   */
+editarIntegrante(): void {
+  if (this.integranteForm?.valid) {
+    const requestEditUser: EditIntegrante = {
+      CODIGO: this.integranteForm.value.CODIGO as bigint,
+      integranteGrupo: null,
+      tipoIntegrante: this.integranteForm.value.tipoIntegrante?.tipo,
+      nome: this.integranteForm.value.nome as string,
+      segundoNome: this.integranteForm.value.segundoNome as string,
+      telefone: this.integranteForm.value.telefone as string,
+      email: this.integranteForm.value.email as string,
+      tipoDocumento: this.integranteForm.value.tipoDocumento as string,
+      documento: this.integranteForm.value.documento as string,
+      status: this.integranteForm.value.status as string,
+      versao: this.integranteForm.value.versao as string
+    };
+
+    // Chamar o serviço para editar o usuário
+    this.integranteService
+      .editIntegrante(requestEditUser)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            console.log('Sucesso ao editar usuário:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Usuário editado com sucesso!',
+              life: 3000,
+            });
+            this.integranteForm.reset();
+            this.showForm = false;
+            this.listarIntegrantes();
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao editar usuário:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao editar usuário!',
+            life: 3000,
+          });
+        },
+      });
+  } else {
+    console.warn('Formulário inválido. Preencha todos os campos.', this.integranteForm);
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Atenção',
+      detail: 'Preencha todos os campos!',
+      life: 3000,
+    });
+  }
+}
+
+
+ /**
+   * Adiciona ou edita um grupo de usuário com base no estado do formulário.
+   */
+ adcionarOuEditarIntegrante(): void {
+  if (this.isEdicao()) {
+    this.editarIntegrante();
+  } else {
+    this.adcionarIntegrante();
+  }
+}
+
+ /**
+   * Desativa um integrante com o código fornecido.
+   *
+   * @param {bigint} CODIGO - Código do integrante a ser desativado.
+   * @returns {void}
+   */
+ desativarIntegrante(CODIGO: bigint): void {
+  console.log('Alterar o Status!:', CODIGO);
+  if (CODIGO) {
+    this.integranteService
+      .desativarIntegrante(CODIGO)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            console.log('Sucesso ao Alterar o Status!:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Status Alterado com sucesso!',
+              life: 3000,
+            });
+            this.listarIntegrantes();
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao Alterar o Status!:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao Alterar o Status!!',
+            life: 3000,
+          });
+        },
+      });
+  } else {
+    console.warn('Nenhum integrante selecionado.');
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Atenção',
+      detail: 'Selecione um integrante!',
+      life: 3000,
+    });
+  }
+}
+/**
+   * Manipulador de eventos OnDestroy. Completa o subject de destruição.
+   */
+ngOnDestroy(): void {
+  this.destroy$.next();
+  this.destroy$.complete();
 }
 
 }
