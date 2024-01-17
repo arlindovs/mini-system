@@ -202,7 +202,7 @@
         <span class="p-float-label flex flex-column">
           <p-dropdown
           [showClear]="true"  
-          optionValue="descricao"
+          optionValue="CODIGO"
           [options]="grupoIntegranteData"
           [(ngModel)]="grupoIntegranteSelecionado"
           optionLabel="descricao"
@@ -228,9 +228,9 @@
         <span class="p-float-label flex flex-column">
           <p-dropdown
           [showClear]="true"  
-          optionValue="tipo"
+          optionValue="CODIGO"
           [options]="tipoIntegrante"
-          [(ngModel)]="tipoIntegranteSelecionado"
+          [(ngModel)]="tipoIntegranteSelecionadoUnico"
           optionLabel="tipo"
           styleClass="w-full"
           formControlName="tipoIntegrante"
@@ -266,7 +266,7 @@
         </span>
       </div>
           <span class="p-float-label flex flex-column mr-4">
-            <input pInputText formControlName="documento" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"/>
+            <input pInputText formControlName="documento" />
             <label for="float-label">Documento</label>
           </span>
    

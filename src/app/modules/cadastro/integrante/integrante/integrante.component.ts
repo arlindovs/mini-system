@@ -262,7 +262,7 @@ isEdicao(): boolean {
   this.showForm = true;
   this.integranteForm.setValue({
     CODIGO: null,
-    grupoIntegrante: null,
+    grupoIntegrante: this.grupoIntegranteSelecionado,
     tipoIntegrante: null,
     nome: null,
     segundoNome: null,
@@ -397,9 +397,11 @@ desabilitarIntegranteSelecionado() {
    * Adiciona um novo integrante.
    */
   adcionarIntegrante(): void {
-    const valorGrupoIntegrante =  this.grupoIntegranteSelecionado?.CODIGO;
-      const valorTipoIntegrante =  this.
-      tipoIntegranteSelecionadoUnico?.CODIGO ;
+    
+    const valorGrupoIntegrante =  this.grupoIntegranteSelecionado;
+      const valorTipoIntegrante =  this.tipoIntegranteSelecionadoUnico
+      console.log(valorGrupoIntegrante);
+      console.log(valorTipoIntegrante)
 
     if (this.integranteForm.valid) {
       const requestCreateUser: addIntegrante = {
