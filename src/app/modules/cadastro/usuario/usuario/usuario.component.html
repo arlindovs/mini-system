@@ -202,7 +202,7 @@
           [showClear]="true"
           optionValue="CODIGO"
           [options]="userGroupDatas"
-          [(ngModel)]="userGroupSelected"
+          [(ngModel)]="selectedGrupo"
           optionLabel="descricao"
           filterBy="usuarioGrupo"
           styleClass="w-full"
@@ -217,7 +217,17 @@
         </p-overlayPanel>
         <p-button icon="pi pi-bookmark" [rounded]="true" [text]="true" severity="help " (click)="opFuncionario.toggle($event)"></p-button>
         <span class="p-float-label flex flex-column mr-4">
-          <input pInputText formControlName="usuarioGrupo" />
+          <p-dropdown
+          [showClear]="true"
+          optionValue="CODIGO"
+          [options]="userDatas"
+          [(ngModel)]="selectedIntegrante"
+          optionLabel="nome"
+          filterBy="integrante"
+          styleClass="w-full"
+          formControlName="funcionario"
+          [style]="{'min-width': '300px'}"
+          ></p-dropdown>
           <label for="float-label">Funcionario</label>
         </span>
 

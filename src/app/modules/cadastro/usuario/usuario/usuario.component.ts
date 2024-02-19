@@ -1,20 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { format } from 'date-fns';
+import * as FileSaver from 'file-saver';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
-import { Usuarios } from 'src/app/models/interfaces/usuario/response/UsuariosResponse';
-import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
-import { AddUser } from 'src/app/models/interfaces/usuario/AddUser';
-import { EditUser } from 'src/app/models/interfaces/usuario/EditUser';
-import { LoadEditUser } from 'src/app/models/interfaces/usuario/LoadEditUser';
-import * as FileSaver from 'file-saver';
 import { Column } from 'src/app/models/interfaces/Column';
 import { ExportColumn } from 'src/app/models/interfaces/ExportColumn';
-import { format } from 'date-fns';
+import { Integrante } from 'src/app/models/interfaces/member/IntegranteResponse';
+import { AddUser } from 'src/app/models/interfaces/usuario/AddUser';
+import { EditUser } from 'src/app/models/interfaces/usuario/EditUser';
+import { GrupoUsuario } from 'src/app/models/interfaces/usuario/GrupoUsuario';
+import { LoadEditUser } from 'src/app/models/interfaces/usuario/LoadEditUser';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
+import { Usuarios } from 'src/app/models/interfaces/usuario/response/UsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
+import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 
 @Component({
   selector: 'app-usuario',
@@ -43,11 +45,11 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    */
   public userSelected!: Usuarios[] | null;
 
-  public userGroupSelected!: GrupoUsuarios[];
+  public userGroupSelected!: GrupoUsuarios;
 
   selectedGrupo?: GrupoUsuarios;
 
-  selectedIntegrante?: GrupoUsuarios;
+  selectedIntegrante?: Integrante;
 
   /**
    * Valor digitado no campo de pesquisa
@@ -243,7 +245,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       console.log(user.usuarioGrupo.CODIGO);
       const grupoValue = this.selectedGrupo?.descricao || null;
 
-      const funcionarioValue = this.selectedIntegrante?.descricao || null;
+      const funcionarioValue = this.selectedIntegrante || null;
       console.log(grupoValue);
 
       this.userForm.patchValue({
@@ -357,6 +359,16 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     }
   }
 
+  adicionarUser(){
+    if(this.userForm.valid){
+      console.log(
+        'Usuario Grupo: ' + this.userForm.value.usuarioGrupo + ', \n' +
+        'Funcionario: ' + this.userForm.value.funcionario + ', \n' + 
+        'login: ' + this.userForm.value.login
+      );
+      console.log(this.userGroupSelected)
+    }
+  }
 
   /**
    * Adiciona um novo usuário.
@@ -364,8 +376,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   adcionarUsuario(): void {
     if (this.userForm.valid) {
       const requestCreateUser: AddUser = {
-        usuarioGrupo: this.userForm.value.usuarioGrupo?.CODIGO,
-        funcionario: this.userForm.value.funcionario?.CODIGO,
+        usuarioGrupo: this.userForm.value.usuarioGrupo as GrupoUsuario,
+        funcionario: this.userForm.value.funcionario as Integrante,
         login: this.userForm.value.login as string,
         password: this.userForm.value.password as string,
         empresa: this.userForm.getRawValue().empresa as number,

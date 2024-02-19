@@ -1,6 +1,9 @@
+import { Integrante } from "../member/IntegranteResponse";
+import { GrupoUsuario } from "./GrupoUsuario";
+
 export interface AddUser {
-  usuarioGrupo: bigint | undefined;
-  funcionario: bigint | undefined;
+  usuarioGrupo: GrupoUsuario;
+  funcionario: Integrante;
   login: string;
   password: string;
   empresa: number;

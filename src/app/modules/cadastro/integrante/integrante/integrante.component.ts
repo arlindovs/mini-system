@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { format } from 'date-fns';
-import { Table } from 'primeng/table';
 import * as FileSaver from 'file-saver';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { Column } from 'src/app/models/interfaces/Column';
 import { ExportColumn } from 'src/app/models/interfaces/ExportColumn';
 import { GrupoIntegrante } from 'src/app/models/interfaces/group/member/GrupoIntegranteResponse';
-import { Integrante } from 'src/app/models/interfaces/member/IntegranteResponse';
-import { LoadEditIntegrante } from 'src/app/models/interfaces/member/LoadEditIntegrante';
-import { IntegranteService } from 'src/app/services/cadastro/integrante/integrante.service';
-import { Router, Routes } from '@angular/router';
-import { IntegranteGrupoService } from 'src/app/services/cadastro/grupo/integrante/integrante-grupo.service';
 import { addIntegrante } from 'src/app/models/interfaces/member/AddIntegrante';
 import { EditIntegrante } from 'src/app/models/interfaces/member/EditIntegrante';
+import { Integrante } from 'src/app/models/interfaces/member/IntegranteResponse';
+import { LoadEditIntegrante } from 'src/app/models/interfaces/member/LoadEditIntegrante';
 import { TipoIntegrante } from 'src/app/models/interfaces/member/TipoIntegrante';
+import { IntegranteGrupoService } from 'src/app/services/cadastro/grupo/integrante/integrante-grupo.service';
+import { IntegranteService } from 'src/app/services/cadastro/integrante/integrante.service';
 
 
 interface TipoDocumento{
@@ -156,10 +156,10 @@ public integranteForm = this.integranteFormBuilder.group({
   tipoIntegrante: [this.tipoIntegranteSelecionadoUnico,[Validators.required]],
   nome: ['',Validators.required],
   segundoNome: ['',Validators.required],
-  telefone: ['',Validators.required],
-  email: ['',Validators.required],
-  tipoDocumento: ['',Validators.required],
-  documento: ['',Validators.required],
+  telefone: [''],
+  email: [''],
+  tipoDocumento: [''],
+  documento: [''],
   dataCriacao: [{ value: null as Date | string | null, disabled: true }],
   status: [{ value: '', disabled: true }],
   empresa: [{ value: 1, disabled: true }],
