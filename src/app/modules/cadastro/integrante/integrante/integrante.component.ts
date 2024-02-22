@@ -47,6 +47,8 @@ public integranteDatas: Array<Integrante> = []
   */
 public integranteSelecionadoDatas!: Array<Integrante> | null
 
+
+public integranteSelecionado?: Integrante
  
   /**
   * Lista de dados de grupos de integrante
@@ -116,7 +118,7 @@ public integranteSelecionadoDatas!: Array<Integrante> | null
   ) { }
 
   ngOnInit() {
-    // this.listarIntegrantes();
+    this.listarIntegrantes();
     this.listarGrupoIntegrante();
     this.colunas =[
       {field:'codigo', header: 'Código'},
@@ -288,12 +290,13 @@ onEditButtonClick(integrante: LoadEditIntegrante){
   } else{
     this.showForm == true;
 
+    // this.integranteService.editIntegrante(integrante)
+
   // Encontrar o grupo com base na descrição
-  this.grupoIntegranteSelecionado = this.grupoIntegranteData?.find((grupo) => grupo.CODIGO === integrante.integranteGrupo.CODIGO);
-  console.log(integrante.integranteGrupo.CODIGO);
-    const valorGrupoIntegrante =  this.grupoIntegranteSelecionado?.descricao  || null;
-    const valorTipoIntegrante =  this.tipoIntegranteSelecionadoUnico?.tipo  || null;
-    
+
+  const valorTipoIntegrante =  this.tipoIntegranteSelecionadoUnico?.tipo  || null;
+  const valorGrupoIntegrante =  this.grupoIntegranteSelecionado?.descricao  || null;
+  
     this.integranteForm.patchValue({
       CODIGO: integrante.CODIGO,
       grupoIntegrante: valorGrupoIntegrante as GrupoIntegrante | null,
@@ -311,6 +314,7 @@ onEditButtonClick(integrante: LoadEditIntegrante){
     console.log(this.isEdicao())
   }
 }
+
 
 
 onDisableButtonClick(integrante: Integrante): void {
@@ -466,7 +470,7 @@ editarIntegrante(): void {
   if (this.integranteForm?.valid) {
     const requestEditUser: EditIntegrante = {
       CODIGO: this.integranteForm.value.CODIGO as bigint,
-      integranteGrupo: null,
+      integranteGrupo: this.integranteForm.value.grupoIntegrante as GrupoIntegrante,
       tipoIntegrante: this.integranteForm.value.tipoIntegrante?.tipo,
       nome: this.integranteForm.value.nome as string,
       segundoNome: this.integranteForm.value.segundoNome as string,

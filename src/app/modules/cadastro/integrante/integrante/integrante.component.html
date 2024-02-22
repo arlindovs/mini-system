@@ -6,7 +6,7 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
 <div class="gray-bar">
-  <h3 class="fixed-title">Cadastro de Usuários</h3>
+  <h3 class="fixed-title">Cadastro de Integrante</h3>
 </div>
 
 
@@ -128,7 +128,7 @@
           <tr>
             <td>
               <div class="flex justify-content-center gap-2 align-content-center align-items-center">
-                <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Grupo" (click)="onEditButtonClick(integrante)"></button>
+                <button pButton pRipple class="p-button-rounded p-button-text" icon="pi pi-pencil" pTooltip="Editar Integrante" (click)="onEditButtonClick(integrante)"></button>
                 <button pButton pRipple class="p-button-rounded p-button-text p-button-danger" icon="pi pi-ban" pTooltip="Desativar Grupo" (click)="onDisableButtonClick(integrante)"></button>
               </div>
             </td>
@@ -139,7 +139,7 @@
             <ng-container *ngFor="let col of columns">
               <td *ngIf="col.field !== 'status'; else statusColumn">
                 {{ col.field === 'nome' ? integrante.nome:
-                    col.field === 'grupoIntegrante' ? integrante.grupoIntegrante.descricao : integrante[col.field] }}
+                    integrante[col.field]  }}
               </td>
               <ng-template #statusColumn>
                 <td>

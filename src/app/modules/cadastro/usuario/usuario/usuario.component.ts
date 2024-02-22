@@ -16,6 +16,7 @@ import { LoadEditUser } from 'src/app/models/interfaces/usuario/LoadEditUser';
 import { GrupoUsuarios } from 'src/app/models/interfaces/usuario/grupo/response/GrupoUsuariosResponse';
 import { Usuarios } from 'src/app/models/interfaces/usuario/response/UsuariosResponse';
 import { UsuarioGrupoService } from 'src/app/services/cadastro/grupo/usuario/usuario-grupo.service';
+import { IntegranteService } from 'src/app/services/cadastro/integrante/integrante.service';
 import { UsuarioService } from 'src/app/services/cadastro/usuario/usuario.service';
 
 @Component({
@@ -37,18 +38,18 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    * Lista de dados de grupos de usuários.
    */
   public userDatas: Array<Usuarios> = [];
-
+  public integranteDatas: Array<Integrante> = [];
   public userGroupDatas: Array<GrupoUsuarios> = [];
 
     /**
    * Grupo de usuário selecionado.
-   */
-  public userSelected!: Usuarios[] | null;
+  //  */
+  public userSelected!: Integrante[] | null;
 
   public userGroupSelected!: GrupoUsuarios;
 
   selectedGrupo?: GrupoUsuarios;
-
+  selectedUsuario?: Usuarios;
   selectedIntegrante?: Integrante;
 
   /**
@@ -78,6 +79,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   constructor(
     private usuarioService: UsuarioService,
+    private integranteService: IntegranteService,
     private usuarioGrupoService: UsuarioGrupoService,
     private messageService: MessageService,
     private router: Router,
@@ -106,6 +108,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.listarUsuarios();
+    this.listarIntegrante()
     this.listarGrupoUsuarios();
 
     this.cols = [
@@ -197,7 +200,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
    */
   onRowSelect(event: any) {
     console.log('Row selected:', event.data);
-    this.userSelected = event.data;
+    this.selectedIntegrante = event.data;
   }
 
   /**
@@ -278,7 +281,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.userDatas = this.userDatas.filter((val) => !this.userSelected?.includes(val));
+        this.integranteDatas = this.integranteDatas.filter((val) => !this.userSelected?.includes(val));
         this.userSelected = null;
         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuarios Excluídos', life: 3000 });
       }
@@ -292,21 +295,46 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   cancelarFormulario() {
     this.userForm.reset();
     this.showForm = false;
-    this.listarUsuarios();
+    this.listarIntegrante();
   }
 
-
-  /**
+ /**
    * Lista os grupos de usuários chamando o serviço correspondente.
    */
-  listarUsuarios() {
-    this.usuarioService
-      .getAllUsuarios()
+ listarUsuarios() {
+  this.usuarioService
+    .getAllUsuarios()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        if (response) {
+          this.userDatas = response;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro ao carregar o usuários',
+          detail: error.message,
+          life: 3000,
+        });
+        this.router.navigate(['/home']);
+      },
+    });
+}
+
+  /**
+   * Lista os integrantes chamando o serviço correspondente.
+   */
+  listarIntegrante() {
+    this.integranteService
+      .getAllIntegrantes()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           if (response) {
-            this.userDatas = response;
+            this.integranteDatas = response;
           }
         },
         error: (error) => {
@@ -359,20 +387,10 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     }
   }
 
-  adicionarUser(){
-    if(this.userForm.valid){
-      console.log(
-        'Usuario Grupo: ' + this.userForm.value.usuarioGrupo + ', \n' +
-        'Funcionario: ' + this.userForm.value.funcionario + ', \n' + 
-        'login: ' + this.userForm.value.login
-      );
-      console.log(this.userGroupSelected)
-    }
-  }
 
   /**
    * Adiciona um novo usuário.
-   */
+  */
   adcionarUsuario(): void {
     if (this.userForm.valid) {
       const requestCreateUser: AddUser = {
